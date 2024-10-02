@@ -1,0 +1,73 @@
+<nav class="navbar bg-dark text-light" data-bs-theme="dark">
+    <div class="container-fluid">
+        <p>{{ storageCategoryDescription }}</p>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <img src="..." alt="..." class="img-thumbnail mb-3">
+    <div class="mb-3">
+        <input type="file" class="form-control form-control-sm" id="formFileSm">
+    </div>
+
+    <form>
+        <div class="form-group">
+            <label for="materialName">Όνομα Υλικού</label>
+            <input type="text" class="form-control" id="materialName" required>
+        </div>
+
+        <div class="form-group">
+            <label for="serialNumber">Σειριακός Αριθμός</label>
+            <input type="text" class="form-control" id="serialNumber" required>
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Αριθμός Τεμαχίων</label>
+            <input type="text" class="form-control" id="quantity" required>
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Θέση που βρίσκεται</label>
+            <select class="form-select" required>
+                <option>Αποθήκη</option>
+                <option>Κ.ΕΠΙΧ.</option>
+                <option>Σκάφος</option>
+                <option>Κτίρια Τ.Υ.Σ.</option>
+                <optgroup label="Αναμεταδότης">
+                    <option>Πήλιο</option>
+                    <option>Διμήνι</option>
+                    <option>Αργαλαστή</option>
+                    <option>Φορητός</option>
+                </optgroup>
+                <option>Σε δανεισμό</option>
+            </select>
+
+            <div class="form-group">
+                <label for="borrowedTo">Όνομα Χρεωμένου</label>
+                <input type="text" class="form-control" id="borrowedTo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="borrowedDate">Ημερ/νία Δανεισμού</label>
+                <input type="date" class="form-control" id="borrowedDate" required>
+            </div>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="deletedMaterial">
+            <label class="form-check-label" for="deletedMaterial">
+                Υλικό προς διαγραφή λόγω καταστροφής ή απώλειας
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="damagedMaterial">
+            <label class="form-check-label" for="damagedMaterial">
+                Υλικό σε βλάβη/προς επισκευή
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
