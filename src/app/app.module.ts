@@ -7,6 +7,7 @@ import { HistoryComponent } from './history/history.component';
 import { AdminComponent } from './admin/admin.component';
 import { MaterialDetailsComponent } from './material-details/material-details.component';
 import { MaterialLinesComponent } from './material-lines/material-lines.component';
+import { EventsComponent } from './events/events.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { MaterialLinesComponent } from './material-lines/material-lines.componen
     HistoryComponent,
     AdminComponent,
     MaterialDetailsComponent,
-    MaterialLinesComponent
+    MaterialLinesComponent,
+    EventsComponent
   ],
   imports: [
     BrowserModule,
