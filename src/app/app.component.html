@@ -1,6 +1,9 @@
 <nav class="navbar bg-body-tertiary fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Αποθήκη ΕΟΔ Μαγνησίας</a>
+    <a class="navbar-brand" href="#">
+      <img src="hellenic-rescue-team-logo.png" alt="Logo" width="24" height="24" class="d-inline-block align-text-top">
+      Διαχείριση Αποθήκης
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,10 +15,10 @@
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Αρχική</a>
+            <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" routerLink="home">Αρχική</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link active dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Τμήματα
             </a>
             <ul class="dropdown-menu">
@@ -54,7 +57,8 @@
   </div>
 </nav>
 
-<br><br>
+<br><hr>
+
 
 <!-- <div class="container-fluid"> -->
   <router-outlet></router-outlet>
