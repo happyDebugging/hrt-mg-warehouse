@@ -161,6 +161,25 @@ export class MaterialLinesComponent {
       );
   }
 
+  SetMaterialDetailsToLocalStorage(material: MaterialLines) {
+    localStorage.setItem('materialIdToPreview', material.Id);
+    localStorage.setItem('materialNameToPreview', material.MaterialName);
+    localStorage.setItem('materialserialNumberToPreview', material.SerialNumber);
+    localStorage.setItem('materialQuantityToPreview', material.Quantity.toString());
+    localStorage.setItem('materialStorageCategoryToPreview', material.StorageCategory);
+    localStorage.setItem('materialStoringPlaceToPreview', material.StoringPlace);
+    localStorage.setItem('materialStoredNearRepeaterToPreview', material.StoredNearRepeater);
+    localStorage.setItem('materialBorrowedToToPreview', material.BorrowedTo);
+    localStorage.setItem('materialBorrowedAtToPreview', material.BorrowedAt);
+    localStorage.setItem('isMaterialDamagedToPreview', material.IsMaterialDamaged.toString());
+    localStorage.setItem('isMaterialDeletedToPreview', material.IsMaterialDeleted.toString());
+    localStorage.setItem('CreatedAtToPreview', material.CreatedAt);
+    localStorage.setItem('CreatedByToPreview', material.CreatedBy);
+    localStorage.setItem('LastUpdatedAtToPreview', material.LastUpdatedAt);
+    localStorage.setItem('LastUpdatedByToPreview', material.LastUpdatedBy);
+    localStorage.setItem('materialPhotoToPreview', material.Photo);
+  }
+
   ngOnDestroy() {
 
     if (this.getMaterialLines && !this.getMaterialLines.closed) {

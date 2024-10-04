@@ -22,7 +22,7 @@ export class MaterialDetailsComponent {
   preview = 'photo-file.gif';
   currentFile?: File;
 
-  materialId = 0;
+  materialId = '';
   materialName = '';
   materialserialNumber = '';
   materialQuantity = 0;
@@ -69,6 +69,28 @@ export class MaterialDetailsComponent {
     else if (this.storageCategory == 'firstAid') this.storageCategoryDescription = 'Τμήμα Πρώτων Βοηθειών';
     else if (this.storageCategory == 'communications') this.storageCategoryDescription = 'Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας';
     else if (this.storageCategory == 'socialCare') this.storageCategoryDescription = 'Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών';
+  
+    this.materialId = JSON.parse(JSON.stringify(localStorage.getItem('materialIdToPreview')));
+    this.materialName = JSON.parse(JSON.stringify(localStorage.getItem('materialNameToPreview')));
+    this.materialserialNumber = JSON.parse(JSON.stringify(localStorage.getItem('materialserialNumberToPreview')));
+    this.materialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('materialQuantityToPreview')));
+    this.materialStorageCategory = JSON.parse(JSON.stringify(localStorage.getItem('materialStorageCategoryToPreview')));
+    this.materialStoringPlace = JSON.parse(JSON.stringify(localStorage.getItem('materialStoringPlaceToPreview')));
+    this.materialStoredNearRepeater = JSON.parse(JSON.stringify(localStorage.getItem('materialStoredNearRepeaterToPreview')));
+    this.materialBorrowedTo = JSON.parse(JSON.stringify(localStorage.getItem('materialBorrowedToToPreview')));
+    this.materialBorrowedAt = JSON.parse(JSON.stringify(localStorage.getItem('materialBorrowedAtToPreview')));
+    if (JSON.parse(JSON.stringify(localStorage.getItem('isMaterialDamagedToPreview'))) == 'true') {
+      this.isMaterialDamaged = true;
+    } else this.isMaterialDamaged = false;
+    if (JSON.parse(JSON.stringify(localStorage.getItem('isMaterialDeletedToPreview'))) == 'true') {
+      this.isMaterialDeleted = true;
+    } else this.isMaterialDeleted = false;
+    this.CreatedAt = JSON.parse(JSON.stringify(localStorage.getItem('CreatedAtToPreview')));
+    this.CreatedBy = JSON.parse(JSON.stringify(localStorage.getItem('CreatedByToPreview')));
+    this.LastUpdatedAt = JSON.parse(JSON.stringify(localStorage.getItem('LastUpdatedAtToPreview')));
+    this.LastUpdatedBy = JSON.parse(JSON.stringify(localStorage.getItem('LastUpdatedByToPreview')));
+    this.materialPhoto = JSON.parse(JSON.stringify(localStorage.getItem('materialPhotoToPreview')));
+
   }
 
   selectFile(event: any) {
@@ -97,6 +119,22 @@ export class MaterialDetailsComponent {
   SetMaterialAsBorrowed(value: string) {
     if (value=='borrowed') this.isMaterialBorrowed = true;
     else this.isMaterialBorrowed = false;
+  }
+
+  DecideOnSaveMethod() {
+
+  console.log('this.materialId '+this.materialId)
+
+    if (this.materialId != '') {
+      this.UpdateMaterialLine();
+    } else {
+      this.PostMaterialLine();
+    }
+
+  }
+
+  UpdateMaterialLine() {
+
   }
 
   PostMaterialLine() {
