@@ -11,29 +11,44 @@
         <img [src]="preview" class="card-img-top img-fluid" alt="Προεπισκόπιση Εικόνας">
     </div>
 
-    <div class="mb-3">
-        <input type="file" class="form-control form-control-sm" id="formFileSm" name="formFileSm" [(ngModel)]="materialPhoto" (change)="selectFile($event)">
+    <div class="mb-2">
+        <input type="file" class="form-control form-control-sm" id="formFileSm" name="formFileSm"
+            [(ngModel)]="materialPhoto" (change)="selectFile($event)">
+    </div>
+
+    <div class="text-wrap fw-light text-primary mb-3" style="font-size: small;">
+        <div *ngIf="materialId != ''">
+            Προστέθηκε στις {{ CreatedAt | date:"dd/MM/yyyy '-' HH:mm" }} από {{ CreatedBy }}.
+        </div>
+
+        <div *ngIf="LastUpdatedAt != 'undefined'">
+            Τελευταία τροποποίηση στις {{ LastUpdatedAt | date:"dd/MM/yyyy '-' HH:mm" }} από {{ LastUpdatedBy }}.
+        </div>
     </div>
 
     <form>
         <div class="form-group mb-3">
             <label for="materialName">Όνομα Υλικού</label>
-            <input type="text" class="form-control" id="materialName" name="materialName" [(ngModel)]="materialName" required>
+            <input type="text" class="form-control" id="materialName" name="materialName" [(ngModel)]="materialName"
+                required>
         </div>
 
         <div class="form-group mb-3">
             <label for="serialNumber">Σειριακός Αριθμός</label>
-            <input type="text" class="form-control" id="serialNumber" name="serialNumber" [(ngModel)]="materialserialNumber" required>
+            <input type="text" class="form-control" id="serialNumber" name="serialNumber"
+                [(ngModel)]="materialserialNumber" required>
         </div>
 
         <div class="form-group mb-3">
             <label for="quantity">Αριθμός Τεμαχίων</label>
-            <input type="text" class="form-control" id="quantity" name="quantity" [(ngModel)]="materialQuantity" required>
+            <input type="text" class="form-control" id="quantity" name="quantity" [(ngModel)]="materialQuantity"
+                required>
         </div>
 
         <div class="form-group mb-3">
             <label for="place">Θέση που βρίσκεται</label>
-            <select class="form-select mb-3" name="place" [(ngModel)]="materialStoringPlace" (change)="SetMaterialAsBorrowed(materialStoringPlace)" required>
+            <select class="form-select mb-3" name="place" [(ngModel)]="materialStoringPlace"
+                (change)="SetMaterialAsBorrowed(materialStoringPlace)" required>
                 <option value="warehouse">Αποθήκη</option>
                 <option value="kepix">Κ.ΕΠΙΧ.</option>
                 <option value="boat">Σκάφος</option>
@@ -49,33 +64,41 @@
 
             <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
                 <label for="borrowedTo">Όνομα Χρεωμένου</label>
-                <input type="text" class="form-control" id="borrowedTo" name="borrowedTo" [(ngModel)]="materialBorrowedTo" required>
+                <input type="text" class="form-control" id="borrowedTo" name="borrowedTo"
+                    [(ngModel)]="materialBorrowedTo" required>
             </div>
 
             <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
                 <label for="borrowedDate">Ημερ/νία Δανεισμού</label>
-                <input type="date" class="form-control" id="borrowedDate" name="borrowedDate" [(ngModel)]="materialBorrowedAt" required>
+                <input type="date" class="form-control" id="borrowedDate" name="borrowedDate"
+                    [(ngModel)]="materialBorrowedAt" required>
             </div>
         </div>
 
         <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" value="" id="damagedMaterial" name="damagedMaterial" [(ngModel)]="isMaterialDamaged" (click)="RadioSelectMaterialDamagedState(isMaterialDamaged)">
+            <input class="form-check-input" type="checkbox" value="" id="damagedMaterial" name="damagedMaterial"
+                [(ngModel)]="isMaterialDamaged" (click)="RadioSelectMaterialDamagedState(isMaterialDamaged)">
             <label class="form-check-label" for="damagedMaterial">
                 Υλικό σε βλάβη/προς επισκευή
             </label>
         </div>
 
         <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" value="" id="deletedMaterial" name="deletedMaterial" [(ngModel)]="isMaterialDeleted" (click)="RadioSelectMaterialDeletedState(isMaterialDeleted)">
+            <input class="form-check-input" type="checkbox" value="" id="deletedMaterial" name="deletedMaterial"
+                [(ngModel)]="isMaterialDeleted" (click)="RadioSelectMaterialDeletedState(isMaterialDeleted)">
             <label class="form-check-label" for="deletedMaterial">
                 Υλικό προς διαγραφή λόγω καταστροφής ή απώλειας
             </label>
         </div>
 
-        <div class="d-grid mb-3">
+        <div *ngIf="!isSaveSuccessfull" class="d-grid mb-3">
             <button type="submit" class="btn btn-primary" (click)="DecideOnSaveMethod()">Αποθήκευση</button>
         </div>
-        
+
+        <div *ngIf="isSaveSuccessfull" class="d-grid mb-3">
+            <button type="button" class="btn btn-info">Επιτυχής αποθήκευση!</button>
+        </div>
+
     </form>
 
 </div>

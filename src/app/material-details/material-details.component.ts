@@ -42,6 +42,8 @@ export class MaterialDetailsComponent {
 
   isMaterialBorrowed = false;
 
+  isSaveSuccessfull = false;
+
   // Firebase web app configuration
   firebaseConfig = {
     apiKey: "AIzaSyAq82tP-XtNICS4oNiS2hKLN2tzElGQF0Q",
@@ -54,7 +56,7 @@ export class MaterialDetailsComponent {
   };
 
   updateMaterialLines: Subscription = new Subscription;
-  
+
   constructor(private dbFunctionService: DbFunctionService) { }
 
   ngOnInit() {
@@ -65,14 +67,14 @@ export class MaterialDetailsComponent {
     const database = getDatabase(firebaseApp);
 
     this.storageCategory = JSON.parse(JSON.stringify(localStorage.getItem('storageCategory')));
-    
+
     if (this.storageCategory == 'mountain') this.storageCategoryDescription = 'Τμήμα Ορεινής Διάσωσης';
     else if (this.storageCategory == 'water') this.storageCategoryDescription = 'Τμήμα Υγρού Στοιχείου';
     else if (this.storageCategory == 'disaster') this.storageCategoryDescription = 'Τμήμα Αντιμετώπισης Καταστροφών';
     else if (this.storageCategory == 'firstAid') this.storageCategoryDescription = 'Τμήμα Πρώτων Βοηθειών';
     else if (this.storageCategory == 'communications') this.storageCategoryDescription = 'Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας';
     else if (this.storageCategory == 'socialCare') this.storageCategoryDescription = 'Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών';
-  
+
     this.materialId = JSON.parse(JSON.stringify(localStorage.getItem('materialIdToPreview')));
     this.materialName = JSON.parse(JSON.stringify(localStorage.getItem('materialNameToPreview')));
     this.materialserialNumber = JSON.parse(JSON.stringify(localStorage.getItem('materialserialNumberToPreview')));
@@ -99,42 +101,42 @@ export class MaterialDetailsComponent {
   selectFile(event: any) {
     this.preview = '';
     const selectedFiles = event.target.files;
-  
+
     if (selectedFiles) {
       const file: File | null = selectedFiles.item(0);
-  
+
       if (file) {
         this.preview = '';
         this.currentFile = file;
-  
+
         const reader = new FileReader();
-  
+
         reader.onload = (e: any) => {
           console.log(e.target.result);
           this.preview = e.target.result;
         };
-  
+
         reader.readAsDataURL(this.currentFile);
       }
     }
   }
 
   SetMaterialAsBorrowed(value: string) {
-    if (value=='borrowed') this.isMaterialBorrowed = true;
+    if (value == 'borrowed') this.isMaterialBorrowed = true;
     else this.isMaterialBorrowed = false;
   }
 
   RadioSelectMaterialDamagedState(isMaterialDamaged: boolean) {
-      this.isMaterialDeleted = false;
+    this.isMaterialDeleted = false;
   }
 
   RadioSelectMaterialDeletedState(isMaterialDamaged: boolean) {
     this.isMaterialDamaged = false;
-}
+  }
 
   DecideOnSaveMethod() {
 
-  console.log('this.materialId '+this.materialId)
+    console.log('this.materialId ' + this.materialId)
 
     if (this.materialId != '') {
       this.UpdateMaterialLine();
@@ -148,7 +150,7 @@ export class MaterialDetailsComponent {
 
     let updatedMaterialLine = new MaterialLines;
     console.log(this.materialId)
-    
+
     updatedMaterialLine.Id = this.materialId;
     updatedMaterialLine.MaterialName = this.materialName;
     updatedMaterialLine.SerialNumber = this.materialserialNumber;
@@ -162,7 +164,7 @@ export class MaterialDetailsComponent {
     updatedMaterialLine.IsMaterialDeleted = this.isMaterialDeleted;
     updatedMaterialLine.CreatedAt = this.CreatedAt;
     updatedMaterialLine.CreatedBy = this.CreatedBy;
-    updatedMaterialLine.LastUpdatedAt = this.LastUpdatedAt;
+    updatedMaterialLine.LastUpdatedAt = Date.now().toString();
     updatedMaterialLine.LastUpdatedBy = this.LastUpdatedBy;
     updatedMaterialLine.Photo = this.materialPhoto;
 
@@ -170,6 +172,12 @@ export class MaterialDetailsComponent {
       .pipe(map((response: any) => {
 
         //this.GetFMaterialLines();
+
+        this.isSaveSuccessfull = true;
+
+        setTimeout(() => {
+          this.isSaveSuccessfull = false;
+        }, 2000);
 
       }))
       .subscribe(
@@ -188,7 +196,7 @@ export class MaterialDetailsComponent {
 
     let materialLine = new MaterialLines;
     console.log(this.materialId)
-    
+
     materialLine.Id = this.materialId;
     materialLine.MaterialName = this.materialName;
     materialLine.SerialNumber = this.materialserialNumber;
@@ -211,8 +219,14 @@ export class MaterialDetailsComponent {
         (res: any) => {
           console.log(res);
           if ((res != null) || (res != undefined)) {
-            
+
             this.isNewMaterialLineAdded = true;
+
+            this.isSaveSuccessfull = true;
+
+            setTimeout(() => {
+              this.isSaveSuccessfull = false;
+            }, 2000);
 
           }
         },
@@ -229,6 +243,6 @@ export class MaterialDetailsComponent {
     }
 
   }
-  
-  
+
+
 }
