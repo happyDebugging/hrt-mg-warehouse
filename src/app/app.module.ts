@@ -9,6 +9,9 @@ import { MaterialDetailsComponent } from './material-details/material-details.co
 import { MaterialLinesComponent } from './material-lines/material-lines.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { FormsModule } from '@angular/forms';
+import { DbFunctionService } from './shared/services/db-functions.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,9 +26,13 @@ import { HomeComponent } from './home/home.component';
     BrowserModule,
     AppRoutingModule,
     RouterLink, 
-    RouterOutlet
+    RouterOutlet,
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    DbFunctionService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

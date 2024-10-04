@@ -7,9 +7,12 @@ export class MaterialLines {
     StoringPlace!: string;
     StoredNearRepeater!: string;
     BorrowedTo!: string;
-    IsMaterialDeleted!: boolean;
+    BorrowedAt!: string;
     IsMaterialDamaged!: boolean;
-    LinkedAt!: string;
-    Responsible!: string;
+    IsMaterialDeleted!: boolean;
+    CreatedAt!: string;
+    CreatedBy!: string;
+    LastUpdatedAt!: string;
+    LastUpdatedBy!: string;
     Photo!: string;
 }

@@ -16,12 +16,12 @@ export class DbFunctionService {
         return this.http.get<MaterialLines>(environment.databaseURL + environment.materialLinesTable + '.json');
     }
 
-    postMaterialLinesToDb(materialLines: MaterialLines) {
+    postMaterialLineToDb(materialLine: MaterialLines) {
         let options: any = {
             headers: {"Access-Control-Allow-Origin": "*"}, 
             observe: 'response'
         }
-        return this.http.post(environment.databaseURL + environment.materialLinesTable + '.json', materialLines, options);
+        return this.http.post(environment.databaseURL + environment.materialLinesTable + '.json', materialLine, options);
     }
 
     updateMaterialLinesToDb(materialLine: MaterialLines) {

@@ -25,22 +25,15 @@
         aria-labelledby="panelsStayOpen-headingOne">
         <div class="accordion-body">
 
-          <div class="list-group list-group-flush">
-            <a routerLink="item"
-              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-              A list item
-              <span class="badge bg-primary rounded-pill">14</span>
+          <div *ngIf="availableMaterialsList.length>0" class="list-group list-group-flush">
+            <a *ngFor="let availableMaterial of availableMaterialsList; index as i;" routerLink="item" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+              {{ availableMaterial.MaterialName }}
+              <span class="badge bg-primary rounded-pill">{{ availableMaterial.Quantity }}</span>
             </a>
-            <a routerLink="item"
-              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-              A second list item
-              <span class="badge bg-primary rounded-pill">2</span>
-            </a>
-            <a routerLink="item"
-              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-              A third list item
-              <span class="badge bg-primary rounded-pill">1</span>
-            </a>
+          </div>
+
+          <div *ngIf="availableMaterialsList.length==0" class="text-center text-wrap fw-light">
+            Δεν υπάρχουν υλικά στη λίστα.
           </div>
 
         </div>
@@ -57,22 +50,15 @@
         aria-labelledby="panelsStayOpen-headingTwo">
         <div class="accordion-body">
 
-          <div class="list-group list-group-flush">
-            <a routerLink="item"
-              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-              A list item
-              <span class="badge bg-primary rounded-pill">14</span>
+          <div *ngIf="damagedMaterialsList.length>0" class="list-group list-group-flush">
+            <a *ngFor="let damagedMaterial of damagedMaterialsList; index as i;" routerLink="item" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+              {{ damagedMaterial.MaterialName }}
+              <span class="badge bg-primary rounded-pill">{{ damagedMaterial.Quantity }}</span>
             </a>
-            <a routerLink="item"
-              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-              A second list item
-              <span class="badge bg-primary rounded-pill">2</span>
-            </a>
-            <a routerLink="item"
-              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-              A third list item
-              <span class="badge bg-primary rounded-pill">1</span>
-            </a>
+          </div>
+
+          <div *ngIf="damagedMaterialsList.length==0" class="text-center text-wrap fw-light">
+            Δεν υπάρχουν υλικά στη λίστα.
           </div>
 
         </div>
@@ -90,22 +76,15 @@
         aria-labelledby="panelsStayOpen-headingThree">
         <div class="accordion-body">
 
-          <div class="list-group list-group-flush">
-            <a routerLink="item"
-              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-              A list item
-              <span class="badge bg-primary rounded-pill">14</span>
+          <div *ngIf="deletedMaterialsList.length>0" class="list-group list-group-flush">
+            <a *ngFor="let deletedMaterial of deletedMaterialsList; index as i;" routerLink="item" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+              {{ deletedMaterial.MaterialName }}
+              <span class="badge bg-primary rounded-pill">{{ deletedMaterial.Quantity }}</span>
             </a>
-            <a routerLink="item"
-              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-              A second list item
-              <span class="badge bg-primary rounded-pill">2</span>
-            </a>
-            <a routerLink="item"
-              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-              A third list item
-              <span class="badge bg-primary rounded-pill">1</span>
-            </a>
+          </div>
+
+          <div *ngIf="deletedMaterialsList.length==0" class="text-center text-wrap fw-light">
+            Δεν υπάρχουν υλικά στη λίστα.
           </div>
 
         </div>
