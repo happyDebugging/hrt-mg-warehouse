@@ -138,8 +138,13 @@ export class MaterialDetailsComponent {
     updatedMaterialLine.StorageCategory = this.storageCategoryDescription;
     updatedMaterialLine.StoringPlace = this.materialStoringPlace;
     updatedMaterialLine.StoredNearRepeater = this.materialStoredNearRepeater;//
-    updatedMaterialLine.BorrowedTo = this.materialBorrowedTo;
-    updatedMaterialLine.BorrowedAt = this.materialBorrowedAt;
+    if (!this.isMaterialBorrowed) {
+      updatedMaterialLine.BorrowedTo = '';
+      updatedMaterialLine.BorrowedAt = '';
+    } else {
+      updatedMaterialLine.BorrowedTo = this.materialBorrowedTo;
+      updatedMaterialLine.BorrowedAt = this.materialBorrowedAt;
+    }
     updatedMaterialLine.IsMaterialDamaged = this.isMaterialDamaged;
     updatedMaterialLine.IsMaterialDeleted = this.isMaterialDeleted;
     updatedMaterialLine.CreatedAt = this.CreatedAt;
@@ -223,6 +228,9 @@ export class MaterialDetailsComponent {
     this.materialStoringPlace = JSON.parse(JSON.stringify(localStorage.getItem('materialStoringPlaceToPreview')));
     this.materialStoredNearRepeater = JSON.parse(JSON.stringify(localStorage.getItem('materialStoredNearRepeaterToPreview')));
     this.materialBorrowedTo = JSON.parse(JSON.stringify(localStorage.getItem('materialBorrowedToToPreview')));
+    if (this.materialBorrowedTo!='' && this.materialBorrowedTo!=null && this.materialBorrowedTo!=undefined  && this.materialBorrowedTo!='undefined') {
+      this.isMaterialBorrowed = true;
+    }
     this.materialBorrowedAt = JSON.parse(JSON.stringify(localStorage.getItem('materialBorrowedAtToPreview')));
     if (JSON.parse(JSON.stringify(localStorage.getItem('isMaterialDamagedToPreview'))) == 'true') {
       this.isMaterialDamaged = true;

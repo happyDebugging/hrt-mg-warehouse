@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <form>
+    <form ngNativeValidate #form>
         <div class="form-group mb-3">
             <label for="materialName">Όνομα Υλικού</label>
             <input type="text" class="form-control" id="materialName" name="materialName" [(ngModel)]="materialName"
@@ -70,7 +70,7 @@
             <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
                 <label for="borrowedDate">Ημερ/νία Δανεισμού</label>
                 <input type="date" class="form-control" id="borrowedDate" name="borrowedDate"
-                    [(ngModel)]="materialBorrowedAt" required>
+                    [(ngModel)]="materialBorrowedAt">
             </div>
         </div>
 
@@ -91,7 +91,7 @@
         </div>
 
         <div *ngIf="!isSaveSuccessfull" class="d-grid mb-3">
-            <button type="submit" class="btn btn-primary" (click)="DecideOnSaveMethod()">Αποθήκευση</button>
+            <button type="submit" class="btn btn-primary" (click)="form.checkValidity()? DecideOnSaveMethod() : null">Αποθήκευση</button>
         </div>
 
         <div *ngIf="isSaveSuccessfull" class="d-grid mb-3">
