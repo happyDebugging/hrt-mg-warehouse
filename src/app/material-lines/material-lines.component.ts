@@ -86,6 +86,8 @@ export class MaterialLinesComponent {
     else if (this.storageCategory == 'communications') this.storageCategoryDescription = 'Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας';
     else if (this.storageCategory == 'socialCare') this.storageCategoryDescription = 'Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών';
   
+    this.RemoveMaterialDetailsFromLocalStorage();
+
     this.GetFMaterialLines();
   }
 
@@ -178,6 +180,25 @@ export class MaterialLinesComponent {
     localStorage.setItem('LastUpdatedAtToPreview', material.LastUpdatedAt);
     localStorage.setItem('LastUpdatedByToPreview', material.LastUpdatedBy);
     localStorage.setItem('materialPhotoToPreview', material.Photo);
+  }
+
+  RemoveMaterialDetailsFromLocalStorage() {
+    localStorage.removeItem('materialIdToPreview');
+    localStorage.removeItem('materialNameToPreview');
+    localStorage.removeItem('materialserialNumberToPreview');
+    localStorage.removeItem('materialQuantityToPreview');
+    localStorage.removeItem('materialStorageCategoryToPreview');
+    localStorage.removeItem('materialStoringPlaceToPreview');
+    localStorage.removeItem('materialStoredNearRepeaterToPreview');
+    localStorage.removeItem('materialBorrowedToToPreview');
+    localStorage.removeItem('materialBorrowedAtToPreview');
+    localStorage.removeItem('isMaterialDamagedToPreview');
+    localStorage.removeItem('isMaterialDeletedToPreview');
+    localStorage.removeItem('CreatedAtToPreview');
+    localStorage.removeItem('CreatedByToPreview');
+    localStorage.removeItem('LastUpdatedAtToPreview');
+    localStorage.removeItem('LastUpdatedByToPreview');
+    localStorage.removeItem('materialPhotoToPreview');
   }
 
   ngOnDestroy() {
