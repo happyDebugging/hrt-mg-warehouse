@@ -3,6 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
 import { DbFunctionService } from '../shared/services/db-functions.service';
 import { MaterialLines } from '../shared/models/material-lines.model';
+import { map, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-material-details',
@@ -51,6 +52,8 @@ export class MaterialDetailsComponent {
     messagingSenderId: "814645994356",
     appId: "1:814645994356:web:7efe4746dd371d51338221"
   };
+
+  updateMaterialLines: Subscription = new Subscription;
   
   constructor(private dbFunctionService: DbFunctionService) { }
 
@@ -121,6 +124,14 @@ export class MaterialDetailsComponent {
     else this.isMaterialBorrowed = false;
   }
 
+  RadioSelectMaterialDamagedState(isMaterialDamaged: boolean) {
+      this.isMaterialDeleted = false;
+  }
+
+  RadioSelectMaterialDeletedState(isMaterialDamaged: boolean) {
+    this.isMaterialDamaged = false;
+}
+
   DecideOnSaveMethod() {
 
   console.log('this.materialId '+this.materialId)
@@ -135,6 +146,42 @@ export class MaterialDetailsComponent {
 
   UpdateMaterialLine() {
 
+    let updatedMaterialLine = new MaterialLines;
+    console.log(this.materialId)
+    
+    updatedMaterialLine.Id = this.materialId;
+    updatedMaterialLine.MaterialName = this.materialName;
+    updatedMaterialLine.SerialNumber = this.materialserialNumber;
+    updatedMaterialLine.Quantity = this.materialQuantity;
+    updatedMaterialLine.StorageCategory = this.storageCategoryDescription;
+    updatedMaterialLine.StoringPlace = this.materialStoringPlace;
+    updatedMaterialLine.StoredNearRepeater = this.materialStoredNearRepeater;//
+    updatedMaterialLine.BorrowedTo = this.materialBorrowedTo;
+    updatedMaterialLine.BorrowedAt = this.materialBorrowedAt;
+    updatedMaterialLine.IsMaterialDamaged = this.isMaterialDamaged;
+    updatedMaterialLine.IsMaterialDeleted = this.isMaterialDeleted;
+    updatedMaterialLine.CreatedAt = this.CreatedAt;
+    updatedMaterialLine.CreatedBy = this.CreatedBy;
+    updatedMaterialLine.LastUpdatedAt = this.LastUpdatedAt;
+    updatedMaterialLine.LastUpdatedBy = this.LastUpdatedBy;
+    updatedMaterialLine.Photo = this.materialPhoto;
+
+    this.updateMaterialLines = this.dbFunctionService.updateMaterialLinesToDb(updatedMaterialLine)
+      .pipe(map((response: any) => {
+
+        //this.GetFMaterialLines();
+
+      }))
+      .subscribe(
+        (res: any) => {
+          if ((res != null) || (res != undefined)) {
+            console.log(res)
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
   PostMaterialLine() {
@@ -173,6 +220,14 @@ export class MaterialDetailsComponent {
           console.log(err);
         }
       );
+  }
+
+  ngOnDestroy() {
+
+    if (this.updateMaterialLines && !this.updateMaterialLines.closed) {
+      this.updateMaterialLines.unsubscribe();
+    }
+
   }
   
   
