@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
+import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
 import { DbFunctionService } from '../shared/services/db-functions.service';
 import { MaterialLines } from '../shared/models/material-lines.model';
 import { map, Subscription } from 'rxjs';
@@ -55,16 +56,23 @@ export class MaterialDetailsComponent {
     appId: "1:814645994356:web:7efe4746dd371d51338221"
   };
 
+  // Initialize Firebase
+  firebaseApp = initializeApp(this.firebaseConfig);
+
+  // Initialize Realtime Database and get a reference to the service
+  database = getDatabase(this.firebaseApp);
+
+  // Initialize Cloud Storage and get a reference to the service
+  storage = getStorage(this.firebaseApp);
+  // Create a storage reference from our storage service
+  storageRef = ref(this.storage, 'some-child');
+
+
   updateMaterialLines: Subscription = new Subscription;
 
   constructor(private dbFunctionService: DbFunctionService) { }
 
   ngOnInit() {
-
-    // Initialize Firebase
-    const firebaseApp = initializeApp(this.firebaseConfig);
-    // Initialize Realtime Database and get a reference to the service
-    const database = getDatabase(firebaseApp);
 
     this.storageCategory = JSON.parse(JSON.stringify(localStorage.getItem('storageCategory')));
 
@@ -76,6 +84,8 @@ export class MaterialDetailsComponent {
     else if (this.storageCategory == 'socialCare') this.storageCategoryDescription = 'Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών';
 
     this.GetItemDetailsToPreviewFromLocalStorage();
+
+    this.GetMaterialPhotoFromStorage();
 
   }
 
@@ -119,7 +129,7 @@ export class MaterialDetailsComponent {
 
     console.log('this.materialId ' + this.materialId)
 
-    if (this.materialId != '' && this.materialId != null  && this.materialId != undefined) {
+    if (this.materialId != '' && this.materialId != null && this.materialId != undefined) {
       this.UpdateMaterialLine();
     } else {
       this.PostMaterialLine();
@@ -195,7 +205,12 @@ export class MaterialDetailsComponent {
     materialLine.CreatedBy = this.loggedInUserId;
     //materialLine.LastUpdatedAt = this.LastUpdatedAt;
     //materialLine.LastUpdatedBy = this.LastUpdatedBy;
-    materialLine.Photo = this.materialPhoto;
+    materialLine.Photo = this.materialName + '_' + this.materialserialNumber + '_' + Date.now().toString(); //this.materialPhoto;
+
+    this.storageRef = ref(this.storage, materialLine.Photo);
+    uploadString(this.storageRef, this.preview, 'data_url').then((snapshot) => {
+      console.log('Uploaded image!');
+    });
 
     this.dbFunctionService.postMaterialLineToDb(materialLine)
       .subscribe(
@@ -228,7 +243,7 @@ export class MaterialDetailsComponent {
     this.materialStoringPlace = JSON.parse(JSON.stringify(localStorage.getItem('materialStoringPlaceToPreview')));
     this.materialStoredNearRepeater = JSON.parse(JSON.stringify(localStorage.getItem('materialStoredNearRepeaterToPreview')));
     this.materialBorrowedTo = JSON.parse(JSON.stringify(localStorage.getItem('materialBorrowedToToPreview')));
-    if (this.materialBorrowedTo!='' && this.materialBorrowedTo!=null && this.materialBorrowedTo!=undefined  && this.materialBorrowedTo!='undefined') {
+    if (this.materialBorrowedTo != '' && this.materialBorrowedTo != null && this.materialBorrowedTo != undefined && this.materialBorrowedTo != 'undefined') {
       this.isMaterialBorrowed = true;
     }
     this.materialBorrowedAt = JSON.parse(JSON.stringify(localStorage.getItem('materialBorrowedAtToPreview')));
@@ -243,6 +258,34 @@ export class MaterialDetailsComponent {
     this.LastUpdatedAt = JSON.parse(JSON.stringify(localStorage.getItem('LastUpdatedAtToPreview')));
     this.LastUpdatedBy = JSON.parse(JSON.stringify(localStorage.getItem('LastUpdatedByToPreview')));
     this.materialPhoto = JSON.parse(JSON.stringify(localStorage.getItem('materialPhotoToPreview')));
+  }
+
+  GetMaterialPhotoFromStorage() {
+    if (this.materialPhoto != null) {
+
+      getDownloadURL(this.storageRef = ref(this.storage, this.materialPhoto))
+        .then((url) => {
+          // `url` is the download URL for 'images/stars.jpg'
+
+          // // This can be downloaded directly:
+          // const xhr = new XMLHttpRequest();
+          // xhr.responseType = 'blob';
+          // xhr.onload = (event) => {
+          //   const blob = xhr.response;
+          // };
+          // xhr.open('GET', url);
+          // xhr.send();
+
+          // Or inserted into an <img> element
+          this.preview = url;
+
+        })
+        .catch((error) => {
+          // Handle any errors
+          console.log(error)
+        });
+
+    }
   }
 
   ngOnDestroy() {
