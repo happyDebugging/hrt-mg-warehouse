@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
-import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
+import { deleteObject, getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
 import { DbFunctionService } from '../shared/services/db-functions.service';
 import { MaterialLines } from '../shared/models/material-lines.model';
 import { map, Subscription } from 'rxjs';
@@ -33,6 +33,7 @@ export class MaterialDetailsComponent {
   materialStoredNearRepeater = '';
   materialBorrowedTo = '';
   materialBorrowedAt = '';
+  materialExpiryDate = '';
   isMaterialDamaged = false;
   isMaterialDeleted = false;
   CreatedAt = '';
@@ -40,10 +41,13 @@ export class MaterialDetailsComponent {
   LastUpdatedAt = '';
   LastUpdatedBy = '';
   materialPhoto = '';
+  previousMaterialPhoto = '';
 
   isMaterialBorrowed = false;
 
   isSaveSuccessfull = false;
+
+  hasPreviewPhotoChanged = false;
 
   // Firebase web app configuration
   firebaseConfig = {
@@ -108,6 +112,8 @@ export class MaterialDetailsComponent {
         };
 
         reader.readAsDataURL(this.currentFile);
+
+        this.hasPreviewPhotoChanged = true;
       }
     }
   }
@@ -126,7 +132,6 @@ export class MaterialDetailsComponent {
   }
 
   DecideOnSaveMethod() {
-
     console.log('this.materialId ' + this.materialId)
 
     if (this.materialId != '' && this.materialId != null && this.materialId != undefined) {
@@ -155,13 +160,33 @@ export class MaterialDetailsComponent {
       updatedMaterialLine.BorrowedTo = this.materialBorrowedTo;
       updatedMaterialLine.BorrowedAt = this.materialBorrowedAt;
     }
+    updatedMaterialLine.ExpiryDate = this.materialExpiryDate;
     updatedMaterialLine.IsMaterialDamaged = this.isMaterialDamaged;
     updatedMaterialLine.IsMaterialDeleted = this.isMaterialDeleted;
     updatedMaterialLine.CreatedAt = this.CreatedAt;
     updatedMaterialLine.CreatedBy = this.CreatedBy;
     updatedMaterialLine.LastUpdatedAt = Date.now().toString();
     updatedMaterialLine.LastUpdatedBy = this.LastUpdatedBy;
-    updatedMaterialLine.Photo = this.materialPhoto;
+    
+    if (this.hasPreviewPhotoChanged) {
+      updatedMaterialLine.Photo = this.materialName + '_' + this.materialserialNumber + '_' + Date.now().toString(); 
+      localStorage.setItem('materialPhotoToPreview', updatedMaterialLine.Photo);
+
+      const desertRef = ref(this.storage, this.previousMaterialPhoto);
+      // Delete previous uploaded image
+      deleteObject(desertRef).then(() => {
+        console.log('File deleted successfully')
+      }).catch((error) => {
+        console.log(error)
+      });
+
+      this.storageRef = ref(this.storage, updatedMaterialLine.Photo);
+      uploadString(this.storageRef, this.preview, 'data_url').then((snapshot) => {
+        console.log('Uploaded image!');
+      });
+    } else {
+      updatedMaterialLine.Photo = this.previousMaterialPhoto; 
+    }
 
     this.updateMaterialLines = this.dbFunctionService.updateMaterialLinesToDb(updatedMaterialLine)
       .pipe(map((response: any) => {
@@ -199,6 +224,7 @@ export class MaterialDetailsComponent {
     materialLine.StoredNearRepeater = this.materialStoredNearRepeater;//
     materialLine.BorrowedTo = this.materialBorrowedTo;
     materialLine.BorrowedAt = this.materialBorrowedAt;
+    materialLine.ExpiryDate = this.materialExpiryDate;
     materialLine.IsMaterialDamaged = this.isMaterialDamaged;
     materialLine.IsMaterialDeleted = this.isMaterialDeleted;
     materialLine.CreatedAt = Date.now().toString();
@@ -247,6 +273,7 @@ export class MaterialDetailsComponent {
       this.isMaterialBorrowed = true;
     }
     this.materialBorrowedAt = JSON.parse(JSON.stringify(localStorage.getItem('materialBorrowedAtToPreview')));
+    this.materialExpiryDate = JSON.parse(JSON.stringify(localStorage.getItem('materialExpiryDateToPreview')));
     if (JSON.parse(JSON.stringify(localStorage.getItem('isMaterialDamagedToPreview'))) == 'true') {
       this.isMaterialDamaged = true;
     } else this.isMaterialDamaged = false;
@@ -258,6 +285,7 @@ export class MaterialDetailsComponent {
     this.LastUpdatedAt = JSON.parse(JSON.stringify(localStorage.getItem('LastUpdatedAtToPreview')));
     this.LastUpdatedBy = JSON.parse(JSON.stringify(localStorage.getItem('LastUpdatedByToPreview')));
     this.materialPhoto = JSON.parse(JSON.stringify(localStorage.getItem('materialPhotoToPreview')));
+    this.previousMaterialPhoto = JSON.parse(JSON.stringify(localStorage.getItem('materialPhotoToPreview')));
   }
 
   GetMaterialPhotoFromStorage() {

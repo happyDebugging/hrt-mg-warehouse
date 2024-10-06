@@ -24,6 +24,7 @@ export class MaterialLinesComponent {
     StoredNearRepeater: '',
     BorrowedTo: '',
     BorrowedAt: '',
+    ExpiryDate: '',
     IsMaterialDamaged: false,
     IsMaterialDeleted: false,
     CreatedAt: '',
@@ -43,6 +44,7 @@ export class MaterialLinesComponent {
     StoredNearRepeater: '',
     BorrowedTo: '',
     BorrowedAt: '',
+    ExpiryDate: '',
     IsMaterialDamaged: false,
     IsMaterialDeleted: false,
     CreatedAt: '',
@@ -62,6 +64,7 @@ export class MaterialLinesComponent {
     StoredNearRepeater: '',
     BorrowedTo: '',
     BorrowedAt: '',
+    ExpiryDate: '',
     IsMaterialDamaged: false,
     IsMaterialDeleted: false,
     CreatedAt: '',
@@ -132,6 +135,7 @@ export class MaterialLinesComponent {
                 resObj.StoredNearRepeater = data.StoredNearRepeater;//
                 resObj.BorrowedTo = data.BorrowedTo;
                 resObj.BorrowedAt = data.BorrowedAt;
+                resObj.ExpiryDate = data.ExpiryDate;
                 resObj.IsMaterialDamaged = data.IsMaterialDamaged;
                 resObj.IsMaterialDeleted = data.IsMaterialDeleted;
                 resObj.CreatedAt = data.CreatedAt;
@@ -173,6 +177,7 @@ export class MaterialLinesComponent {
     localStorage.setItem('materialStoredNearRepeaterToPreview', material.StoredNearRepeater);
     localStorage.setItem('materialBorrowedToToPreview', material.BorrowedTo);
     localStorage.setItem('materialBorrowedAtToPreview', material.BorrowedAt);
+    localStorage.setItem('materialExpiryDateToPreview', material.ExpiryDate);
     localStorage.setItem('isMaterialDamagedToPreview', material.IsMaterialDamaged.toString());
     localStorage.setItem('isMaterialDeletedToPreview', material.IsMaterialDeleted.toString());
     localStorage.setItem('CreatedAtToPreview', material.CreatedAt);
@@ -192,6 +197,7 @@ export class MaterialLinesComponent {
     localStorage.removeItem('materialStoredNearRepeaterToPreview');
     localStorage.removeItem('materialBorrowedToToPreview');
     localStorage.removeItem('materialBorrowedAtToPreview');
+    localStorage.removeItem('materialExpiryDateToPreview');
     localStorage.removeItem('isMaterialDamagedToPreview');
     localStorage.removeItem('isMaterialDeletedToPreview');
     localStorage.removeItem('CreatedAtToPreview');

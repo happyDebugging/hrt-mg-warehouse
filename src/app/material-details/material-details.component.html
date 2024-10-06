@@ -27,25 +27,25 @@
 
     <form ngNativeValidate #form>
         <div class="form-group mb-3">
-            <label for="materialName">Όνομα Υλικού</label>
+            <label for="materialName">Όνομα Υλικού*</label>
             <input type="text" class="form-control" id="materialName" name="materialName" [(ngModel)]="materialName"
                 required>
         </div>
 
         <div class="form-group mb-3">
-            <label for="serialNumber">Σειριακός Αριθμός</label>
+            <label for="serialNumber">Σειριακός Αριθμός*</label>
             <input type="text" class="form-control" id="serialNumber" name="serialNumber"
                 [(ngModel)]="materialserialNumber" required>
         </div>
 
         <div class="form-group mb-3">
-            <label for="quantity">Αριθμός Τεμαχίων</label>
+            <label for="quantity">Αριθμός Τεμαχίων*</label>
             <input type="text" class="form-control" id="quantity" name="quantity" [(ngModel)]="materialQuantity"
                 required>
         </div>
 
         <div class="form-group mb-3">
-            <label for="place">Θέση που βρίσκεται</label>
+            <label for="place">Θέση που βρίσκεται*</label>
             <select class="form-select mb-3" name="place" [(ngModel)]="materialStoringPlace"
                 (change)="SetMaterialAsBorrowed(materialStoringPlace)" required>
                 <option value="warehouse">Αποθήκη</option>
@@ -62,16 +62,21 @@
             </select>
 
             <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
-                <label for="borrowedTo">Όνομα Χρεωμένου</label>
+                <label for="borrowedTo">Όνομα Χρεωμένου*</label>
                 <input type="text" class="form-control" id="borrowedTo" name="borrowedTo"
                     [(ngModel)]="materialBorrowedTo" required>
             </div>
 
             <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
-                <label for="borrowedDate">Ημερ/νία Δανεισμού</label>
+                <label for="borrowedDate">Ημερ/νία Δανεισμού*</label>
                 <input type="date" class="form-control" id="borrowedDate" name="borrowedDate"
                     [(ngModel)]="materialBorrowedAt">
             </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="expiryDate">Ημερ/νία λήξης/επανελέγχου</label>
+            <input type="date" class="form-control" id="expiryDate" name="expiryDate" [(ngModel)]="materialExpiryDate">
         </div>
 
         <div class="form-check mb-3">
@@ -90,10 +95,15 @@
             </label>
         </div>
 
+        <div class="text-wrap fw-light text-primary mb-3" style="font-size: small;">
+            <div *ngIf="CreatedAt != '' && CreatedAt != null && CreatedAt != undefined">
+                *Υποχρεωτικό πεδίο.
+            </div>
+        </div>
+
         <div *ngIf="!isSaveSuccessfull" class="d-grid mb-3">
             <button type="submit" class="btn btn-primary" (click)="form.checkValidity()? DecideOnSaveMethod() : null">Αποθήκευση</button>
         </div>
-
         <div *ngIf="isSaveSuccessfull" class="d-grid mb-3">
             <button type="button" class="btn btn-info">Επιτυχής αποθήκευση!</button>
         </div>

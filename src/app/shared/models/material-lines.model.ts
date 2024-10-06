@@ -8,6 +8,7 @@ export class MaterialLines {
     StoredNearRepeater!: string;
     BorrowedTo!: string;
     BorrowedAt!: string;
+    ExpiryDate!: string;
     IsMaterialDamaged!: boolean;
     IsMaterialDeleted!: boolean;
     CreatedAt!: string;
