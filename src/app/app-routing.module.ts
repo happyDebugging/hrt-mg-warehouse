@@ -6,32 +6,36 @@ import { AdminComponent } from './admin/admin.component';
 import { AppComponent } from './app.component';
 import { MaterialDetailsComponent } from './material-details/material-details.component';
 import { HomeComponent } from './home/home.component';
+import { AuthComponent } from './auth/auth.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: 'auth', component: AuthComponent },
 
-  {path: 'mountain/material-lines', component: MaterialLinesComponent},
-  {path: 'mountain/material-lines/item', component: MaterialDetailsComponent},
+  { path: 'home', component: HomeComponent, canActivate: [AuthComponent] },
 
-  { path: 'water/material-lines', component: MaterialLinesComponent },
-  {path: 'water/material-lines/item', component: MaterialDetailsComponent},
+  {path: 'mountain/material-lines', component: MaterialLinesComponent, canActivate: [AuthComponent]},
+  {path: 'mountain/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthComponent]},
 
-  { path: 'disaster/material-lines', component: MaterialLinesComponent },
-  {path: 'disaster/material-lines/item', component: MaterialDetailsComponent},
+  { path: 'water/material-lines', component: MaterialLinesComponent, canActivate: [AuthComponent] },
+  {path: 'water/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthComponent]},
 
-  { path: 'firstAid/material-lines', component: MaterialLinesComponent },
-  {path: 'firstAid/material-lines/item', component: MaterialDetailsComponent},
+  { path: 'disaster/material-lines', component: MaterialLinesComponent, canActivate: [AuthComponent] },
+  {path: 'disaster/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthComponent]},
 
-  { path: 'communications/material-lines', component: MaterialLinesComponent },
-  {path: 'communications/material-lines/item', component: MaterialDetailsComponent},
+  { path: 'firstAid/material-lines', component: MaterialLinesComponent, canActivate: [AuthComponent] },
+  {path: 'firstAid/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthComponent]},
 
-  { path: 'socialCare/material-lines', component: MaterialLinesComponent },
-  {path: 'socialCare/material-lines/item', component: MaterialDetailsComponent},
+  { path: 'communications/material-lines', component: MaterialLinesComponent, canActivate: [AuthComponent] },
+  {path: 'communications/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthComponent]},
 
-  { path: 'history', component: HistoryComponent },
-  { path: 'admin', component: AdminComponent },
+  { path: 'socialCare/material-lines', component: MaterialLinesComponent, canActivate: [AuthComponent] },
+  {path: 'socialCare/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthComponent]},
+
+  { path: 'history', component: HistoryComponent, canActivate: [AuthComponent] },
+  { path: 'admin', component: AdminComponent, canActivate: [AuthComponent] },
   { path: '', redirectTo: '**', pathMatch: 'full' }, // redirect to `app-component`  { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
-  { path: '**', component: HomeComponent },  // Wildcard route for a 404 page
+  //{ path: '**', component: HomeComponent, canActivate: [AuthComponent] },  // Wildcard route for a 404 page
+  { path: '**', component: AuthComponent},  // Wildcard route for a 404 page
 ];
 
 @NgModule({
