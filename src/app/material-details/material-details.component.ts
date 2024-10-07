@@ -112,7 +112,7 @@ export class MaterialDetailsComponent {
           this.preview = e.target.result;
 
           imageConversion.dataURLtoFile(this.preview).then(p => {
-            imageConversion.compressAccurately(p, 200).then(res => {
+            imageConversion.compressAccurately(p, 300).then(res => {
               imageConversion.filetoDataURL(res).then(url => {
                 this.preview = url;
               });
