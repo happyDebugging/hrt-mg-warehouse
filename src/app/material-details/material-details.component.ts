@@ -5,6 +5,7 @@ import { deleteObject, getDownloadURL, getStorage, ref, uploadString } from "fir
 import { DbFunctionService } from '../shared/services/db-functions.service';
 import { MaterialLines } from '../shared/models/material-lines.model';
 import { map, Subscription } from 'rxjs';
+import * as imageConversion from 'image-conversion';
 
 @Component({
   selector: 'app-material-details',
@@ -109,6 +110,15 @@ export class MaterialDetailsComponent {
         reader.onload = (e: any) => {
           console.log(e.target.result);
           this.preview = e.target.result;
+
+          imageConversion.dataURLtoFile(this.preview).then(p => {
+            imageConversion.compressAccurately(p, 200).then(res => {
+              imageConversion.filetoDataURL(res).then(url => {
+                this.preview = url;
+              });
+            })
+          });
+
         };
 
         reader.readAsDataURL(this.currentFile);
@@ -167,9 +177,9 @@ export class MaterialDetailsComponent {
     updatedMaterialLine.CreatedBy = this.CreatedBy;
     updatedMaterialLine.LastUpdatedAt = Date.now().toString();
     updatedMaterialLine.LastUpdatedBy = this.LastUpdatedBy;
-    
+
     if (this.hasPreviewPhotoChanged) {
-      updatedMaterialLine.Photo = this.materialName + '_' + this.materialserialNumber + '_' + Date.now().toString(); 
+      updatedMaterialLine.Photo = this.materialName + '_' + this.materialserialNumber + '_' + Date.now().toString();
       localStorage.setItem('materialPhotoToPreview', updatedMaterialLine.Photo);
 
       const desertRef = ref(this.storage, this.previousMaterialPhoto);
@@ -185,7 +195,7 @@ export class MaterialDetailsComponent {
         console.log('Uploaded image!');
       });
     } else {
-      updatedMaterialLine.Photo = this.previousMaterialPhoto; 
+      updatedMaterialLine.Photo = this.previousMaterialPhoto;
     }
 
     this.updateMaterialLines = this.dbFunctionService.updateMaterialLinesToDb(updatedMaterialLine)
