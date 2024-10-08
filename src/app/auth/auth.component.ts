@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -39,7 +40,10 @@ export class AuthComponent implements OnInit {
   // Initialize Firebase Authentication and get a reference to the service
   auth = getAuth(this.firebaseApp);
 
+  constructor(private authService: AuthService) { }
+
   ngOnInit() {
+    localStorage.setItem('isUserLoggedIn', this.isUserLoggedIn.toString());
 
     this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
     this.loggedInUserId = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserId")));
@@ -48,52 +52,10 @@ export class AuthComponent implements OnInit {
 
   }
 
-  AuthenticateUser() {
-
-    this.errorMessageToShow = '';
-
-    signInWithEmailAndPassword(this.auth, this.userEmail.trim(), this.userPassword.trim())
-      .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-
-        this.isUserLoggedIn = true;
-        localStorage.setItem("isUserLoggedIn", "true");
-
-        this.isCredentialsWrong = false;
-
-        this.userEmail = '';
-        this.userPassword = '';
-
-        this.loggedInUserId = user.uid;
-        localStorage.setItem("loggedInUserId", user.uid);
-
-        //this.accessToken = user.accessToken;
-
-        window.location.href = environment.appUrl + '/home';
-
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-
-        console.log(error.code)
-
-        if (error.code = 'auth/invalid-credential') {
-          this.errorMessageToShow = 'Λάθος email ή κωδικός πρόσβασης.';
-        } else if (error.code = 'auth/too-many-requests') {
-          this.errorMessageToShow = 'Υπέρβαση προσπαθειών σύνδεσης, προσπαθήστε αργότερα.';
-        } else {
-          this.errorMessageToShow = '';
-        }
-
-        this.isUserLoggedIn = false;
-        localStorage.clear();
-
-        this.isCredentialsWrong = true;
-      });
-
+  Login() {
+    localStorage.setItem('userEmail', this.userEmail);
+    localStorage.setItem('userPassword', this.userPassword);
+    this.authService.AuthenticateUser();
   }
-
 
 }

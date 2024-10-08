@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { DbFunctionService } from './shared/services/db-functions.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthComponent } from './auth/auth.component';
+import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { AuthComponent } from './auth/auth.component';
     HttpClientModule
   ],
   providers: [
-    DbFunctionService
+    DbFunctionService,
+    AuthGuard,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

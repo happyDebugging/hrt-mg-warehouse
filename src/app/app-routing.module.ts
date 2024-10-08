@@ -7,35 +7,35 @@ import { AppComponent } from './app.component';
 import { MaterialDetailsComponent } from './material-details/material-details.component';
 import { HomeComponent } from './home/home.component';
 import { AuthComponent } from './auth/auth.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: 'auth', component: AuthComponent },
 
-  { path: 'home', component: HomeComponent, canActivate: [AuthComponent] },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
 
-  {path: 'mountain/material-lines', component: MaterialLinesComponent, canActivate: [AuthComponent]},
-  {path: 'mountain/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthComponent]},
+  {path: 'mountain/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard]},
+  {path: 'mountain/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
 
-  { path: 'water/material-lines', component: MaterialLinesComponent, canActivate: [AuthComponent] },
-  {path: 'water/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthComponent]},
+  { path: 'water/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard] },
+  {path: 'water/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
 
-  { path: 'disaster/material-lines', component: MaterialLinesComponent, canActivate: [AuthComponent] },
-  {path: 'disaster/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthComponent]},
+  { path: 'disaster/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard] },
+  {path: 'disaster/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
 
-  { path: 'firstAid/material-lines', component: MaterialLinesComponent, canActivate: [AuthComponent] },
-  {path: 'firstAid/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthComponent]},
+  { path: 'firstAid/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard] },
+  {path: 'firstAid/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
 
-  { path: 'communications/material-lines', component: MaterialLinesComponent, canActivate: [AuthComponent] },
-  {path: 'communications/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthComponent]},
+  { path: 'communications/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard] },
+  {path: 'communications/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
 
-  { path: 'socialCare/material-lines', component: MaterialLinesComponent, canActivate: [AuthComponent] },
-  {path: 'socialCare/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthComponent]},
+  { path: 'socialCare/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard] },
+  {path: 'socialCare/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
 
-  { path: 'history', component: HistoryComponent, canActivate: [AuthComponent] },
-  { path: 'admin', component: AdminComponent, canActivate: [AuthComponent] },
-  { path: '', redirectTo: '**', pathMatch: 'full' }, // redirect to `app-component`  { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
-  //{ path: '**', component: HomeComponent, canActivate: [AuthComponent] },  // Wildcard route for a 404 page
-  { path: '**', component: AuthComponent},  // Wildcard route for a 404 page
+  { path: 'history', component: HistoryComponent, canActivate: [AuthGuard] },
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
+  { path: '', pathMatch: 'full', component: HomeComponent, canActivate: [AuthGuard] }, // redirect to `app-component`  { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
+  { path: '**', pathMatch: 'full', redirectTo: '', canActivate: [AuthGuard]},  // Wildcard route for a 404 page
 ];
 
 @NgModule({

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from './auth/auth.service';
+
 
 @Component({
   selector: 'app-root',
@@ -10,7 +12,24 @@ export class AppComponent {
 
   storageCategory = '';
 
+  userEmail = '';
+  userPassword = '';
+  accessToken = '';
+  isCredentialsWrong = false;
+  loggedInUserId = '';
+  isUserLoggedIn = false;
+  newUserPassword = '';
+  newUserPasswordConfirmation = '';
+  isPassword6Characters = true;
+  isChangePasswordSuccessfull = false;
+  errorMessageToShow = '';
+
+  constructor(private authService: AuthService) { }
+  
   ngOnInit() {
+
+    if (JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn"))) == 'true') this.isUserLoggedIn = true; else this.isUserLoggedIn = false;
+    console.log('this.isUserLoggedIn4 '+this.isUserLoggedIn)
 
     this.storageCategory = JSON.parse(JSON.stringify(localStorage.getItem('storageCategory')));
 
@@ -45,5 +64,21 @@ export class AppComponent {
     localStorage.setItem('storageCategory', 'socialCare');
     console.log('socialCare')
   }
+
+  ToggleNavBarControls() {
+    this.isUserLoggedIn = true;
+  }
   
+
+  Logout() {
+    this.isUserLoggedIn = false;
+    
+    localStorage.setItem('isUserLoggedIn', this.isUserLoggedIn.toString());
+    
+    this.authService.LogoutUser();
+
+    console.log('this.isUserLoggedIn2 '+JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn"))))
+  }
+
+
 }
