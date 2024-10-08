@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment.development';
 
 @Injectable()
 export class AuthService {
