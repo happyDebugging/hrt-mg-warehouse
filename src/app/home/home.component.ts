@@ -29,11 +29,11 @@ export class HomeComponent implements OnInit {
     this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
     this.loggedInUserId = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserId")));
 
-    //this.loggedInUserId='';
-    console.log(this.loggedInUserId)
-    if (this.loggedInUserId == '') {
+    ////this.loggedInUserId='';
+    //console.log(this.loggedInUserId)
+    //if (this.loggedInUserId == '') {
       this.GetLoggedInUserDetails();
-    }
+    //}
     
   }
 
