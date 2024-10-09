@@ -6,6 +6,7 @@ import { DbFunctionService } from '../shared/services/db-functions.service';
 import { MaterialLines } from '../shared/models/material-lines.model';
 import { map, Subscription } from 'rxjs';
 import * as imageConversion from 'image-conversion';
+import firebase from 'firebase/compat/app';
 
 @Component({
   selector: 'app-material-details',
@@ -16,6 +17,7 @@ export class MaterialDetailsComponent {
 
   loggedInUserId = '';
   isUserLoggedIn = false;
+  loggedInUserName = '';
 
   storageCategory = '';
   storageCategoryDescription = '';
@@ -78,6 +80,10 @@ export class MaterialDetailsComponent {
   constructor(private dbFunctionService: DbFunctionService) { }
 
   ngOnInit() {
+
+    this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
+    this.loggedInUserId = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserId")));
+    this.loggedInUserName = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserName")));
 
     this.storageCategory = JSON.parse(JSON.stringify(localStorage.getItem('storageCategory')));
 
@@ -177,7 +183,7 @@ export class MaterialDetailsComponent {
     updatedMaterialLine.CreatedAt = this.CreatedAt;
     updatedMaterialLine.CreatedBy = this.CreatedBy;
     updatedMaterialLine.LastUpdatedAt = Date.now().toString();
-    updatedMaterialLine.LastUpdatedBy = this.LastUpdatedBy;
+    updatedMaterialLine.LastUpdatedBy = this.loggedInUserName; //this.LastUpdatedBy;
 
     if (this.hasPreviewPhotoChanged) {
       updatedMaterialLine.Photo = this.materialName + '_' + this.materialserialNumber + '_' + Date.now().toString();
@@ -239,7 +245,7 @@ export class MaterialDetailsComponent {
     materialLine.IsMaterialDamaged = this.isMaterialDamaged;
     materialLine.IsMaterialDeleted = this.isMaterialDeleted;
     materialLine.CreatedAt = Date.now().toString();
-    materialLine.CreatedBy = this.loggedInUserId;
+    materialLine.CreatedBy = this.loggedInUserName; //this.loggedInUserId;
     //materialLine.LastUpdatedAt = this.LastUpdatedAt;
     //materialLine.LastUpdatedBy = this.LastUpdatedBy;
     materialLine.Photo = this.materialName + '_' + this.materialserialNumber + '_' + Date.now().toString(); //this.materialPhoto;
@@ -304,26 +310,11 @@ export class MaterialDetailsComponent {
 
       getDownloadURL(this.storageRef = ref(this.storage, this.materialPhoto))
         .then((url) => {
-          // `url` is the download URL for 'images/stars.jpg'
-
-          // // This can be downloaded directly:
-          // const xhr = new XMLHttpRequest();
-          // xhr.responseType = 'blob';
-          // xhr.onload = (event) => {
-          //   const blob = xhr.response;
-          // };
-          // xhr.open('GET', url);
-          // xhr.send();
-
-          // Or inserted into an <img> element
           this.preview = url;
-
         })
         .catch((error) => {
-          // Handle any errors
           console.log(error)
         });
-
     }
   }
 

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from './auth/auth.service';
+import { DbFunctionService } from './shared/services/db-functions.service';
+import { map } from 'rxjs';
+import { Users } from './shared/models/users.model';
 
 
 @Component({
@@ -11,6 +14,7 @@ export class AppComponent {
   title = 'hrt-mg-warehouse';
 
   storageCategory = '';
+  loggedInUserPermissions = '';
 
   userEmail = '';
   userPassword = '';
@@ -24,14 +28,40 @@ export class AppComponent {
   isChangePasswordSuccessfull = false;
   errorMessageToShow = '';
 
-  constructor(private authService: AuthService) { }
+  loggedInUser = {
+    Id: '',
+    UserId: '',
+    FirstName: '',
+    LastName: '',
+    Email: '',
+    Permissions: ''
+  };
+
+  constructor(private authService: AuthService, private dbFunctionService: DbFunctionService) { }
   
   ngOnInit() {
+    this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
+    this.loggedInUserId = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserId")));
+    this.loggedInUserPermissions = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserPermissions")));
+    console.log('this.loggedInUserPermissions1 '+this.loggedInUserPermissions)
 
     if (JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn"))) == 'true') this.isUserLoggedIn = true; else this.isUserLoggedIn = false;
     console.log('this.isUserLoggedIn4 '+this.isUserLoggedIn)
 
     this.storageCategory = JSON.parse(JSON.stringify(localStorage.getItem('storageCategory')));
+
+    // this.dbFunctionService.postUsersToDb()
+    //   .subscribe(
+    //     (res: any) => {
+    //       console.log(res);
+    //       if ((res != null) || (res != undefined)) {
+
+    //       }
+    //     },
+    //     err => {
+    //       console.log(err);
+    //     }
+    //   );
 
   }
 
@@ -68,7 +98,7 @@ export class AppComponent {
   ToggleNavBarControls() {
     this.isUserLoggedIn = true;
   }
-  
+
 
   Logout() {
     this.isUserLoggedIn = false;

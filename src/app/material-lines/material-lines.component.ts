@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MaterialLines } from '../shared/models/material-lines.model';
 import { map, Subscription } from 'rxjs';
 import { DbFunctionService } from '../shared/services/db-functions.service';
+import { Users } from '../shared/models/users.model';
 
 @Component({
   selector: 'app-material-lines',
@@ -9,6 +10,18 @@ import { DbFunctionService } from '../shared/services/db-functions.service';
   styleUrl: './material-lines.component.css'
 })
 export class MaterialLinesComponent {
+
+  loggedInUserId = '';
+  isUserLoggedIn = false;
+
+  loggedInUser = {
+    Id: '',
+    UserId: '',
+    FirstName: '',
+    LastName: '',
+    Email: '',
+    Permissions: ''
+  };
 
   storageCategory = '';
   storageCategoryDescription = '';
@@ -80,6 +93,11 @@ export class MaterialLinesComponent {
 
   ngOnInit() {
 
+    this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
+    this.loggedInUserId = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserId")));
+
+    //this.GetLoggedInUserDetails();
+
     this.storageCategory = JSON.parse(JSON.stringify(localStorage.getItem('storageCategory')));
 
     if (this.storageCategory == 'mountain') this.storageCategoryDescription = 'Τμήμα Ορεινής Διάσωσης';
@@ -93,6 +111,55 @@ export class MaterialLinesComponent {
 
     this.GetFMaterialLines();
   }
+
+  // GetLoggedInUserDetails() {
+
+  //   this.dbFunctionService.getUserDetailsFromDb()
+  //     .pipe(map((response: any) => {
+  //       let markerArray: MaterialLines[] = [];
+
+  //       for (const key in response) {
+  //         if (response.hasOwnProperty(key)) {
+
+  //           markerArray.push({ ...response[key], Id: key })
+
+  //         }
+  //       }
+
+  //       return markerArray.reverse();
+  //     }))
+  //     .subscribe(
+  //       (res: any) => {
+  //         if ((res != null) || (res != undefined)) {
+  //           //console.log(res)
+  //           const responseData = new Array<Users>(...res);
+
+  //           for (const data of responseData) {
+
+  //             const resObj = new Users();
+
+  //             resObj.Id = data.Id;
+  //             resObj.UserId = data.UserId;
+  //             resObj.FirstName = data.FirstName;
+  //             resObj.LastName = data.LastName;
+  //             resObj.Email = data.Email;
+  //             resObj.StorageCategory = data.StorageCategory;
+
+  //             if (this.loggedInUserId == resObj.UserId) {
+  //               this.loggedInUser = resObj;
+  //               //console.log(this.loggedInUser.Id, ' ',this.loggedInUser.FirstName)
+  //               localStorage.setItem('loggedInUserName', this.loggedInUser.FirstName + ' ' + this.loggedInUser.LastName);
+  //             }
+              
+  //           }
+  //         }
+  //       },
+  //       err => {
+  //         console.log(err);
+  //       }
+  //     );
+
+  // }
 
   GetFMaterialLines() {
     this.availableMaterialsList = [];
@@ -146,13 +213,13 @@ export class MaterialLinesComponent {
 
                 if (data.IsMaterialDamaged) {
                   this.damagedMaterialsList.push(resObj);
-                  console.log(this.damagedMaterialsList)
+                  //console.log(this.damagedMaterialsList)
                 } else if (data.IsMaterialDeleted) {
                   this.deletedMaterialsList.push(resObj);
-                  console.log(this.deletedMaterialsList)
+                  //console.log(this.deletedMaterialsList)
                 } else {
                   this.availableMaterialsList.push(resObj);
-                  console.log(this.availableMaterialsList)
+                  //console.log(this.availableMaterialsList)
                 }
 
               }
