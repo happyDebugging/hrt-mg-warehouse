@@ -1,7 +1,7 @@
 <nav class="navbar bg-body-tertiary fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
-      <img src="hellenic-rescue-team-logo.png" alt="Logo" width="24" height="24" class="d-inline-block align-text-top">
+      <img src="package.png" alt="Logo" width="24" height="24" class="d-inline-block align-text-top">
       Διαχείριση Αποθήκης
     </a>
     <button *ngIf="isUserLoggedIn" class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
@@ -24,39 +24,48 @@
               Τμήματα
             </a>
             <ul class="dropdown-menu">
-              <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Ορεινής Διάσωσης'"><a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+              <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Ορεινής Διάσωσης'"><a
+                  class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                   routerLink="mountain/material-lines" (click)="SetMountainCategory()">Ορεινής Διάσωσης</a></li>
               <!-- <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Ορεινής Διάσωσης'">
                 <hr class="dropdown-divider">
               </li> -->
 
-              <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Υγρού Στοιχείου'"><a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+              <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Υγρού Στοιχείου'"><a
+                  class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                   routerLink="water/material-lines" (click)="SetWaterCategory()">Υγρού Στοιχείου</a></li>
               <!-- <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Υγρού Στοιχείου'">
                 <hr class="dropdown-divider">
               </li> -->
 
-              <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Αντιμετώπισης Καταστροφών'"><a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+              <li
+                *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Αντιμετώπισης Καταστροφών'">
+                <a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                   routerLink="disaster/material-lines" (click)="SetDisasterCategory()">Αντιμετώπισης Καταστροφών</a>
               </li>
               <!-- <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Αντιμετώπισης Καταστροφών'">
                 <hr class="dropdown-divider">
               </li> -->
 
-              <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Πρώτων Βοηθειών'"><a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+              <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Πρώτων Βοηθειών'"><a
+                  class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                   routerLink="firstAid/material-lines" (click)="SetFirstAidCategory()">Πρώτων Βοηθειών</a></li>
               <!-- <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Πρώτων Βοηθειών'">
                 <hr class="dropdown-divider">
               </li> -->
 
-              <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας'"><a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+              <li
+                *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας'">
+                <a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                   routerLink="communications/material-lines" (click)="SetCommunicationsCategory()">Επικοινωνιών -
                   Έρευνας & Τεχνολογίας</a></li>
               <!-- <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας'">
                 <hr class="dropdown-divider">
               </li> -->
 
-              <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών'"><a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+              <li
+                *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών'">
+                <a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                   routerLink="socialCare/material-lines" (click)="SetSocialCareCategory()">Κοινωνικής Μέριμνας &
                   Ανθρωπιστικών Αποστολών</a></li>
             </ul>
@@ -69,8 +78,16 @@
           </li> -->
           <hr>
           <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-            routerLink="auth" (click)="Logout()">Αποσύνδεση</a>
+            <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" routerLink="auth"
+              (click)="Logout()">Έξοδος 
+              <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                <path fill-rule="evenodd"
+                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+              </svg></span>
+            </a>
           </li>
         </ul>
       </div>

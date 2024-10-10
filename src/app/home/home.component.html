@@ -1,9 +1,43 @@
 <hr>
 
-<br><br>
+<div class="container-fluid">
+    <small class="text-muted">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle"
+            viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+            <path fill-rule="evenodd"
+                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+        </svg>
+        Καλώς ήρθες {{ loggedInUser.FirstName }} {{ loggedInUser.LastName }}!
+    </small>
+</div>
 
-<h5 class="text-center text-wrap">Καλώς ήρθατε!</h5>
+<hr>
 
-<br><br>
+<div class="container-fluid">
 
-<img src="package.png" class="img-fluid mx-auto d-block" style="width: 15rem; height: 15rem;" alt="">
+    <div class="card">
+        <div class="card-header">
+            Ενέγειες
+        </div>
+        <div class="card-body">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"> MaterialName </h5>
+                        <small class="text-muted">Τεμ.: Quantity</small>
+                    </div>
+                    <p class="text-muted mb-1">Λήξη/Επανέλεγχος: ExpiryDate </p>
+                    <!-- <div *ngIf="damagedMaterialsList.length==0" class="text-center text-wrap fw-light">
+                        Δεν υπάρχουν υλικά στη λίστα.
+                    </div> -->
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+
+</div>
+
+<!-- <img src="palette-view.jpg" class="img-fluid mx-auto d-block position-relative bottom-0 start-0" alt=""> -->
