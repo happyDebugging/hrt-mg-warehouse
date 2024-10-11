@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Component } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { environment } from '../../environments/environment.development';
 //import { environment } from '../../environments/environment';
 import { DbFunctionService } from '../shared/services/db-functions.service';
-import { map } from 'rxjs';
-import { Users } from '../shared/models/users.model';
 
 @Injectable()
 export class AuthService {
@@ -51,7 +47,7 @@ export class AuthService {
   // Initialize Firebase Authentication and get a reference to the service
   auth = getAuth(this.firebaseApp);
 
-  constructor(private http: HttpClient, private router: Router, private dbFunctionService: DbFunctionService) { }
+  constructor(private router: Router, private dbFunctionService: DbFunctionService) { }
 
   AuthenticateUser() {
 
@@ -83,6 +79,13 @@ export class AuthService {
         console.log(this.isUserLoggedIn);
         localStorage.setItem('isUserLoggedIn', this.isUserLoggedIn.toString());
 
+
+        let expiresDate = new Date();
+        const expiresDateUnix = expiresDate.valueOf();
+        expiresDate = new Date(expiresDateUnix * 1000);
+        localStorage.setItem('sessionExpirationDate', Math.floor(expiresDate.getTime() / 1000).toString());
+        console.log('sessionExpirationDate ', Math.floor(expiresDate.getTime() / 1000).toString())
+
         window.location.href = environment.appUrl + '/home';
 
       })
@@ -106,13 +109,14 @@ export class AuthService {
         this.isCredentialsWrong = true;
       });
 
+    return false;
   }
 
   // GetLoggedInUserDetails() {
 
   //   this.dbFunctionService.getUserDetailsFromDb()
   //     .pipe(map((response: any) => {
-        
+
   //     }))
   //     .subscribe(
   //       (res: any) => {
@@ -135,7 +139,7 @@ export class AuthService {
   //               this.loggedInUser = resObj;
   //               console.log(this.loggedInUser.Id, ' ',this.loggedInUser.FirstName)
   //             }
-              
+
   //           }
   //         }
   //       },

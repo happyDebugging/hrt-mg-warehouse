@@ -16,6 +16,21 @@ export class AuthGuard implements CanActivate {
             return true;
         }
 
+
+        const expireDateString = localStorage.getItem('sessionExpirationDate');
+        console.log('sessionExpirationDate ', expireDateString)
+        
+        const now = new Date();
+        const today = now.getTime() / 1000;
+        console.log('now ', now)
+        console.log('today ', today)
+
+        if (expireDateString == null || expireDateString.trim() === '' || today > parseInt(expireDateString)) {
+            this.router.navigate(['auth']);
+            return false;
+        }
+
+
         console.log('auth1')
         this.router.navigate(['auth']);
         return false;
