@@ -1,7 +1,7 @@
 export const environment = {
     production: false,
 
-    appUrl: "https://hrt-mg-warehouse.netlify.app",
+    appUrl: "http://localhost:4200",
   
     databaseURL: "https://hrt-mg-warehouse-default-rtdb.europe-west1.firebasedatabase.app/",
     materialLinesTable: '/materialLines',

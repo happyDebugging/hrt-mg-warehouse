@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Users } from '../shared/models/users.model';
-import { map } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { DbFunctionService } from '../shared/services/db-functions.service';
+import { MaterialLines } from '../shared/models/material-lines.model';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,12 @@ export class HomeComponent implements OnInit {
     Permissions: ''
   };
 
+  storageCategory = '';
+  storageCategoryDescription = '';
+  soonToExpireMaterialLinesList: MaterialLines[] = [];
+
+  getMaterialLines: Subscription = new Subscription;
+
   constructor(private dbFunctionService: DbFunctionService) { }
   
   ngOnInit() {
@@ -34,6 +41,8 @@ export class HomeComponent implements OnInit {
     //if (this.loggedInUserId == '') {
       this.GetLoggedInUserDetails();
     //}
+
+    this.GetFMaterialLines();
     
   }
 
@@ -85,7 +94,95 @@ export class HomeComponent implements OnInit {
           console.log(err);
         }
       );
+  }
+
+
+  GetFMaterialLines() {
+    this.soonToExpireMaterialLinesList = [];
+
+    this.getMaterialLines = this.dbFunctionService.getMaterialLinesFromDb()
+      .pipe(map((response: any) => {
+        let markerArray: MaterialLines[] = [];
+
+        for (const key in response) {
+          if (response.hasOwnProperty(key)) {
+
+            markerArray.push({ ...response[key], Id: key })
+
+          }
+        }
+
+        return markerArray.reverse();
+
+      }))
+      .subscribe(
+        (res: any) => {
+          if ((res != null) || (res != undefined)) {
+            //console.log(res)
+            const responseData = new Array<MaterialLines>(...res);
+
+            for (const data of responseData) {
+              //console.log(data.StorageCategory.substring(6), ' ', this.loggedInUser.Permissions)
+              
+              if (data.StorageCategory.substring(6) == this.loggedInUser.Permissions || this.loggedInUser.Permissions == 'All') {
+
+                const resObj = new MaterialLines();
+
+                resObj.Id = data.Id;
+                resObj.MaterialName = data.MaterialName;
+                resObj.SerialNumber = data.SerialNumber;
+                resObj.Quantity = data.Quantity;
+                resObj.StorageCategory = data.StorageCategory;
+                resObj.StoringPlace = data.StoringPlace;
+                resObj.StoredNearRepeater = data.StoredNearRepeater;//
+                resObj.BorrowedTo = data.BorrowedTo;
+                resObj.BorrowedAt = data.BorrowedAt;
+                resObj.ExpiryDate = data.ExpiryDate;
+                resObj.IsMaterialDamaged = data.IsMaterialDamaged;
+                resObj.IsMaterialDeleted = data.IsMaterialDeleted;
+                resObj.CreatedAt = data.CreatedAt;
+                resObj.CreatedBy = data.CreatedBy;
+                resObj.LastUpdatedAt = data.LastUpdatedAt;
+                resObj.LastUpdatedBy = data.LastUpdatedBy;
+                resObj.Photo = data.Photo;
+
+                if (data.IsMaterialDamaged) {
+                  //do nothing
+                } else if (data.IsMaterialDeleted) {
+                  //do nothing
+                } else {
+                  let hasMaterialExpired = new Date(resObj.ExpiryDate).setMonth(new Date(resObj.ExpiryDate).getMonth() - 3);
+                  let todayDate = new Date().getMonth();
+                  console.log(hasMaterialExpired)
+                  console.log(todayDate)
+
+                  if (hasMaterialExpired >= todayDate) {
+                    this.soonToExpireMaterialLinesList.push(resObj);
+                    //console.log(this.soonToExpireMaterialLinesList)
+                  }
+                  
+                }
+
+              }
+
+            }
+
+          }
+        },
+        err => {
+          //console.log(err);
+        }
+      );
+  }
+
+
+  ngOnDestroy() {
+
+    if (this.getMaterialLines && !this.getMaterialLines.closed) {
+      this.getMaterialLines.unsubscribe();
+    }
 
   }
+  
 
 }
