@@ -11,6 +11,8 @@ import { MaterialLines } from '../shared/models/material-lines.model';
 })
 export class HomeComponent implements OnInit {
 
+  todaysDate = new Date();
+
   loggedInUserId = '';
   isUserLoggedIn = false;
 
@@ -30,7 +32,7 @@ export class HomeComponent implements OnInit {
   getMaterialLines: Subscription = new Subscription;
 
   constructor(private dbFunctionService: DbFunctionService) { }
-  
+
   ngOnInit() {
 
     this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
@@ -39,15 +41,15 @@ export class HomeComponent implements OnInit {
     ////this.loggedInUserId='';
     //console.log(this.loggedInUserId)
     //if (this.loggedInUserId == '') {
-      this.GetLoggedInUserDetails();
+    this.GetLoggedInUserDetails();
     //}
 
     this.GetFMaterialLines();
-    
+
   }
 
   GetLoggedInUserDetails() {
-    
+
     this.dbFunctionService.getUserDetailsFromDb()
       .pipe(map((response: any) => {
         let markerArray: Users[] = [];
@@ -81,12 +83,12 @@ export class HomeComponent implements OnInit {
 
               if (this.loggedInUserId == resObj.UserId) {
                 this.loggedInUser = resObj;
-                console.log(this.loggedInUser.Id, ' ',this.loggedInUser.FirstName)
-                console.log('this.loggedInUser.Permissions2', ' ',this.loggedInUser.Permissions)
+                console.log(this.loggedInUser.Id, ' ', this.loggedInUser.FirstName)
+                console.log('this.loggedInUser.Permissions2', ' ', this.loggedInUser.Permissions)
                 localStorage.setItem('loggedInUserName', this.loggedInUser.FirstName + ' ' + this.loggedInUser.LastName);
                 localStorage.setItem("loggedInUserPermissions", this.loggedInUser.Permissions);
               }
-              
+
             }
           }
         },
@@ -123,7 +125,7 @@ export class HomeComponent implements OnInit {
 
             for (const data of responseData) {
               //console.log(data.StorageCategory.substring(6), ' ', this.loggedInUser.Permissions)
-              
+
               if (data.StorageCategory.substring(6) == this.loggedInUser.Permissions || this.loggedInUser.Permissions == 'All') {
 
                 const resObj = new MaterialLines();
@@ -151,16 +153,22 @@ export class HomeComponent implements OnInit {
                 } else if (data.IsMaterialDeleted) {
                   //do nothing
                 } else {
-                  let hasMaterialExpired = new Date(resObj.ExpiryDate).setMonth(new Date(resObj.ExpiryDate).getMonth() - 3);
-                  let todayDate = new Date().getMonth();
-                  console.log(hasMaterialExpired)
-                  console.log(todayDate)
-
-                  if (hasMaterialExpired >= todayDate) {
-                    this.soonToExpireMaterialLinesList.push(resObj);
-                    //console.log(this.soonToExpireMaterialLinesList)
-                  }
                   
+                  let expirationDate = new Date(resObj.ExpiryDate);
+                  console.log("expirationDate: " + resObj.ExpiryDate);
+                  
+                  let threeMonthsPriorDate = new Date(expirationDate.setMonth(expirationDate.getMonth() - 3));
+                  console.log("3 months Prior Date: " + threeMonthsPriorDate.toLocaleDateString());
+         
+                  //let todayDate = new Date();
+                  console.log('expirationDate ' , expirationDate)
+                  //console.log('todayDate ',todayDate)
+
+                  if (this.todaysDate >= threeMonthsPriorDate) {
+                    this.soonToExpireMaterialLinesList.push(resObj);
+                    console.log(this.soonToExpireMaterialLinesList)
+                  }
+
                 }
 
               }
@@ -183,6 +191,6 @@ export class HomeComponent implements OnInit {
     }
 
   }
-  
+
 
 }
