@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Users } from '../shared/models/users.model';
-import { map, Subscription } from 'rxjs';
+import { delay, map, of, Subscription } from 'rxjs';
 import { DbFunctionService } from '../shared/services/db-functions.service';
 import { MaterialLines } from '../shared/models/material-lines.model';
 
@@ -35,6 +35,12 @@ export class HomeComponent implements OnInit {
   constructor(private dbFunctionService: DbFunctionService) { }
 
   ngOnInit() {
+
+    let tokenSubscription = of(null).pipe(delay(36000000)).subscribe(() => { //logout after 10 hours
+      console.log('EXPIRED!')
+      localStorage.setItem('isUserLoggedIn', 'false');
+      localStorage.setItem('sessionExpirationDate', '');
+    });
 
     this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
     this.loggedInUserId = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserId")));

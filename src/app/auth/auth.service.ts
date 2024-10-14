@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { environment } from '../../environments/environment.development';
-//import { environment } from '../../environments/environment';
+//import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { DbFunctionService } from '../shared/services/db-functions.service';
 import { Users } from '../shared/models/users.model';
-import { map } from 'rxjs';
+import { delay, map, of } from 'rxjs';
 
 @Injectable()
 export class AuthService {
