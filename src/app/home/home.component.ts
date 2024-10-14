@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Users } from '../shared/models/users.model';
 import { delay, map, of, Subscription } from 'rxjs';
 import { DbFunctionService } from '../shared/services/db-functions.service';
 import { MaterialLines } from '../shared/models/material-lines.model';

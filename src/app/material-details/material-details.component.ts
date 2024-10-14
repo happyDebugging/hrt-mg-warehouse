@@ -6,7 +6,6 @@ import { DbFunctionService } from '../shared/services/db-functions.service';
 import { MaterialLines } from '../shared/models/material-lines.model';
 import { map, Subscription } from 'rxjs';
 import * as imageConversion from 'image-conversion';
-import firebase from 'firebase/compat/app';
 
 @Component({
   selector: 'app-material-details',

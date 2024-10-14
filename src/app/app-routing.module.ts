@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialLinesComponent } from './material-lines/material-lines.component';
 import { HistoryComponent } from './history/history.component';
 import { AdminComponent } from './admin/admin.component';
-import { AppComponent } from './app.component';
 import { MaterialDetailsComponent } from './material-details/material-details.component';
 import { HomeComponent } from './home/home.component';
 import { AuthComponent } from './auth/auth.component';

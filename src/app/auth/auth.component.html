@@ -1,11 +1,14 @@
 <div class="container-fluid">
 
     <br><br><br>
-    <label *ngIf="isCredentialsWrong" class="text-danger">{{ errorMessageToShow }}</label>
+
     <div *ngIf="!hasForgottenPassword" class="card mb-1" style="width: 100%;">
         <div class="container-fluid">
             <br>
             <form>
+                <div *ngIf="isCredentialsWrong" class="alert alert-danger" role="alert">
+                    <label class="text-danger fw-light">{{ errorMessageToShow }}</label>
+                </div>
                 <div class="mb-3">
                     <label for="inputEmail" class="form-label">Email</label>
                     <input type="email" class="form-control" id="inputEmail" name="userEmail" [(ngModel)]="userEmail">

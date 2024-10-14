@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { MaterialLines } from '../shared/models/material-lines.model';
 import { map, Subscription } from 'rxjs';
 import { DbFunctionService } from '../shared/services/db-functions.service';
-import { Users } from '../shared/models/users.model';
 
 @Component({
   selector: 'app-material-lines',

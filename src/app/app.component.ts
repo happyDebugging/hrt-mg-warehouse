@@ -1,8 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { DbFunctionService } from './shared/services/db-functions.service';
-import { map } from 'rxjs';
-import { Users } from './shared/models/users.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { getAuth, updatePassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';

@@ -6,7 +6,7 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { environment } from '../../environments/environment';
 import { DbFunctionService } from '../shared/services/db-functions.service';
 import { Users } from '../shared/models/users.model';
-import { delay, map, of } from 'rxjs';
+import { map } from 'rxjs';
 
 @Injectable()
 export class AuthService {

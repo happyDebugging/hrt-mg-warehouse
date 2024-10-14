@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { getAuth, sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -84,7 +84,11 @@ export class AuthComponent implements OnInit {
   Login() {
     localStorage.setItem('userEmail', this.userEmail);
     localStorage.setItem('userPassword', this.userPassword);
+
     this.authService.AuthenticateUser();
+
+    this.errorMessageToShow = JSON.parse(JSON.stringify(localStorage.getItem("signinErrorMessage")));
+    this.isCredentialsWrong = true;
   }
 
 }
