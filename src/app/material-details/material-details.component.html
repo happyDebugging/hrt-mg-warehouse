@@ -12,8 +12,15 @@
     </div>
 
     <div class="mb-2">
-        <input type="file" class="form-control form-control-sm" id="formFileSm" name="formFileSm"
-            [(ngModel)]="materialPhoto" (change)="selectFile($event)">
+
+        <div class="col-6">
+            <input type="file" class="form-control form-control-sm" id="formFileSm" name="formFileSm"
+                [(ngModel)]="materialPhoto" (change)="selectFile($event)">
+        </div>
+        <div class="col-6">
+            <input type="file" capture="camera" accept="image/*" id="cameraInput" name="cameraInput">
+        </div>
+
     </div>
 
     <div class="text-wrap fw-light text-primary mb-3" style="font-size: small;">
@@ -102,7 +109,8 @@
         </div>
 
         <div *ngIf="!isSaveSuccessfull" class="d-grid mb-3">
-            <button type="submit" class="btn btn-primary" (click)="form.checkValidity()? DecideOnSaveMethod() : null">Αποθήκευση</button>
+            <button type="submit" class="btn btn-primary"
+                (click)="form.checkValidity()? DecideOnSaveMethod() : null">Αποθήκευση</button>
         </div>
         <div *ngIf="isSaveSuccessfull" class="d-grid mb-3">
             <button type="button" class="btn btn-info">Επιτυχής αποθήκευση!</button>
