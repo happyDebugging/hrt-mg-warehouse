@@ -2,7 +2,7 @@
 
     <br><br><br>
 
-    <div *ngIf="!hasForgottenPassword" class="card mb-1" style="width: 100%; height: 18rem;">
+    <div *ngIf="!hasForgottenPassword" class="card mb-1" style="width: 100%;">
         <div class="container-fluid">
             <br>
             <form>
@@ -20,15 +20,16 @@
                 </div>
                 <button type="button" class="btn btn-primary col-12" (click)="Login()">Σύνδεση</button>
             </form>
+            <br>
         </div>
     </div>
 
-    <div *ngIf="hasForgottenPassword" class="card mb-1" style="width: 100%; height: 18rem;">
+    <div *ngIf="hasForgottenPassword" class="card mb-1" style="width: 100%;">
         <div class="container-fluid">
             <br>
             <form>
                 <div class="mb-3 text-wrap fw-light">
-                    Εισάγετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου όπου θα λάβετε μήνυμα για επαναφορά του κωδικού πρόσβασης.
+                    Εφόσον η διεύθυνση ηλεκτρονικού ταχυδρομείου που εισάγετε είναι έγκυρη, θα λάβετε μήνυμα για επαναφορά του κωδικού πρόσβασης.
                 </div>
                 <div class="mb-3">
                     <label for="inputEmail" class="form-label">Email</label>
@@ -41,8 +42,10 @@
                         </svg>
                         Επιστροφή στη σύνδεση</a></p>
                 </div>
-                <button type="button" class="btn btn-primary col-12" (click)="ResetPassword()">Επαναφορά κωδικού πρόσβασης</button>
+                <button *ngIf="!emailSent" type="button" class="btn btn-primary col-12" (click)="ResetPassword()">Επαναφορά κωδικού πρόσβασης</button>
+                <button *ngIf="emailSent" type="button" class="btn btn-info col-12">Το μήνυμα στάλθηκε!</button>
             </form>
+            <br>
         </div>
     </div>
 

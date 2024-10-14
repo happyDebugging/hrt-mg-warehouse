@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -22,8 +22,8 @@ export class AuthComponent implements OnInit {
   isChangePasswordSuccessfull = false;
   errorMessageToShow = '';
 
-  tempUserMail = '';
   hasForgottenPassword = false;
+  emailSent = false;
 
   // Firebase web app configuration
   firebaseConfig = {
@@ -57,18 +57,28 @@ export class AuthComponent implements OnInit {
   }
 
   EnterMailForPasswordReset() {
-    this.tempUserMail = this.userEmail;
-    this.userEmail = '';
     this.hasForgottenPassword = true;
+    this.emailSent = false;
   }
 
   ReturnToSignIn() {
-    this.userEmail = this.tempUserMail;
     this.hasForgottenPassword = false;
   }
 
   ResetPassword() {
-    
+    sendPasswordResetEmail(this.auth, this.userEmail)
+      .then(() => {
+        
+        this.emailSent = true;
+       
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        
+        console.log(errorMessage)
+        
+      });
   }
 
   Login() {
