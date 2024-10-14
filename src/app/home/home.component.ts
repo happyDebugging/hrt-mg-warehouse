@@ -164,7 +164,7 @@ export class HomeComponent implements OnInit {
                   let threeMonthsPriorDate = new Date(new Date(resObj.ExpiryDate).setMonth(new Date(resObj.ExpiryDate).getMonth() - 3));
                   
                   if (this.todaysDate >= threeMonthsPriorDate) {
-                    console.log("expirationDate: " + this.materialExpirationDate[responseData.indexOf(data)]);
+                    //console.log("expirationDate: " + this.materialExpirationDate[responseData.indexOf(data)]);
                     //console.log("3 months Prior Date: " + threeMonthsPriorDate.toLocaleDateString());
                     //console.log('todayDate ',this.todaysDate.toLocaleDateString())
 

@@ -16,21 +16,27 @@ const routes: Routes = [
 
   {path: 'mountain/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard]},
   {path: 'mountain/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'mountain/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
 
   { path: 'water/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard] },
   {path: 'water/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'water/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
 
   { path: 'disaster/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard] },
   {path: 'disaster/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'disaster/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
 
   { path: 'firstAid/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard] },
   {path: 'firstAid/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'firstAid/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
 
   { path: 'communications/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard] },
   {path: 'communications/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'communications/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
 
   { path: 'socialCare/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard] },
   {path: 'socialCare/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'socialCare/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
 
   { path: 'history', component: HistoryComponent, canActivate: [AuthGuard] },
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
