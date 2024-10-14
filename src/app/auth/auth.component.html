@@ -2,8 +2,7 @@
 
     <br><br><br>
 
-    <div class="card mb-1" style="width: 100%; height: 18rem;">
-        
+    <div *ngIf="!hasForgottenPassword" class="card mb-1" style="width: 100%; height: 18rem;">
         <div class="container-fluid">
             <br>
             <form>
@@ -13,13 +12,38 @@
                 </div>
                 <div class="mb-3">
                     <label for="inputPassword" class="form-label">Κωδικός</label>
-                    <input type="password" class="form-control" id="inputPassword" name="userPassword" [(ngModel)]="userPassword">
+                    <input type="password" class="form-control" id="inputPassword" name="userPassword"
+                        [(ngModel)]="userPassword">
                 </div>
-                <br>
+                <div class="mb-3">
+                    <p><a class="link-offset-2 link-underline link-underline-opacity-0" (click)="EnterMailForPasswordReset()">Ξέχασα τον κωδικό μου</a></p>
+                </div>
                 <button type="button" class="btn btn-primary col-12" (click)="Login()">Σύνδεση</button>
             </form>
         </div>
-        
+    </div>
+
+    <div *ngIf="hasForgottenPassword" class="card mb-1" style="width: 100%; height: 18rem;">
+        <div class="container-fluid">
+            <br>
+            <form>
+                <div class="mb-3 text-wrap fw-light">
+                    Εισάγετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου όπου θα λάβετε μήνυμα για επαναφορά του κωδικού πρόσβασης.
+                </div>
+                <div class="mb-3">
+                    <label for="inputEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="inputEmail" name="userEmail" [(ngModel)]="userEmail">
+                </div>
+                <div class="mb-3">
+                    <p><a class="link-offset-2 link-underline link-underline-opacity-0" (click)="ReturnToSignIn()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+                        </svg>
+                        Επιστροφή στη σύνδεση</a></p>
+                </div>
+                <button type="button" class="btn btn-primary col-12" (click)="ResetPassword()">Επαναφορά κωδικού πρόσβασης</button>
+            </form>
+        </div>
     </div>
 
 </div>

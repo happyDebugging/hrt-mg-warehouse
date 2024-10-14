@@ -29,10 +29,12 @@
                         <small class="text-muted">Τεμ.: {{ soonToExpireMaterial.Quantity}} </small>
                     </div>
                     <small class="text-muted">{{ soonToExpireMaterial.StorageCategory}} </small>
-                    <p class="text-muted mb-1" 
-                    style="background-color: ((todaysDate)>(new Date(soonToExpireMaterial.ExpiryDate))) ? 'blue' : 'red'"
-                        >
-                        Λήξη/Επανέλεγχος: {{ soonToExpireMaterial.ExpiryDate | date:"dd/MM/yyyy" }} </p>
+                    <p class="mb-1">
+                        Λήξη/Επανέλεγχος:
+                        <span [ngStyle]="{color: ((todaysDate>materialExpirationDate[i]) ? 'red' : 'black')}">
+                            {{ soonToExpireMaterial.ExpiryDate | date:"dd/MM/yyyy" }}
+                        </span>
+                    </p>
                 </a>
             </div>
             <div *ngIf="soonToExpireMaterialLinesList.length==0" class="text-center text-wrap fw-light">

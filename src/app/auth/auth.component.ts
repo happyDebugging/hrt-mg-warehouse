@@ -22,6 +22,9 @@ export class AuthComponent implements OnInit {
   isChangePasswordSuccessfull = false;
   errorMessageToShow = '';
 
+  tempUserMail = '';
+  hasForgottenPassword = false;
+
   // Firebase web app configuration
   firebaseConfig = {
     apiKey: "AIzaSyAq82tP-XtNICS4oNiS2hKLN2tzElGQF0Q",
@@ -42,6 +45,8 @@ export class AuthComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    this.hasForgottenPassword = false;
+
     localStorage.setItem('isUserLoggedIn', this.isUserLoggedIn.toString());
 
     this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
@@ -49,6 +54,21 @@ export class AuthComponent implements OnInit {
 
     console.log(this.loggedInUserId)
 
+  }
+
+  EnterMailForPasswordReset() {
+    this.tempUserMail = this.userEmail;
+    this.userEmail = '';
+    this.hasForgottenPassword = true;
+  }
+
+  ReturnToSignIn() {
+    this.userEmail = this.tempUserMail;
+    this.hasForgottenPassword = false;
+  }
+
+  ResetPassword() {
+    
   }
 
   Login() {

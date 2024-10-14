@@ -12,6 +12,7 @@ import { MaterialLines } from '../shared/models/material-lines.model';
 export class HomeComponent implements OnInit {
 
   todaysDate = new Date();
+  materialExpirationDate: Array<Date> = [];
 
   loggedInUserId = '';
   isUserLoggedIn = false;
@@ -101,6 +102,7 @@ export class HomeComponent implements OnInit {
 
   GetFMaterialLines() {
     this.soonToExpireMaterialLinesList = [];
+    this.materialExpirationDate = [];
 
     this.getMaterialLines = this.dbFunctionService.getMaterialLinesFromDb()
       .pipe(map((response: any) => {
@@ -154,17 +156,15 @@ export class HomeComponent implements OnInit {
                   //do nothing
                 } else {
                   
-                  let expirationDate = new Date(resObj.ExpiryDate);
-                  console.log("expirationDate: " + resObj.ExpiryDate);
+                  this.materialExpirationDate[responseData.indexOf(data)] = new Date(resObj.ExpiryDate);
                   
-                  let threeMonthsPriorDate = new Date(expirationDate.setMonth(expirationDate.getMonth() - 3));
-                  console.log("3 months Prior Date: " + threeMonthsPriorDate.toLocaleDateString());
-         
-                  //let todayDate = new Date();
-                  console.log('expirationDate ' , expirationDate)
-                  //console.log('todayDate ',todayDate)
-
+                  let threeMonthsPriorDate = new Date(this.materialExpirationDate[responseData.indexOf(data)].setMonth(this.materialExpirationDate[responseData.indexOf(data)].getMonth() - 3));
+                  
                   if (this.todaysDate >= threeMonthsPriorDate) {
+                    //console.log("expirationDate: " + new Date(Date.parse(resObj.ExpiryDate)));
+                    //console.log("3 months Prior Date: " + threeMonthsPriorDate.toLocaleDateString());
+                    //console.log('todayDate ',this.todaysDate.toLocaleDateString())
+
                     this.soonToExpireMaterialLinesList.push(resObj);
                     console.log(this.soonToExpireMaterialLinesList)
                   }
