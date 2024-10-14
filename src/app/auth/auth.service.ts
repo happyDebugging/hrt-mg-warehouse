@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-//import { environment } from '../../environments/environment.development';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment.development';
+//import { environment } from '../../environments/environment';
 import { DbFunctionService } from '../shared/services/db-functions.service';
+import { Users } from '../shared/models/users.model';
+import { map } from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -86,7 +88,9 @@ export class AuthService {
         localStorage.setItem('sessionExpirationDate', Math.floor(expiresDate.getTime() / 1000).toString());
         console.log('sessionExpirationDate ', Math.floor(expiresDate.getTime() / 1000).toString())
 
-        window.location.href = environment.appUrl + '/home';
+        this.GetLoggedInUserDetails();
+
+        //window.location.href = environment.appUrl + '/home';
 
       })
       .catch((error) => {
@@ -103,13 +107,72 @@ export class AuthService {
           this.errorMessageToShow = '';
         }
 
+        localStorage.setItem('signinErrorMessage', this.errorMessageToShow);
+
         this.isUserLoggedIn = false;
-        localStorage.clear();
+        //localStorage.clear();
 
         this.isCredentialsWrong = true;
       });
 
     return false;
+  }
+
+
+  GetLoggedInUserDetails() {
+
+    this.dbFunctionService.getUserDetailsFromDb()
+      .pipe(map((response: any) => {
+        let markerArray: Users[] = [];
+
+        for (const key in response) {
+          if (response.hasOwnProperty(key)) {
+
+            markerArray.push({ ...response[key], Id: key })
+
+          }
+        }
+
+        return markerArray.reverse();
+      }))
+      .subscribe(
+        (res: any) => {
+          if ((res != null) || (res != undefined)) {
+            //console.log(res)
+            const responseData = new Array<Users>(...res);
+
+            for (const data of responseData) {
+
+              const resObj = new Users();
+
+              resObj.Id = data.Id;
+              resObj.UserId = data.UserId;
+              resObj.FirstName = data.FirstName;
+              resObj.LastName = data.LastName;
+              resObj.Email = data.Email;
+              resObj.Permissions = data.Permissions;
+
+              if (this.loggedInUserId == resObj.UserId) {
+                this.loggedInUser = resObj;
+                console.log(this.loggedInUser.Id, ' ', this.loggedInUser.FirstName)
+                console.log('this.loggedInUser.Permissions2', ' ', this.loggedInUser.Permissions)
+
+                localStorage.setItem('loggedInUserName', this.loggedInUser.FirstName + ' ' + this.loggedInUser.LastName);
+                localStorage.setItem('loggedInUserFirstName', this.loggedInUser.FirstName);
+                localStorage.setItem('loggedInUserLastName', this.loggedInUser.LastName);
+                localStorage.setItem("loggedInUserPermissions", this.loggedInUser.Permissions);
+              }
+
+            }
+
+            window.location.href = environment.appUrl + '/home';
+
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
   // GetLoggedInUserDetails() {

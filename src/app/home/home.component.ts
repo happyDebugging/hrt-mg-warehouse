@@ -38,66 +38,69 @@ export class HomeComponent implements OnInit {
 
     this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
     this.loggedInUserId = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserId")));
+    this.loggedInUser.Permissions = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserPermissions")));
+    this.loggedInUser.FirstName = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserFirstName")));
+    this.loggedInUser.LastName = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserLastName")));
 
     ////this.loggedInUserId='';
     //console.log(this.loggedInUserId)
     //if (this.loggedInUserId == '') {
-    this.GetLoggedInUserDetails();
+    /////this.GetLoggedInUserDetails();
     //}
 
     this.GetFMaterialLines();
 
   }
 
-  GetLoggedInUserDetails() {
+  // GetLoggedInUserDetails() {
 
-    this.dbFunctionService.getUserDetailsFromDb()
-      .pipe(map((response: any) => {
-        let markerArray: Users[] = [];
+  //   this.dbFunctionService.getUserDetailsFromDb()
+  //     .pipe(map((response: any) => {
+  //       let markerArray: Users[] = [];
 
-        for (const key in response) {
-          if (response.hasOwnProperty(key)) {
+  //       for (const key in response) {
+  //         if (response.hasOwnProperty(key)) {
 
-            markerArray.push({ ...response[key], Id: key })
+  //           markerArray.push({ ...response[key], Id: key })
 
-          }
-        }
+  //         }
+  //       }
 
-        return markerArray.reverse();
-      }))
-      .subscribe(
-        (res: any) => {
-          if ((res != null) || (res != undefined)) {
-            //console.log(res)
-            const responseData = new Array<Users>(...res);
+  //       return markerArray.reverse();
+  //     }))
+  //     .subscribe(
+  //       (res: any) => {
+  //         if ((res != null) || (res != undefined)) {
+  //           //console.log(res)
+  //           const responseData = new Array<Users>(...res);
 
-            for (const data of responseData) {
+  //           for (const data of responseData) {
 
-              const resObj = new Users();
+  //             const resObj = new Users();
 
-              resObj.Id = data.Id;
-              resObj.UserId = data.UserId;
-              resObj.FirstName = data.FirstName;
-              resObj.LastName = data.LastName;
-              resObj.Email = data.Email;
-              resObj.Permissions = data.Permissions;
+  //             resObj.Id = data.Id;
+  //             resObj.UserId = data.UserId;
+  //             resObj.FirstName = data.FirstName;
+  //             resObj.LastName = data.LastName;
+  //             resObj.Email = data.Email;
+  //             resObj.Permissions = data.Permissions;
 
-              if (this.loggedInUserId == resObj.UserId) {
-                this.loggedInUser = resObj;
-                console.log(this.loggedInUser.Id, ' ', this.loggedInUser.FirstName)
-                console.log('this.loggedInUser.Permissions2', ' ', this.loggedInUser.Permissions)
-                localStorage.setItem('loggedInUserName', this.loggedInUser.FirstName + ' ' + this.loggedInUser.LastName);
-                localStorage.setItem("loggedInUserPermissions", this.loggedInUser.Permissions);
-              }
+  //             if (this.loggedInUserId == resObj.UserId) {
+  //               this.loggedInUser = resObj;
+  //               console.log(this.loggedInUser.Id, ' ', this.loggedInUser.FirstName)
+  //               console.log('this.loggedInUser.Permissions2', ' ', this.loggedInUser.Permissions)
+  //               localStorage.setItem('loggedInUserName', this.loggedInUser.FirstName + ' ' + this.loggedInUser.LastName);
+  //               localStorage.setItem("loggedInUserPermissions", this.loggedInUser.Permissions);
+  //             }
 
-            }
-          }
-        },
-        err => {
-          console.log(err);
-        }
-      );
-  }
+  //           }
+  //         }
+  //       },
+  //       err => {
+  //         console.log(err);
+  //       }
+  //     );
+  // }
 
 
   GetFMaterialLines() {
@@ -126,9 +129,9 @@ export class HomeComponent implements OnInit {
             const responseData = new Array<MaterialLines>(...res);
 
             for (const data of responseData) {
-              //console.log(data.StorageCategory.substring(6), ' ', this.loggedInUser.Permissions)
+              //console.log(data.StorageCategory, ' ', this.loggedInUser.Permissions)
 
-              if (data.StorageCategory.substring(6) == this.loggedInUser.Permissions || this.loggedInUser.Permissions == 'All') {
+              if (data.StorageCategory == this.loggedInUser.Permissions || this.loggedInUser.Permissions == 'All') {
 
                 const resObj = new MaterialLines();
 
@@ -158,10 +161,10 @@ export class HomeComponent implements OnInit {
                   
                   this.materialExpirationDate[responseData.indexOf(data)] = new Date(resObj.ExpiryDate);
                   
-                  let threeMonthsPriorDate = new Date(this.materialExpirationDate[responseData.indexOf(data)].setMonth(this.materialExpirationDate[responseData.indexOf(data)].getMonth() - 3));
+                  let threeMonthsPriorDate = new Date(new Date(resObj.ExpiryDate).setMonth(new Date(resObj.ExpiryDate).getMonth() - 3));
                   
                   if (this.todaysDate >= threeMonthsPriorDate) {
-                    //console.log("expirationDate: " + new Date(Date.parse(resObj.ExpiryDate)));
+                    console.log("expirationDate: " + this.materialExpirationDate[responseData.indexOf(data)]);
                     //console.log("3 months Prior Date: " + threeMonthsPriorDate.toLocaleDateString());
                     //console.log('todayDate ',this.todaysDate.toLocaleDateString())
 
