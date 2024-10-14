@@ -88,7 +88,13 @@ export class AuthComponent implements OnInit {
     this.authService.AuthenticateUser();
 
     this.errorMessageToShow = JSON.parse(JSON.stringify(localStorage.getItem("signinErrorMessage")));
-    this.isCredentialsWrong = true;
+    if (this.errorMessageToShow == 'Λάθος email ή κωδικός πρόσβασης.') {
+      this.isCredentialsWrong = true;
+    } else if (this.errorMessageToShow = 'Υπέρβαση προσπαθειών σύνδεσης, προσπαθήστε αργότερα.') {
+      this.isCredentialsWrong = true;
+    } else {
+      this.isCredentialsWrong = false;
+    }
   }
 
 }
