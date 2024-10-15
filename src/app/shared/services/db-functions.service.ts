@@ -123,6 +123,14 @@ export class DbFunctionService {
         //return this.http.get<Users>('https://hrt-mg-warehouse-default-rtdb.europe-west1.firebasedatabase.app/users' + '.json');
     }
 
+    updateUserDetailsToDb(user: Users) {
+        let options: any = {
+            headers: { "Access-Control-Allow-Origin": "*" },
+            observe: 'response'
+        }
+        return this.http.put(environment.databaseURL + environment.usersTable + '/' + user.UserId + '.json', user, options);
+    }
+
 
 }
 

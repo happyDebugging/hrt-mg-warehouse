@@ -114,16 +114,16 @@ export class HomeComponent implements OnInit {
                   //do nothing
                 } else {
                   
-                  this.materialExpirationDate[responseData.indexOf(data)] = new Date(resObj.ExpiryDate);
-                  
                   let threeMonthsPriorDate = new Date(new Date(resObj.ExpiryDate).setMonth(new Date(resObj.ExpiryDate).getMonth() - 3));
                   
                   if (this.todaysDate >= threeMonthsPriorDate) {
-                    console.log('todayDate ',this.todaysDate.toISOString())
-                    console.log("expirationDate: " + this.materialExpirationDate[responseData.indexOf(data)].toISOString());
+                    //console.log('todayDate ',this.todaysDate.toDateString())
+                    //console.log("expirationDate: " + this.materialExpirationDate[responseData.indexOf(data)].toDateString());
                     //console.log("3 months Prior Date: " + threeMonthsPriorDate.toLocaleDateString());
 
                     this.soonToExpireMaterialLinesList.push(resObj);
+                    this.materialExpirationDate.push(new Date(resObj.ExpiryDate));
+                    
                     console.log(this.soonToExpireMaterialLinesList)
                   }
 
@@ -150,13 +150,14 @@ export class HomeComponent implements OnInit {
     else if (soonToExpireMaterial.StorageCategory == 'Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας') this.storageCategory = 'communications';
     else if (soonToExpireMaterial.StorageCategory == 'Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών') this.storageCategory = 'socialCare';
   
-    console.log(this.storageCategory+'/material-lines'+'/item/'+ soonToExpireMaterial.SerialNumber)
+    //console.log(this.storageCategory+'/material-lines'+'/item/'+ soonToExpireMaterial.SerialNumber)
 
     localStorage.setItem('materialIdToPreview', soonToExpireMaterial.Id);
     localStorage.setItem('materialNameToPreview', soonToExpireMaterial.MaterialName);
     localStorage.setItem('materialserialNumberToPreview', soonToExpireMaterial.SerialNumber);
     localStorage.setItem('materialQuantityToPreview', soonToExpireMaterial.Quantity.toString());
-    localStorage.setItem('materialStorageCategoryToPreview', soonToExpireMaterial.StorageCategory);
+    localStorage.setItem('materialStorageCategoryToPreview', this.storageCategory);
+    localStorage.setItem('storageCategory', this.storageCategory);
     localStorage.setItem('materialStoringPlaceToPreview', soonToExpireMaterial.StoringPlace);
     localStorage.setItem('materialStoredNearRepeaterToPreview', soonToExpireMaterial.StoredNearRepeater);
     localStorage.setItem('materialBorrowedToToPreview', soonToExpireMaterial.BorrowedTo);

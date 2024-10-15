@@ -4,6 +4,7 @@ import { DbFunctionService } from './shared/services/db-functions.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { getAuth, updatePassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
+import { Users } from './shared/models/users.model';
 
 
 @Component({
@@ -66,6 +67,9 @@ export class AppComponent {
     this.loggedInUserId = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserId")));
     this.loggedInUserPermissions = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserPermissions")));
     console.log('this.loggedInUserPermissions1 ' + this.loggedInUserPermissions)
+    this.loggedInUser.FirstName = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserFirstName")));
+    this.loggedInUser.LastName = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserLastName")));
+    this.loggedInUser.Email = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserEmail")));
 
     if (JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn"))) == 'true') this.isUserLoggedIn = true; else this.isUserLoggedIn = false;
     console.log('this.isUserLoggedIn4 ' + this.isUserLoggedIn)
@@ -138,6 +142,8 @@ export class AppComponent {
       this.newUserPasswordConfirmation = '';
       this.isPassword6Characters = true;
 
+      this.UpdateUserDetails();
+
       setTimeout(() => {
         this.DismillModal();
         this.isChangePasswordSuccessfull = false;
@@ -151,6 +157,31 @@ export class AppComponent {
 
       this.isPassword6Characters = false;
     });
+  }
+
+  UpdateUserDetails() {
+
+    let updatedUserDetails = new Users;
+
+    updatedUserDetails.Id = '';
+    updatedUserDetails.UserId = this.loggedInUserId;
+    updatedUserDetails.FirstName = this.loggedInUser.FirstName;
+    updatedUserDetails.LastName = this.loggedInUser.LastName;
+    updatedUserDetails.Email = this.loggedInUser.Email;
+    updatedUserDetails.Permissions = this.loggedInUserPermissions;
+    updatedUserDetails.HasChangedPassword = true;
+
+    this.dbFunctionService.updateUserDetailsToDb(updatedUserDetails)
+    .subscribe(
+        (res: any) => {
+          if ((res != null) || (res != undefined)) {
+            console.log(res)
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
   DismillModal() {

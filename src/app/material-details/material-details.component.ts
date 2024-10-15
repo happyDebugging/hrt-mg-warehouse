@@ -86,7 +86,6 @@ export class MaterialDetailsComponent {
     this.loggedInUserName = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserName")));
 
     this.storageCategory = JSON.parse(JSON.stringify(localStorage.getItem('storageCategory')));
-
     if (this.storageCategory == 'mountain') this.storageCategoryDescription = 'Τμήμα Ορεινής Διάσωσης';
     else if (this.storageCategory == 'water') this.storageCategoryDescription = 'Τμήμα Υγρού Στοιχείου';
     else if (this.storageCategory == 'disaster') this.storageCategoryDescription = 'Τμήμα Αντιμετώπισης Καταστροφών';

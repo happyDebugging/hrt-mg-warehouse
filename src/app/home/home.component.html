@@ -31,7 +31,7 @@
                     <small class="text-muted">{{ soonToExpireMaterial.StorageCategory}} </small>
                     <p class="mb-1">
                         Λήξη/Επανέλεγχος:
-                        <span [ngStyle]="{color: ((todaysDate>materialExpirationDate[i]) ? 'red' : 'black')}">
+                        <span [ngStyle]="{color: ((this.todaysDate>materialExpirationDate[i]) ? 'red' : 'black')}">
                             {{ soonToExpireMaterial.ExpiryDate | date:"dd/MM/yyyy" }}
                         </span>
                     </p>

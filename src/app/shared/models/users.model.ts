@@ -5,4 +5,5 @@ export class Users {
     LastName!: string;
     Email!: string;
     Permissions!: string;
+    HasChangedPassword!: boolean;
 }
