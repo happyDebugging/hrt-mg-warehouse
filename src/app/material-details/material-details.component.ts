@@ -6,6 +6,7 @@ import { DbFunctionService } from '../shared/services/db-functions.service';
 import { MaterialLines } from '../shared/models/material-lines.model';
 import { map, Subscription } from 'rxjs';
 import * as imageConversion from 'image-conversion';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-material-details',
@@ -76,7 +77,7 @@ export class MaterialDetailsComponent {
 
   updateMaterialLines: Subscription = new Subscription;
 
-  constructor(private dbFunctionService: DbFunctionService) { }
+  constructor(private dbFunctionService: DbFunctionService,private router: Router) { }
 
   ngOnInit() {
 
@@ -266,6 +267,7 @@ export class MaterialDetailsComponent {
 
             setTimeout(() => {
               this.isSaveSuccessfull = false;
+              this.router.navigate([this.storageCategory + '/material-lines']);
             }, 2000);
 
           }

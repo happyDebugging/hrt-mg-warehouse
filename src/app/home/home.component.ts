@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { delay, map, of, Subscription } from 'rxjs';
 import { DbFunctionService } from '../shared/services/db-functions.service';
 import { MaterialLines } from '../shared/models/material-lines.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +32,7 @@ export class HomeComponent implements OnInit {
 
   getMaterialLines: Subscription = new Subscription;
 
-  constructor(private dbFunctionService: DbFunctionService) { }
+  constructor(private dbFunctionService: DbFunctionService, private router: Router) { }
 
   ngOnInit() {
 
@@ -56,57 +57,6 @@ export class HomeComponent implements OnInit {
     this.GetFMaterialLines();
 
   }
-
-  // GetLoggedInUserDetails() {
-
-  //   this.dbFunctionService.getUserDetailsFromDb()
-  //     .pipe(map((response: any) => {
-  //       let markerArray: Users[] = [];
-
-  //       for (const key in response) {
-  //         if (response.hasOwnProperty(key)) {
-
-  //           markerArray.push({ ...response[key], Id: key })
-
-  //         }
-  //       }
-
-  //       return markerArray.reverse();
-  //     }))
-  //     .subscribe(
-  //       (res: any) => {
-  //         if ((res != null) || (res != undefined)) {
-  //           //console.log(res)
-  //           const responseData = new Array<Users>(...res);
-
-  //           for (const data of responseData) {
-
-  //             const resObj = new Users();
-
-  //             resObj.Id = data.Id;
-  //             resObj.UserId = data.UserId;
-  //             resObj.FirstName = data.FirstName;
-  //             resObj.LastName = data.LastName;
-  //             resObj.Email = data.Email;
-  //             resObj.Permissions = data.Permissions;
-
-  //             if (this.loggedInUserId == resObj.UserId) {
-  //               this.loggedInUser = resObj;
-  //               console.log(this.loggedInUser.Id, ' ', this.loggedInUser.FirstName)
-  //               console.log('this.loggedInUser.Permissions2', ' ', this.loggedInUser.Permissions)
-  //               localStorage.setItem('loggedInUserName', this.loggedInUser.FirstName + ' ' + this.loggedInUser.LastName);
-  //               localStorage.setItem("loggedInUserPermissions", this.loggedInUser.Permissions);
-  //             }
-
-  //           }
-  //         }
-  //       },
-  //       err => {
-  //         console.log(err);
-  //       }
-  //     );
-  // }
-
 
   GetFMaterialLines() {
     this.soonToExpireMaterialLinesList = [];
@@ -169,9 +119,9 @@ export class HomeComponent implements OnInit {
                   let threeMonthsPriorDate = new Date(new Date(resObj.ExpiryDate).setMonth(new Date(resObj.ExpiryDate).getMonth() - 3));
                   
                   if (this.todaysDate >= threeMonthsPriorDate) {
-                    //console.log("expirationDate: " + this.materialExpirationDate[responseData.indexOf(data)]);
+                    console.log('todayDate ',this.todaysDate.toISOString())
+                    console.log("expirationDate: " + this.materialExpirationDate[responseData.indexOf(data)].toISOString());
                     //console.log("3 months Prior Date: " + threeMonthsPriorDate.toLocaleDateString());
-                    //console.log('todayDate ',this.todaysDate.toLocaleDateString())
 
                     this.soonToExpireMaterialLinesList.push(resObj);
                     console.log(this.soonToExpireMaterialLinesList)
@@ -189,6 +139,38 @@ export class HomeComponent implements OnInit {
           //console.log(err);
         }
       );
+  }
+
+  SetMaterialDetailsToLocalStorage(soonToExpireMaterial: MaterialLines) {
+
+    if (soonToExpireMaterial.StorageCategory == 'Τμήμα Ορεινής Διάσωσης') this.storageCategory = 'mountain';
+    else if (soonToExpireMaterial.StorageCategory == 'Τμήμα Υγρού Στοιχείου') this.storageCategory = 'water';
+    else if (soonToExpireMaterial.StorageCategory == 'Τμήμα Αντιμετώπισης Καταστροφών') this.storageCategory = 'disaster';
+    else if (soonToExpireMaterial.StorageCategory == 'Τμήμα Πρώτων Βοηθειών') this.storageCategory = 'firstAid';
+    else if (soonToExpireMaterial.StorageCategory == 'Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας') this.storageCategory = 'communications';
+    else if (soonToExpireMaterial.StorageCategory == 'Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών') this.storageCategory = 'socialCare';
+  
+    console.log(this.storageCategory+'/material-lines'+'/item/'+ soonToExpireMaterial.SerialNumber)
+
+    localStorage.setItem('materialIdToPreview', soonToExpireMaterial.Id);
+    localStorage.setItem('materialNameToPreview', soonToExpireMaterial.MaterialName);
+    localStorage.setItem('materialserialNumberToPreview', soonToExpireMaterial.SerialNumber);
+    localStorage.setItem('materialQuantityToPreview', soonToExpireMaterial.Quantity.toString());
+    localStorage.setItem('materialStorageCategoryToPreview', soonToExpireMaterial.StorageCategory);
+    localStorage.setItem('materialStoringPlaceToPreview', soonToExpireMaterial.StoringPlace);
+    localStorage.setItem('materialStoredNearRepeaterToPreview', soonToExpireMaterial.StoredNearRepeater);
+    localStorage.setItem('materialBorrowedToToPreview', soonToExpireMaterial.BorrowedTo);
+    localStorage.setItem('materialBorrowedAtToPreview', soonToExpireMaterial.BorrowedAt);
+    localStorage.setItem('materialExpiryDateToPreview', soonToExpireMaterial.ExpiryDate);
+    localStorage.setItem('isMaterialDamagedToPreview', soonToExpireMaterial.IsMaterialDamaged.toString());
+    localStorage.setItem('isMaterialDeletedToPreview', soonToExpireMaterial.IsMaterialDeleted.toString());
+    localStorage.setItem('CreatedAtToPreview', soonToExpireMaterial.CreatedAt);
+    localStorage.setItem('CreatedByToPreview', soonToExpireMaterial.CreatedBy);
+    localStorage.setItem('LastUpdatedAtToPreview', soonToExpireMaterial.LastUpdatedAt);
+    localStorage.setItem('LastUpdatedByToPreview', soonToExpireMaterial.LastUpdatedBy);
+    localStorage.setItem('materialPhotoToPreview', soonToExpireMaterial.Photo);
+
+    this.router.navigate([this.storageCategory+'/material-lines'+'/item/'+ soonToExpireMaterial.SerialNumber]);
   }
 
 

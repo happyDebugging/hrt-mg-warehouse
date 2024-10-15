@@ -68,16 +68,16 @@ export class AuthComponent implements OnInit {
   ResetPassword() {
     sendPasswordResetEmail(this.auth, this.userEmail)
       .then(() => {
-        
+
         this.emailSent = true;
-       
+
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        
+
         console.log(errorMessage)
-        
+
       });
   }
 
@@ -85,16 +85,18 @@ export class AuthComponent implements OnInit {
     localStorage.setItem('userEmail', this.userEmail);
     localStorage.setItem('userPassword', this.userPassword);
 
-    this.authService.AuthenticateUser();
+    this.errorMessageToShow = '';
+    this.authService.AuthenticateUser().then(res => {
+      this.errorMessageToShow = JSON.parse(JSON.stringify(localStorage.getItem("signinErrorMessage")));
+      if (this.errorMessageToShow != '') {
+        console.log('111111111111111111111')
+        this.isCredentialsWrong = true;
+      } else {
+        console.log('22222222222222')
+        this.isCredentialsWrong = false;
+      }
+    });
 
-    this.errorMessageToShow = JSON.parse(JSON.stringify(localStorage.getItem("signinErrorMessage")));
-    if (this.errorMessageToShow == 'Λάθος email ή κωδικός πρόσβασης.') {
-      this.isCredentialsWrong = true;
-    } else if (this.errorMessageToShow = 'Υπέρβαση προσπαθειών σύνδεσης, προσπαθήστε αργότερα.') {
-      this.isCredentialsWrong = true;
-    } else {
-      this.isCredentialsWrong = false;
-    }
   }
 
 }

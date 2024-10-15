@@ -52,70 +52,74 @@ export class AuthService {
   constructor(private router: Router, private dbFunctionService: DbFunctionService) { }
 
   AuthenticateUser() {
+    return new Promise((resolve, reject) => {
+      this.userEmail = JSON.parse(JSON.stringify(localStorage.getItem("userEmail")));
+      this.userPassword = JSON.parse(JSON.stringify(localStorage.getItem("userPassword")));
 
-    this.userEmail = JSON.parse(JSON.stringify(localStorage.getItem("userEmail")));
-    this.userPassword = JSON.parse(JSON.stringify(localStorage.getItem("userPassword")));
+      this.errorMessageToShow = '';
 
-    this.errorMessageToShow = '';
+      signInWithEmailAndPassword(this.auth, this.userEmail.trim(), this.userPassword.trim())
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
 
-    signInWithEmailAndPassword(this.auth, this.userEmail.trim(), this.userPassword.trim())
-      .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
+          this.isUserLoggedIn = true;
+          localStorage.setItem("isUserLoggedIn", "true");
 
-        this.isUserLoggedIn = true;
-        localStorage.setItem("isUserLoggedIn", "true");
+          this.isCredentialsWrong = false;
 
-        this.isCredentialsWrong = false;
+          this.userEmail = '';
+          this.userPassword = '';
 
-        this.userEmail = '';
-        this.userPassword = '';
+          this.loggedInUserId = user.uid;
+          localStorage.setItem("loggedInUserId", user.uid);
 
-        this.loggedInUserId = user.uid;
-        localStorage.setItem("loggedInUserId", user.uid);
+          //this.GetLoggedInUserDetails();
 
-        //this.GetLoggedInUserDetails();
+          //this.accessToken = user.accessToken;
 
-        //this.accessToken = user.accessToken;
-
-        console.log(this.isUserLoggedIn);
-        localStorage.setItem('isUserLoggedIn', this.isUserLoggedIn.toString());
+          console.log(this.isUserLoggedIn);
+          localStorage.setItem('isUserLoggedIn', this.isUserLoggedIn.toString());
 
 
-        let expiresDate = new Date();
-        const expiresDateUnix = expiresDate.valueOf();
-        expiresDate = new Date(expiresDateUnix * 1000);
-        localStorage.setItem('sessionExpirationDate', Math.floor(expiresDate.getTime() / 1000).toString());
-        console.log('sessionExpirationDate ', Math.floor(expiresDate.getTime() / 1000).toString())
+          let expiresDate = new Date();
+          const expiresDateUnix = expiresDate.valueOf();
+          expiresDate = new Date(expiresDateUnix * 1000);
+          localStorage.setItem('sessionExpirationDate', Math.floor(expiresDate.getTime() / 1000).toString());
+          console.log('sessionExpirationDate ', Math.floor(expiresDate.getTime() / 1000).toString())
 
-        this.GetLoggedInUserDetails();
+          this.GetLoggedInUserDetails();
 
-        //window.location.href = environment.appUrl + '/home';
+          //window.location.href = environment.appUrl + '/home';
 
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
 
-        console.log(error.code)
+          console.log(error.code)
 
-        if (error.code = 'auth/invalid-credential') {
-          this.errorMessageToShow = 'Λάθος email ή κωδικός πρόσβασης.';
-        } else if (error.code = 'auth/too-many-requests') {
-          this.errorMessageToShow = 'Υπέρβαση προσπαθειών σύνδεσης, προσπαθήστε αργότερα.';
-        } else {
-          this.errorMessageToShow = '';
-        }
+          if (error.code = 'auth/invalid-credential') {
+            this.errorMessageToShow = 'Λάθος email ή κωδικός πρόσβασης.';
+          } else if (error.code = 'auth/too-many-requests') {
+            this.errorMessageToShow = 'Υπέρβαση προσπαθειών σύνδεσης, προσπαθήστε αργότερα.';
+          } else {
+            this.errorMessageToShow = '';
+          }
 
-        localStorage.setItem('signinErrorMessage', this.errorMessageToShow);
+          localStorage.setItem('signinErrorMessage', this.errorMessageToShow);
 
-        this.isUserLoggedIn = false;
-        //localStorage.clear();
+          this.isUserLoggedIn = false;
+          //localStorage.clear();
 
-        this.isCredentialsWrong = true;
-      });
+          this.isCredentialsWrong = true;
 
-    return false;
+          resolve(this.errorMessageToShow);
+        });
+
+      return false;
+
+    });
   }
 
 
@@ -174,44 +178,6 @@ export class AuthService {
         }
       );
   }
-
-  // GetLoggedInUserDetails() {
-
-  //   this.dbFunctionService.getUserDetailsFromDb()
-  //     .pipe(map((response: any) => {
-
-  //     }))
-  //     .subscribe(
-  //       (res: any) => {
-  //         if ((res != null) || (res != undefined)) {
-  //           //console.log(res)
-  //           const responseData = new Array<Users>(...res);
-
-  //           for (const data of responseData) {
-
-  //             const resObj = new Users();
-
-  //             resObj.Id = data.Id;
-  //             resObj.UserId = data.UserId;
-  //             resObj.FirstName = data.FirstName;
-  //             resObj.LastName = data.LastName;
-  //             resObj.Email = data.Email;
-  //             resObj.StorageCategory = data.StorageCategory;
-
-  //             if (this.loggedInUserId == resObj.UserId) {
-  //               this.loggedInUser = resObj;
-  //               console.log(this.loggedInUser.Id, ' ',this.loggedInUser.FirstName)
-  //             }
-
-  //           }
-  //         }
-  //       },
-  //       err => {
-  //         console.log(err);
-  //       }
-  //     );
-
-  // }
 
   LogoutUser() {
     this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));

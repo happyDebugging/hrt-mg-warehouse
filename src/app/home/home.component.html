@@ -22,8 +22,8 @@
         </div>
         <div class="card-body">
             <div class="list-group">
-                <a *ngFor="let soonToExpireMaterial of soonToExpireMaterialLinesList; index as i;"
-                    class="list-group-item list-group-item-action">
+                <a *ngFor="let soonToExpireMaterial of soonToExpireMaterialLinesList; index as i;" 
+                    class="list-group-item list-group-item-action" (click)="SetMaterialDetailsToLocalStorage(soonToExpireMaterial)">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{ soonToExpireMaterial.MaterialName }}</h5>
                         <small class="text-muted">Τεμ.: {{ soonToExpireMaterial.Quantity}} </small>
