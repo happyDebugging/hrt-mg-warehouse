@@ -61,37 +61,52 @@
               <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Ορεινής Διάσωσης'">
                 <a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                   routerLink="mountain/material-lines" (click)="SetMountainCategory()">Ορεινής Διάσωσης
-                  <hr class="dropdown-divider">
                 </a>
+              </li>
+
+              <li *ngIf="loggedInUserPermissions == 'All'">
+                <hr class="dropdown-divider">
               </li>
 
               <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Υγρού Στοιχείου'">
                 <a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                   routerLink="water/material-lines" (click)="SetWaterCategory()">Υγρού Στοιχείου
-                  <hr class="dropdown-divider">
                 </a>
+              </li>
+
+              <li *ngIf="loggedInUserPermissions == 'All'">
+                <hr class="dropdown-divider">
               </li>
 
               <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Αντιμετώπισης Καταστροφών'">
                 <a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                   routerLink="disaster/material-lines" (click)="SetDisasterCategory()">Αντιμετώπισης Καταστροφών
-                  <hr class="dropdown-divider">
                 </a>
+              </li>
+
+              <li *ngIf="loggedInUserPermissions == 'All'">
+                <hr class="dropdown-divider">
               </li>
 
               <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Πρώτων Βοηθειών'">
                 <a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                   routerLink="firstAid/material-lines" (click)="SetFirstAidCategory()">Πρώτων Βοηθειών
-                  <hr class="dropdown-divider">
                 </a>
+              </li>
+
+              <li *ngIf="loggedInUserPermissions == 'All'">
+                <hr class="dropdown-divider">
               </li>
 
               <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας'">
                 <a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                   routerLink="communications/material-lines" (click)="SetCommunicationsCategory()">Επικοινωνιών -
                   Έρευνας & Τεχνολογίας
-                  <hr class="dropdown-divider">
                 </a>
+              </li>
+
+              <li *ngIf="loggedInUserPermissions == 'All'">
+                <hr class="dropdown-divider">
               </li>
 
               <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών'">

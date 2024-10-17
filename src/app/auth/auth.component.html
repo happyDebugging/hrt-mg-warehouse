@@ -21,7 +21,7 @@
                     <p><a class="link-offset-2 link-underline link-underline-opacity-0"
                             (click)="EnterMailForPasswordReset()">Ξέχασα τον κωδικό μου</a></p>
                 </div>
-                <button type="button" class="btn btn-primary col-12" (click)="Login()">Σύνδεση</button>
+                <button type="submit" class="btn btn-primary col-12" (click)="Login()">Σύνδεση</button>
             </form>
             <br>
         </div>
@@ -48,7 +48,7 @@
                             </svg>
                             Επιστροφή στη σύνδεση</a></p>
                 </div>
-                <button *ngIf="!emailSent" type="button" class="btn btn-primary col-12"
+                <button *ngIf="!emailSent" type="submit" class="btn btn-primary col-12"
                     (click)="ResetPassword()">Επαναφορά κωδικού πρόσβασης</button>
                 <button *ngIf="emailSent" type="button" class="btn btn-info col-12">Το μήνυμα στάλθηκε!</button>
             </form>
