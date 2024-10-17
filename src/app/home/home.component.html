@@ -25,7 +25,7 @@
                 <a *ngFor="let soonToExpireMaterial of soonToExpireMaterialLinesList; index as i;" 
                     class="list-group-item list-group-item-action" (click)="SetMaterialDetailsToLocalStorage(soonToExpireMaterial)">
                     <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{ soonToExpireMaterial.MaterialName }}</h5>
+                        <h6 class="mb-1">{{ soonToExpireMaterial.MaterialName }}</h6>
                         <small class="text-muted">Τεμ.: {{ soonToExpireMaterial.Quantity}} </small>
                     </div>
                     <small class="text-muted">{{ soonToExpireMaterial.StorageCategory}} </small>

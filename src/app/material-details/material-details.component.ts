@@ -24,7 +24,7 @@ export class MaterialDetailsComponent {
   materialLines = [];
   isNewMaterialLineAdded = false;
 
-  preview = 'photo-file.gif';
+  preview = 'photo-file_.png';
   currentFile?: File;
 
   materialId = '';
