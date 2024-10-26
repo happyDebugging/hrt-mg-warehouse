@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
   storageCategory = '';
   storageCategoryDescription = '';
   soonToExpireMaterialLinesList: MaterialLines[] = [];
+  borrowedMaterialLinesList: MaterialLines[] = [];
 
   getMaterialLines: Subscription = new Subscription;
 
@@ -61,6 +62,7 @@ export class HomeComponent implements OnInit {
   GetFMaterialLines() {
     this.soonToExpireMaterialLinesList = [];
     this.materialExpirationDate = [];
+    this.borrowedMaterialLinesList = [];
 
     this.getMaterialLines = this.dbFunctionService.getMaterialLinesFromDb()
       .pipe(map((response: any) => {
@@ -112,6 +114,8 @@ export class HomeComponent implements OnInit {
                   //do nothing
                 } else if (data.IsMaterialDeleted) {
                   //do nothing
+                } else if (data.BorrowedTo) {
+                  this.borrowedMaterialLinesList.push(resObj);
                 } else {
                   
                   let threeMonthsPriorDate = new Date(new Date(resObj.ExpiryDate).setMonth(new Date(resObj.ExpiryDate).getMonth() - 3));

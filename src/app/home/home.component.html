@@ -16,33 +16,87 @@
 
 <div class="container-fluid">
 
-    <div class="card">
-        <div class="card-header">
-            Προσεχείς Εργασίες
-        </div>
-        <div class="card-body">
-            <div class="list-group">
-                <a *ngFor="let soonToExpireMaterial of soonToExpireMaterialLinesList; index as i;" 
-                    class="list-group-item list-group-item-action" (click)="SetMaterialDetailsToLocalStorage(soonToExpireMaterial)">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">{{ soonToExpireMaterial.MaterialName }}</h6>
-                        <small class="text-muted">Τεμ.: {{ soonToExpireMaterial.Quantity}} </small>
+
+    <div class="accordion" id="soonToExpireMaterialLinesList">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panel1StayOpen-headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panel1StayOpen-collapseOne" aria-expanded="true"
+                    aria-controls="panel1StayOpen-collapseOne">
+                    Προσεχείς Εργασίες
+                </button>
+            </h2>
+            <div id="panel1StayOpen-collapseOne" class="accordion-collapse collapse show"
+                aria-labelledby="panel1StayOpen-headingOne">
+                <div class="accordion-body">
+
+                    <div class="list-group">
+                        <a *ngFor="let soonToExpireMaterial of soonToExpireMaterialLinesList; index as i;"
+                            class="list-group-item list-group-item-action"
+                            (click)="SetMaterialDetailsToLocalStorage(soonToExpireMaterial)">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ soonToExpireMaterial.MaterialName }}</h6>
+                                <small class="text-muted">Τεμ.: {{ soonToExpireMaterial.Quantity}} </small>
+                            </div>
+                            <small class="text-muted">{{ soonToExpireMaterial.StorageCategory}} </small>
+                            <p class="mb-1">
+                                Λήξη/Επανέλεγχος:
+                                <span
+                                    [ngStyle]="{color: ((this.todaysDate>materialExpirationDate[i]) ? 'red' : 'black')}">
+                                    {{ soonToExpireMaterial.ExpiryDate | date:"dd/MM/yyyy" }}
+                                </span>
+                            </p>
+                        </a>
                     </div>
-                    <small class="text-muted">{{ soonToExpireMaterial.StorageCategory}} </small>
-                    <p class="mb-1">
-                        Λήξη/Επανέλεγχος:
-                        <span [ngStyle]="{color: ((this.todaysDate>materialExpirationDate[i]) ? 'red' : 'black')}">
-                            {{ soonToExpireMaterial.ExpiryDate | date:"dd/MM/yyyy" }}
-                        </span>
-                    </p>
-                </a>
-            </div>
-            <div *ngIf="soonToExpireMaterialLinesList.length==0" class="text-center text-wrap fw-light">
-                Δεν υπάρχουν υλικά στη λίστα.
+                    <div *ngIf="soonToExpireMaterialLinesList.length==0" class="text-center text-wrap fw-light">
+                        Δεν υπάρχουν υλικά στη λίστα.
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
 
+    
+    <br>
+
+    <div class="accordion" id="borrowedMaterialLinesList">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panel2StayOpen-headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panel2StayOpen-collapseOne" aria-expanded="true"
+                    aria-controls="panel2StayOpen-collapseOne">
+                    Σε Δανεισμό
+                </button>
+            </h2>
+            <div id="panel2StayOpen-collapseOne" class="accordion-collapse collapse show"
+                aria-labelledby="panel2StayOpen-headingOne">
+                <div class="accordion-body">
+
+                    <div class="list-group">
+                        <a *ngFor="let borrowedMaterial of borrowedMaterialLinesList; index as i;"
+                            class="list-group-item list-group-item-action"
+                            (click)="SetMaterialDetailsToLocalStorage(borrowedMaterial)">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ borrowedMaterial.MaterialName }}</h6>
+                                <small class="text-muted">Τεμ.: {{ borrowedMaterial.Quantity}} </small>
+                            </div>
+                            <small class="text-muted">{{ borrowedMaterial.StorageCategory}} </small>
+                            <p class="mb-1">
+                                Ημ/νία Δανεισμού: {{ borrowedMaterial.BorrowedAt | date:"dd/MM/yyyy" }}
+                            </p>
+                        </a>
+                    </div>
+                    <div *ngIf="soonToExpireMaterialLinesList.length==0" class="text-center text-wrap fw-light">
+                        Δεν υπάρχουν υλικά στη λίστα.
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
     <br><br>
 
 </div>
