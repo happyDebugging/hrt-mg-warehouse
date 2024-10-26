@@ -355,31 +355,15 @@ export class MaterialDetailsComponent {
     console.log(this.materialId)
 
     materialLine.Id = this.materialId;
-    // materialLine.MaterialName = this.materialName;
-    // if (!this.hasNoSerialNumber) {
-    //   materialLine.SerialNumber = this.materialserialNumber;
-    // } else {
-    //   materialLine.SerialNumber = 'Άνευ';
-    // }
-    // materialLine.Quantity = this.materialQuantity;
-    // materialLine.StorageCategory = this.storageCategoryDescription;
-    // materialLine.StoringPlace = this.materialStoringPlace;
-    // materialLine.StoredNearRepeater = this.materialStoredNearRepeater;//
-    // materialLine.BorrowedTo = this.materialBorrowedTo;
-    // materialLine.BorrowedAt = this.materialBorrowedAt;
-    // materialLine.ExpiryDate = this.materialExpiryDate;
-    // materialLine.IsMaterialDamaged = this.isMaterialDamaged;
-    // materialLine.IsMaterialDeleted = this.isMaterialDeleted;
-    // materialLine.CreatedAt = Date.now().toString();
-    // materialLine.CreatedBy = this.loggedInUserName; //this.loggedInUserId;
-    // //materialLine.LastUpdatedAt = this.LastUpdatedAt;
-    // //materialLine.LastUpdatedBy = this.LastUpdatedBy;
-    // materialLine.Photo = this.materialName + '_' + this.materialserialNumber + '_' + Date.now().toString(); //this.materialPhoto;
+    materialLine.Photo = this.materialPhoto;
 
-    // this.storageRef = ref(this.storage, materialLine.Photo);
-    // uploadString(this.storageRef, this.preview, 'data_url').then((snapshot) => {
-    //   console.log('Uploaded image!');
-    // });
+    // Delete image file
+    this.storageRef = ref(this.storage, materialLine.Photo);
+    deleteObject(this.storageRef).then(() => {
+      console.log('Image deleted!');
+    }).catch((error) => {
+      console.log(error);
+    });
 
     this.dbFunctionService.deleteMaterialFromDb(materialLine)
       .subscribe(
