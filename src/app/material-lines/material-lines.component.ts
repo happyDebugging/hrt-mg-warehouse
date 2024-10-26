@@ -225,6 +225,10 @@ export class MaterialLinesComponent {
 
             }
 
+            this.availableMaterialsList.sort((a, b) => (a.MaterialName > b.MaterialName) ? 1 : -1);
+            this.deletedMaterialsList.sort((a, b) => (a.MaterialName > b.MaterialName) ? 1 : -1);
+            this.availableMaterialsList.sort((a, b) => (a.MaterialName > b.MaterialName) ? 1 : -1);
+
           }
         },
         err => {
