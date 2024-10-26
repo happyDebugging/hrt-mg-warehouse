@@ -20,6 +20,8 @@ export class MaterialDetailsComponent {
   loggedInUserName = '';
   loggedInUserPermissions = '';
 
+  isNewMaterial = false;
+
   storageCategory = '';
   storageCategoryDescription = '';
   materialLines = [];
@@ -55,7 +57,7 @@ export class MaterialDetailsComponent {
 
   hasPreviewPhotoChanged = false;
 
-  isMaterialEditEnebaled = false;
+  isMaterialEditEnabled = false;
 
   // Firebase web app configuration
   firebaseConfig = {
@@ -158,11 +160,11 @@ export class MaterialDetailsComponent {
   }
 
   EnableMaterialEdit() {
-    this.isMaterialEditEnebaled = true;
+    this.isMaterialEditEnabled = true;
   }
 
   DisableMaterialEdit() {
-    this.isMaterialEditEnebaled = false;
+    this.isMaterialEditEnabled = false;
   }
 
   DecideOnSaveMethod() {
@@ -305,6 +307,10 @@ export class MaterialDetailsComponent {
 
   GetItemDetailsToPreviewFromLocalStorage() {
     this.materialId = JSON.parse(JSON.stringify(localStorage.getItem('materialIdToPreview')));
+    if (this.materialId == null) {
+      console.log('this.materialId: '+this.materialId)
+      this.isNewMaterial = true;
+    }
     this.materialName = JSON.parse(JSON.stringify(localStorage.getItem('materialNameToPreview')));
     this.materialserialNumber = JSON.parse(JSON.stringify(localStorage.getItem('materialserialNumberToPreview')));
     if (this.materialserialNumber != 'Άνευ') {
@@ -369,7 +375,7 @@ export class MaterialDetailsComponent {
       .subscribe(
         (res: any) => {
           console.log(res);
-          if ((res != null) || (res != undefined)) {
+          //if ((res != null) || (res != undefined)) {
 
             this.isDeletionSuccessfull = true;
 
@@ -378,7 +384,7 @@ export class MaterialDetailsComponent {
               this.router.navigate([this.storageCategory + '/material-lines']);
             }, 2000);
 
-          }
+          //}
         },
         err => {
           console.log(err);
