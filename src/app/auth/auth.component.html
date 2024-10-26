@@ -21,10 +21,16 @@
                         <input type="password" class="form-control" id="inputPassword" name="userPassword"
                             [(ngModel)]="userPassword">
                     </div>
-                    <div class="mb-3">
-                        <p><a class="link-offset-2 link-underline link-underline-opacity-0"
-                                (click)="EnterMailForPasswordReset()">Ξέχασα τον κωδικό μου</a></p>
-                    </div>
+                    <small class="mb-3">
+                        <p><a class="link-offset-2 link-underline link-underline-opacity-0 fw-light"
+                                (click)="EnterMailForPasswordReset()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
+                                    <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5"/>
+                                    <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                                  </svg>
+                                  Ξέχασα τον κωδικό μου
+                        </a></p>
+                    </small>
                     <button type="submit" class="btn btn-primary col-12" (click)="Login()">Σύνδεση</button>
                 </form>
                 <br>
@@ -51,10 +57,16 @@
                         <input type="password" class="form-control" id="inputPassword" name="userPassword"
                             [(ngModel)]="userPassword">
                     </div>
-                    <div class="mb-3">
-                        <p><a class="link-offset-2 link-underline link-underline-opacity-0"
-                                (click)="EnterMailForPasswordReset()">Ξέχασα τον κωδικό μου</a></p>
-                    </div>
+                    <small class="mb-3">
+                        <p><a class="link-offset-2 link-underline link-underline-opacity-0 fw-light"
+                                (click)="EnterMailForPasswordReset()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
+                                    <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5"/>
+                                    <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                                  </svg>
+                                  Ξέχασα τον κωδικό μου
+                        </a></p>
+                    </small>
                     <button type="submit" class="btn btn-primary col-12" (click)="Login()">Σύνδεση</button>
                 </form>
                 <br>
@@ -63,7 +75,7 @@
     </div>
 
 
-    <div *ngIf="hasForgottenPassword" class="card mb-1 d-block d-sm-none start-50 translate-middle" style="width: 100%; top: 16rem;">
+    <div *ngIf="hasForgottenPassword" class="card mb-1 d-block d-sm-none start-50 translate-middle" style="width: 100%; top: 11rem;">
         <div class="container-fluid">
             <br>
             <form>
