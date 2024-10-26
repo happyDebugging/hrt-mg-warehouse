@@ -33,6 +33,14 @@ export class DbFunctionService {
         return this.http.put(environment.databaseURL + environment.materialLinesTable + '/' + materialLine.Id + '.json', materialLine, options);
     }
 
+    deleteMaterialFromDb(materialLine: MaterialLines) {
+        let options: any = {
+            headers: { "Access-Control-Allow-Origin": "*" },
+            observe: 'response'
+        }
+        return this.http.delete(environment.databaseURL + environment.materialLinesTable + '/' + materialLine.Id + '.json');
+    }
+
     users = [
         {
             Id: '',
@@ -130,6 +138,7 @@ export class DbFunctionService {
         }
         return this.http.put(environment.databaseURL + environment.usersTable + '/' + user.UserId + '.json', user, options);
     }
+    
 
 
 }

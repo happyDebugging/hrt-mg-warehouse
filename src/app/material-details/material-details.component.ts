@@ -18,6 +18,7 @@ export class MaterialDetailsComponent {
   loggedInUserId = '';
   isUserLoggedIn = false;
   loggedInUserName = '';
+  loggedInUserPermissions = '';
 
   storageCategory = '';
   storageCategoryDescription = '';
@@ -50,6 +51,7 @@ export class MaterialDetailsComponent {
   isMaterialBorrowed = false;
 
   isSaveSuccessfull = false;
+  isDeletionSuccessfull = false;
 
   hasPreviewPhotoChanged = false;
 
@@ -87,6 +89,7 @@ export class MaterialDetailsComponent {
     this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
     this.loggedInUserId = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserId")));
     this.loggedInUserName = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserName")));
+    this.loggedInUserPermissions = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserPermissions")));
 
     this.storageCategory = JSON.parse(JSON.stringify(localStorage.getItem('storageCategory')));
     if (this.storageCategory == 'mountain') this.storageCategoryDescription = 'Τμήμα Ορεινής Διάσωσης';
@@ -156,6 +159,10 @@ export class MaterialDetailsComponent {
 
   EnableMaterialEdit() {
     this.isMaterialEditEnebaled = true;
+  }
+
+  DisableMaterialEdit() {
+    this.isMaterialEditEnebaled = false;
   }
 
   DecideOnSaveMethod() {
@@ -341,6 +348,58 @@ export class MaterialDetailsComponent {
           console.log(error)
         });
     }
+  }
+
+  DeleteMaterialPermanently() {
+    let materialLine = new MaterialLines;
+    console.log(this.materialId)
+
+    materialLine.Id = this.materialId;
+    // materialLine.MaterialName = this.materialName;
+    // if (!this.hasNoSerialNumber) {
+    //   materialLine.SerialNumber = this.materialserialNumber;
+    // } else {
+    //   materialLine.SerialNumber = 'Άνευ';
+    // }
+    // materialLine.Quantity = this.materialQuantity;
+    // materialLine.StorageCategory = this.storageCategoryDescription;
+    // materialLine.StoringPlace = this.materialStoringPlace;
+    // materialLine.StoredNearRepeater = this.materialStoredNearRepeater;//
+    // materialLine.BorrowedTo = this.materialBorrowedTo;
+    // materialLine.BorrowedAt = this.materialBorrowedAt;
+    // materialLine.ExpiryDate = this.materialExpiryDate;
+    // materialLine.IsMaterialDamaged = this.isMaterialDamaged;
+    // materialLine.IsMaterialDeleted = this.isMaterialDeleted;
+    // materialLine.CreatedAt = Date.now().toString();
+    // materialLine.CreatedBy = this.loggedInUserName; //this.loggedInUserId;
+    // //materialLine.LastUpdatedAt = this.LastUpdatedAt;
+    // //materialLine.LastUpdatedBy = this.LastUpdatedBy;
+    // materialLine.Photo = this.materialName + '_' + this.materialserialNumber + '_' + Date.now().toString(); //this.materialPhoto;
+
+    // this.storageRef = ref(this.storage, materialLine.Photo);
+    // uploadString(this.storageRef, this.preview, 'data_url').then((snapshot) => {
+    //   console.log('Uploaded image!');
+    // });
+
+    this.dbFunctionService.deleteMaterialFromDb(materialLine)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          if ((res != null) || (res != undefined)) {
+
+            this.isDeletionSuccessfull = true;
+
+            setTimeout(() => {
+              this.isDeletionSuccessfull = false;
+              this.router.navigate([this.storageCategory + '/material-lines']);
+            }, 2000);
+
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
   ngOnDestroy() {
