@@ -3,32 +3,96 @@
 
     <br><br><br>
 
-    <div *ngIf="!hasForgottenPassword" class="card mb-1" style="width: 100%;">
+    <div *ngIf="!hasForgottenPassword" class="card mb-1 d-block d-sm-none start-50 translate-middle" style="width: 100%; top: 16rem;">
+        <img src="warehouse-management.jpg" class="card-img-top" alt="">
+        <div class="card-body">
+            <div class="container-fluid">
+                <form>
+                    <div class="mt-3 mb-3">
+                        <label *ngIf="isCredentialsWrong" class="text-danger fw-light">{{ errorMessageToShow }}</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="inputEmail" name="userEmail"
+                            [(ngModel)]="userEmail">
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputPassword" class="form-label">Κωδικός</label>
+                        <input type="password" class="form-control" id="inputPassword" name="userPassword"
+                            [(ngModel)]="userPassword">
+                    </div>
+                    <div class="mb-3">
+                        <p><a class="link-offset-2 link-underline link-underline-opacity-0"
+                                (click)="EnterMailForPasswordReset()">Ξέχασα τον κωδικό μου</a></p>
+                    </div>
+                    <button type="submit" class="btn btn-primary col-12" (click)="Login()">Σύνδεση</button>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+    <!-- ---- -->
+    <div *ngIf="!hasForgottenPassword"
+        class="card mb-1 d-none d-sm-block position-absolute top-50 start-50 translate-middle" style="width: 30rem;">
+        <img src="warehouse-management.jpg" class="card-img-top" alt="">
+        <div class="card-body">
+            <div class="container-fluid">
+                <form>
+                    <div class="mt-3 mb-3">
+                        <label *ngIf="isCredentialsWrong" class="text-danger fw-light">{{ errorMessageToShow }}</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="inputEmail" name="userEmail"
+                            [(ngModel)]="userEmail">
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputPassword" class="form-label">Κωδικός</label>
+                        <input type="password" class="form-control" id="inputPassword" name="userPassword"
+                            [(ngModel)]="userPassword">
+                    </div>
+                    <div class="mb-3">
+                        <p><a class="link-offset-2 link-underline link-underline-opacity-0"
+                                (click)="EnterMailForPasswordReset()">Ξέχασα τον κωδικό μου</a></p>
+                    </div>
+                    <button type="submit" class="btn btn-primary col-12" (click)="Login()">Σύνδεση</button>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+
+
+    <div *ngIf="hasForgottenPassword" class="card mb-1 d-block d-sm-none start-50 translate-middle" style="width: 100%; top: 16rem;">
         <div class="container-fluid">
+            <br>
             <form>
-                <div class="mt-3 mb-3">
-                    <label *ngIf="isCredentialsWrong" class="text-danger fw-light">{{ errorMessageToShow }}</label>
+                <div class="mb-3 text-wrap fw-light">
+                    Εφόσον η διεύθυνση ηλεκτρονικού ταχυδρομείου που εισάγετε είναι έγκυρη, θα λάβετε μήνυμα για
+                    επαναφορά του κωδικού πρόσβασης.
                 </div>
                 <div class="mb-3">
                     <label for="inputEmail" class="form-label">Email</label>
                     <input type="email" class="form-control" id="inputEmail" name="userEmail" [(ngModel)]="userEmail">
                 </div>
                 <div class="mb-3">
-                    <label for="inputPassword" class="form-label">Κωδικός</label>
-                    <input type="password" class="form-control" id="inputPassword" name="userPassword"
-                        [(ngModel)]="userPassword">
+                    <p><a class="link-offset-2 link-underline link-underline-opacity-0" (click)="ReturnToSignIn()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-left" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                            </svg>
+                            Επιστροφή στη σύνδεση</a></p>
                 </div>
-                <div class="mb-3">
-                    <p><a class="link-offset-2 link-underline link-underline-opacity-0"
-                            (click)="EnterMailForPasswordReset()">Ξέχασα τον κωδικό μου</a></p>
-                </div>
-                <button type="submit" class="btn btn-primary col-12" (click)="Login()">Σύνδεση</button>
+                <button *ngIf="!emailSent" type="submit" class="btn btn-primary col-12"
+                    (click)="ResetPassword()">Επαναφορά κωδικού πρόσβασης</button>
+                <button *ngIf="emailSent" type="button" class="btn btn-info col-12">Το μήνυμα στάλθηκε!</button>
             </form>
             <br>
         </div>
     </div>
-
-    <div *ngIf="hasForgottenPassword" class="card mb-1" style="width: 100%;">
+    <!-- ------------ -->
+    <div *ngIf="hasForgottenPassword" class="card mb-1 d-none d-sm-block position-absolute top-50 start-50 translate-middle" style="width: 30rem;">
         <div class="container-fluid">
             <br>
             <form>
