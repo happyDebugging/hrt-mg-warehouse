@@ -53,6 +53,8 @@ export class MaterialDetailsComponent {
 
   hasPreviewPhotoChanged = false;
 
+  isMaterialEditEnebaled = false;
+
   // Firebase web app configuration
   firebaseConfig = {
     apiKey: "AIzaSyAq82tP-XtNICS4oNiS2hKLN2tzElGQF0Q",
@@ -150,6 +152,10 @@ export class MaterialDetailsComponent {
 
   RadioSelectMaterialDeletedState(isMaterialDamaged: boolean) {
     this.isMaterialDamaged = false;
+  }
+
+  EnableMaterialEdit() {
+    this.isMaterialEditEnebaled = true;
   }
 
   DecideOnSaveMethod() {

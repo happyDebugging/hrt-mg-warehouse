@@ -15,7 +15,7 @@
     <div class="mb-2">
         <!-- <input type="file" class="form-control form-control-sm" id="formFileSm" name="formFileSm"
                 [(ngModel)]="materialPhoto" (change)="selectFile($event)"> -->
-        <input type="file" class="btn" capture="camera" accept="image/*" id="cameraInput" name="cameraInput"
+        <input *ngIf="isMaterialEditEnebaled" type="file" class="btn" capture="camera" accept="image/*" id="cameraInput" name="cameraInput"
             [(ngModel)]="materialPhoto" (change)="selectFile($event)">
     </div>
 
@@ -32,7 +32,7 @@
         <div class="form-group mb-3">
             <label for="materialName">Όνομα Υλικού*</label>
             <input type="text" class="form-control" id="materialName" name="materialName" [(ngModel)]="materialName"
-                required>
+            [disabled]="!isMaterialEditEnebaled" required>
         </div>
 
         <div class="form-group mb-3">
@@ -40,11 +40,11 @@
             <div class="row">
                 <div class="col-9">
                     <input type="text" class="form-control" id="serialNumber" name="serialNumber"
-                        [(ngModel)]="materialserialNumber" [disabled]="hasNoSerialNumber" required>
+                        [(ngModel)]="materialserialNumber" [disabled]="hasNoSerialNumber || !isMaterialEditEnebaled" required>
                 </div>
                 <div class="col-3 form-check mt-2 mb-3">
                     <input class="form-check-input" type="checkbox" value="" id="noSerialNumber" name="noSerialNumber"
-                    [(ngModel)]="hasNoSerialNumber" (click)="RadioSelectSerialNumberState(hasNoSerialNumber)">
+                    [(ngModel)]="hasNoSerialNumber" (click)="RadioSelectSerialNumberState(hasNoSerialNumber)"  [disabled]="!isMaterialEditEnebaled">
                 <label class="form-check-label" for="noSerialNumber">
                         Άνευ
                 </label>
@@ -56,13 +56,13 @@
         <div class="form-group mb-3">
             <label for="quantity">Αριθμός Τεμαχίων*</label>
             <input type="text" class="form-control" id="quantity" name="quantity" [(ngModel)]="materialQuantity"
-                required>
+            [disabled]="!isMaterialEditEnebaled" required>
         </div>
 
         <div class="form-group mb-3">
             <label for="place">Θέση που βρίσκεται*</label>
             <select class="form-select mb-3" name="place" [(ngModel)]="materialStoringPlace"
-                (change)="SetMaterialAsBorrowed(materialStoringPlace)" required>
+                (change)="SetMaterialAsBorrowed(materialStoringPlace)" [disabled]="!isMaterialEditEnebaled" required>
                 <option value="warehouse">Αποθήκη</option>
                 <option value="kepix">Κ.ΕΠΙΧ.</option>
                 <option value="boat">Σκάφος</option>
@@ -79,24 +79,24 @@
             <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
                 <label for="borrowedTo">Όνομα Χρεωμένου*</label>
                 <input type="text" class="form-control" id="borrowedTo" name="borrowedTo"
-                    [(ngModel)]="materialBorrowedTo" required>
+                    [(ngModel)]="materialBorrowedTo" [disabled]="!isMaterialEditEnebaled" required>
             </div>
 
             <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
                 <label for="borrowedDate">Ημερ/νία Δανεισμού*</label>
                 <input type="date" class="form-control" id="borrowedDate" name="borrowedDate"
-                    [(ngModel)]="materialBorrowedAt">
+                    [(ngModel)]="materialBorrowedAt" [disabled]="!isMaterialEditEnebaled">
             </div>
         </div>
 
         <div class="form-group mb-3">
             <label for="expiryDate">Ημερ/νία λήξης/επανελέγχου</label>
-            <input type="date" class="form-control" id="expiryDate" name="expiryDate" [(ngModel)]="materialExpiryDate">
+            <input type="date" class="form-control" id="expiryDate" name="expiryDate" [(ngModel)]="materialExpiryDate" [disabled]="!isMaterialEditEnebaled">
         </div>
 
         <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" value="" id="damagedMaterial" name="damagedMaterial"
-                [(ngModel)]="isMaterialDamaged" (click)="RadioSelectMaterialDamagedState(isMaterialDamaged)">
+                [(ngModel)]="isMaterialDamaged" (click)="RadioSelectMaterialDamagedState(isMaterialDamaged)" [disabled]="!isMaterialEditEnebaled">
             <label class="form-check-label" for="damagedMaterial">
                 Υλικό σε βλάβη/προς επισκευή
             </label>
@@ -104,7 +104,7 @@
 
         <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" value="" id="deletedMaterial" name="deletedMaterial"
-                [(ngModel)]="isMaterialDeleted" (click)="RadioSelectMaterialDeletedState(isMaterialDeleted)">
+                [(ngModel)]="isMaterialDeleted" (click)="RadioSelectMaterialDeletedState(isMaterialDeleted)" [disabled]="!isMaterialEditEnebaled">
             <label class="form-check-label" for="deletedMaterial">
                 Υλικό προς διαγραφή λόγω καταστροφής ή απώλειας
             </label>
@@ -116,11 +116,15 @@
             </div>
         </div>
 
-        <div *ngIf="!isSaveSuccessfull" class="d-grid mb-3">
+        <div *ngIf="!isMaterialEditEnebaled" class="d-grid mb-3">
+            <button type="submit" class="btn btn-secondary"
+                (click)="EnableMaterialEdit()">Επεξεργασία</button>
+        </div>
+        <div *ngIf="isMaterialEditEnebaled && !isSaveSuccessfull" class="d-grid mb-3">
             <button type="submit" class="btn btn-primary"
                 (click)="form.checkValidity()? DecideOnSaveMethod() : null">Αποθήκευση</button>
         </div>
-        <div *ngIf="isSaveSuccessfull" class="d-grid mb-3">
+        <div *ngIf="isMaterialEditEnebaled && isSaveSuccessfull" class="d-grid mb-3">
             <button type="button" class="btn btn-info">Επιτυχής αποθήκευση!</button>
         </div>
 
