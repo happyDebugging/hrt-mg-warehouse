@@ -30,6 +30,7 @@ export class MaterialDetailsComponent {
   materialId = '';
   materialName = '';
   materialserialNumber = '';
+  hasNoSerialNumber = false;
   materialQuantity = 0;
   materialStorageCategory = '';
   materialStoringPlace = '';
@@ -77,7 +78,7 @@ export class MaterialDetailsComponent {
 
   updateMaterialLines: Subscription = new Subscription;
 
-  constructor(private dbFunctionService: DbFunctionService,private router: Router) { }
+  constructor(private dbFunctionService: DbFunctionService, private router: Router) { }
 
   ngOnInit() {
 
@@ -134,6 +135,10 @@ export class MaterialDetailsComponent {
     }
   }
 
+  RadioSelectSerialNumberState(hasNoSerialNumber: boolean) {
+    this.hasNoSerialNumber = true;
+  }
+
   SetMaterialAsBorrowed(value: string) {
     if (value == 'borrowed') this.isMaterialBorrowed = true;
     else this.isMaterialBorrowed = false;
@@ -164,7 +169,11 @@ export class MaterialDetailsComponent {
 
     updatedMaterialLine.Id = this.materialId;
     updatedMaterialLine.MaterialName = this.materialName;
-    updatedMaterialLine.SerialNumber = this.materialserialNumber;
+    if (!this.hasNoSerialNumber) {
+      updatedMaterialLine.SerialNumber = this.materialserialNumber;
+    } else {
+      updatedMaterialLine.SerialNumber = 'Άνευ';
+    }
     updatedMaterialLine.Quantity = this.materialQuantity;
     updatedMaterialLine.StorageCategory = this.storageCategoryDescription;
     updatedMaterialLine.StoringPlace = this.materialStoringPlace;
@@ -233,7 +242,11 @@ export class MaterialDetailsComponent {
 
     materialLine.Id = this.materialId;
     materialLine.MaterialName = this.materialName;
-    materialLine.SerialNumber = this.materialserialNumber;
+    if (!this.hasNoSerialNumber) {
+      materialLine.SerialNumber = this.materialserialNumber;
+    } else {
+      materialLine.SerialNumber = 'Άνευ';
+    }
     materialLine.Quantity = this.materialQuantity;
     materialLine.StorageCategory = this.storageCategoryDescription;
     materialLine.StoringPlace = this.materialStoringPlace;
@@ -281,6 +294,12 @@ export class MaterialDetailsComponent {
     this.materialId = JSON.parse(JSON.stringify(localStorage.getItem('materialIdToPreview')));
     this.materialName = JSON.parse(JSON.stringify(localStorage.getItem('materialNameToPreview')));
     this.materialserialNumber = JSON.parse(JSON.stringify(localStorage.getItem('materialserialNumberToPreview')));
+    if (this.materialserialNumber != 'Άνευ') {
+      this.hasNoSerialNumber = false;
+    } else {
+      this.hasNoSerialNumber = true;
+      this.materialserialNumber = '';
+    }
     this.materialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('materialQuantityToPreview')));
     this.materialStorageCategory = JSON.parse(JSON.stringify(localStorage.getItem('materialStorageCategoryToPreview')));
     this.materialStoringPlace = JSON.parse(JSON.stringify(localStorage.getItem('materialStoringPlaceToPreview')));
