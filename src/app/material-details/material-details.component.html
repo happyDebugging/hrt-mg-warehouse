@@ -38,11 +38,11 @@
         <div class="form-group mb-3">
             <label for="serialNumber">Σειριακός Αριθμός*</label>
             <div class="row">
-                <div class="col-11">
+                <div class="col-9">
                     <input type="text" class="form-control" id="serialNumber" name="serialNumber"
                         [(ngModel)]="materialserialNumber" [disabled]="hasNoSerialNumber" required>
                 </div>
-                <div class="col-1 form-check mt-2 mb-3">
+                <div class="col-3 form-check mt-2 mb-3">
                     <input class="form-check-input" type="checkbox" value="" id="noSerialNumber" name="noSerialNumber"
                     [(ngModel)]="hasNoSerialNumber" (click)="RadioSelectSerialNumberState(hasNoSerialNumber)">
                 <label class="form-check-label" for="noSerialNumber">
