@@ -114,9 +114,9 @@ export class HomeComponent implements OnInit {
                 resObj.LastUpdatedBy = data.LastUpdatedBy;
                 resObj.Photo = data.Photo;
 
-                if (data.IsMaterialDamaged) {
+                if (data.IsMaterialDamaged && data.AvailableMaterialQuantity==0) {
                   //do nothing
-                } else if (data.IsMaterialDeleted) {
+                } else if (data.IsMaterialDeleted && data.AvailableMaterialQuantity==0) {
                   //do nothing
                 } else if (data.BorrowedTo) {
                   this.borrowedMaterialLinesList.push(resObj);

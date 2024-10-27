@@ -133,6 +133,8 @@
             <textarea class="form-control" id="materialStateDescription" name="materialStateDescription" [(ngModel)]="materialStateDescription" disabled rows="2"></textarea>
         </div>
 
+        <hr *ngIf="isNewMaterial || isMaterialEditEnabled">
+
         <div *ngIf="isNewMaterial || isMaterialEditEnabled">
             <div *ngIf="materialState!='available'" class="form-check mb-3">
                 <input class="form-check-input" type="checkbox" value="" id="availableMaterial" name="availableMaterial"
@@ -149,7 +151,7 @@
                             (keyup)="CheckInputMax(availableMaterialQuantity)" required>
                     </div>
                     <div class="col-2">
-                        τεμάχια<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span>
+                        τεμάχια
                     </div>
                 </div>
             </div>
@@ -168,7 +170,7 @@
                             [(ngModel)]="damagedMaterialQuantity" (keyup)="CheckInputMax(damagedMaterialQuantity)" required>
                     </div>
                     <div class="col-2">
-                        τεμάχια<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span>
+                        τεμάχια
                     </div>
                 </div>
             </div>
@@ -187,7 +189,7 @@
                             [(ngModel)]="deletedMaterialQuantity" (keyup)="CheckInputMax(deletedMaterialQuantity)" required>
                     </div>
                     <div class="col-2">
-                        τεμάχια<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span>
+                        τεμάχια
                     </div>
                 </div>
             </div>
@@ -203,6 +205,7 @@
             *Υποχρεωτικό πεδίο.
         </div>
 
+        <hr *ngIf="isNewMaterial || isMaterialEditEnabled">
 
         <div *ngIf="isNewMaterial || (isMaterialEditEnabled && !isSaveSuccessfull)" class="d-grid mb-3">
             <button type="submit" class="btn btn-primary" (click)="form.checkValidity()? DecideOnSaveMethod() : null">
