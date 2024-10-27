@@ -21,6 +21,10 @@ export class MaterialDetailsComponent {
   loggedInUserPermissions = '';
 
   isNewMaterial = false;
+  materialState = '';
+  materialStateDescription = '';
+  isMaterialAvailable = false;
+  incorrectQuantityInput = false;
 
   storageCategory = '';
   storageCategoryDescription = '';
@@ -51,12 +55,16 @@ export class MaterialDetailsComponent {
   previousMaterialPhoto = '';
 
   availableMaterialQuantity = 0;
+  previousAvailableMaterialQuantity = 0;
   isMaterialBorrowed = false;
   materialBorrowedQuantity = 0;
+  isAvailableMaterialCheckboxChecked = false;
   isDamagedMaterialCheckboxChecked = false;
   damagedMaterialQuantity = 0;
+  previousDamagedMaterialQuantity = 0;
   isDeletedMaterialCheckboxChecked = false;
   deletedMaterialQuantity = 0;
+  previousDeletedMaterialQuantity = 0;
 
   isSaveSuccessfull = false;
   isDeletionSuccessfull = false;
@@ -157,29 +165,43 @@ export class MaterialDetailsComponent {
     else this.isMaterialBorrowed = false;
   }
 
-  RadioSelectMaterialDamagedState(isMaterialDamaged: boolean) {
-    this.isMaterialDeleted = false;
-    this.isDeletedMaterialCheckboxChecked = false;
-    this.deletedMaterialQuantity = 0;
+  RadioSelectMaterialAvailableState(isMaterialAvailable: boolean) {
+    //this.isMaterialDeleted = false;
+    //this.isDamagedMaterialCheckboxChecked = false;
+    //this.isDeletedMaterialCheckboxChecked = false;
+    //this.deletedMaterialQuantity = 0;
 
-    if (this.isMaterialDamaged == true) {
-      this.isDamagedMaterialCheckboxChecked = false;
-    } else {
-      this.isDamagedMaterialCheckboxChecked = !this.isDamagedMaterialCheckboxChecked;
-    }
+    // if (this.isMaterialAvailable == true) {
+    //   this.isAvailableMaterialCheckboxChecked = false;
+    // } else {
+    //   this.isAvailableMaterialCheckboxChecked = !this.isAvailableMaterialCheckboxChecked;
+    // }
+
+  }
+
+  RadioSelectMaterialDamagedState(isMaterialDamaged: boolean) {
+    //this.isMaterialDeleted = false;
+    //this.isDeletedMaterialCheckboxChecked = false;
+    //this.deletedMaterialQuantity = 0;
+
+    // if (this.isMaterialDamaged == true) {
+    //   this.isDamagedMaterialCheckboxChecked = false;
+    // } else {
+    //   this.isDamagedMaterialCheckboxChecked = !this.isDamagedMaterialCheckboxChecked;
+    // }
 
   }
 
   RadioSelectMaterialDeletedState(isMaterialDamaged: boolean) {
-    this.isMaterialDamaged = false;
-    this.isDamagedMaterialCheckboxChecked = false;
-    this.damagedMaterialQuantity = 0;
+    //this.isMaterialDamaged = false;
+    //this.isDamagedMaterialCheckboxChecked = false;
+    //this.damagedMaterialQuantity = 0;
 
-    if (this.isMaterialDeleted == true) {
-      this.isDeletedMaterialCheckboxChecked = false;
-    } else {
-      this.isDeletedMaterialCheckboxChecked = !this.isDeletedMaterialCheckboxChecked;
-    }
+    // if (this.isMaterialDeleted == true) {
+    //   this.isDeletedMaterialCheckboxChecked = false;
+    // } else {
+    //   this.isDeletedMaterialCheckboxChecked = !this.isDeletedMaterialCheckboxChecked;
+    // }
 
   }
 
@@ -214,7 +236,32 @@ export class MaterialDetailsComponent {
       updatedMaterialLine.SerialNumber = 'Άνευ';
     }
     updatedMaterialLine.Quantity = this.materialQuantity;
-    this.availableMaterialQuantity = (+this.materialQuantity) - (+this.damagedMaterialQuantity) - (+this.deletedMaterialQuantity);
+
+    if (this.materialState == 'available') {
+      this.availableMaterialQuantity = this.materialQuantity; ////
+      this.availableMaterialQuantity = (+this.availableMaterialQuantity) - (+this.damagedMaterialQuantity) - (+this.deletedMaterialQuantity);
+      this.damagedMaterialQuantity = (+this.previousDamagedMaterialQuantity) + (+this.damagedMaterialQuantity);
+      this.deletedMaterialQuantity = (+this.previousDeletedMaterialQuantity) + (+this.deletedMaterialQuantity);
+    } else if (this.materialState == 'damaged') {
+      this.damagedMaterialQuantity = this.materialQuantity; ////
+
+      this.damagedMaterialQuantity = (+this.previousDamagedMaterialQuantity) - (+this.availableMaterialQuantity) - (+this.deletedMaterialQuantity);
+
+      this.deletedMaterialQuantity = (+this.previousDeletedMaterialQuantity) + (+this.deletedMaterialQuantity);
+      this.availableMaterialQuantity = (+this.previousAvailableMaterialQuantity) + (+this.availableMaterialQuantity);
+      if (this.damagedMaterialQuantity == 0) this.isMaterialDamaged = false;
+
+    } else if (this.materialState == 'deleted') {
+      this.deletedMaterialQuantity = this.materialQuantity; ////
+
+      this.deletedMaterialQuantity = (+this.previousDeletedMaterialQuantity) - (+this.availableMaterialQuantity) - (+this.damagedMaterialQuantity);
+
+      this.damagedMaterialQuantity = (+this.previousDamagedMaterialQuantity) + (+this.damagedMaterialQuantity);
+      this.availableMaterialQuantity = (+this.previousAvailableMaterialQuantity) + (+this.availableMaterialQuantity);
+      if (this.deletedMaterialQuantity == 0) this.isMaterialDeleted = false;
+
+    }
+    updatedMaterialLine.Quantity = this.materialQuantity;
     updatedMaterialLine.AvailableMaterialQuantity = this.availableMaterialQuantity;
     updatedMaterialLine.StorageCategory = this.storageCategoryDescription;
     updatedMaterialLine.StoringPlace = this.materialStoringPlace;
@@ -348,7 +395,25 @@ export class MaterialDetailsComponent {
       );
   }
 
+  CheckInputMax(materialQuantity: number) {
+    let materialQuantitySum = (+this.availableMaterialQuantity)+(+this.damagedMaterialQuantity)+(+this.deletedMaterialQuantity);
+    if (materialQuantitySum > this.materialQuantity) {
+      this.incorrectQuantityInput = true;
+    } else {
+      this.incorrectQuantityInput = false;
+    }
+  }
+
   GetItemDetailsToPreviewFromLocalStorage() {
+    this.materialState= JSON.parse(JSON.stringify(localStorage.getItem('materialState')));
+    if (this.materialState == 'available') {
+      this.materialStateDescription = 'Διαθέσιμο Υλικό';
+    } else if (this.materialState == 'damaged') {
+      this.materialStateDescription = 'Υλικό σε βλάβη/προς επισκευή';
+    } else if (this.materialState == 'deleted') {
+      this.materialStateDescription = 'Υλικό προς διαγραφή λόγω καταστροφής ή απώλειας';
+    }
+
     this.materialId = JSON.parse(JSON.stringify(localStorage.getItem('materialIdToPreview')));
     if (this.materialId == null) {
       console.log('this.materialId: '+this.materialId)
@@ -363,7 +428,8 @@ export class MaterialDetailsComponent {
       this.materialserialNumber = '';
     }
     this.materialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('materialQuantityToPreview')));
-    this.availableMaterialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('availableMaterialQuantityToPreview')));
+    //this.availableMaterialQuantity = 
+    this.previousAvailableMaterialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('availableMaterialQuantityToPreview')));
     this.materialStorageCategory = JSON.parse(JSON.stringify(localStorage.getItem('materialStorageCategoryToPreview')));
     this.materialStoringPlace = JSON.parse(JSON.stringify(localStorage.getItem('materialStoringPlaceToPreview')));
     this.materialStoredNearRepeater = JSON.parse(JSON.stringify(localStorage.getItem('materialStoredNearRepeaterToPreview')));
@@ -377,11 +443,13 @@ export class MaterialDetailsComponent {
     if (JSON.parse(JSON.stringify(localStorage.getItem('isMaterialDamagedToPreview'))) == 'true') {
       this.isMaterialDamaged = true;
     } else this.isMaterialDamaged = false;
-    this.damagedMaterialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('damagedMaterialQuantityToPreview')));
+    //this.damagedMaterialQuantity = 
+    this.previousDamagedMaterialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('damagedMaterialQuantityToPreview')));
     if (JSON.parse(JSON.stringify(localStorage.getItem('isMaterialDeletedToPreview'))) == 'true') {
       this.isMaterialDeleted = true;
     } else this.isMaterialDeleted = false;
-    this.deletedMaterialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('deletedMaterialQuantityToPreview')));
+    //this.deletedMaterialQuantity = 
+    this.previousDeletedMaterialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('deletedMaterialQuantityToPreview')));
     this.CreatedAt = JSON.parse(JSON.stringify(localStorage.getItem('CreatedAtToPreview')));
     this.CreatedBy = JSON.parse(JSON.stringify(localStorage.getItem('CreatedByToPreview')));
     this.LastUpdatedAt = JSON.parse(JSON.stringify(localStorage.getItem('LastUpdatedAtToPreview')));

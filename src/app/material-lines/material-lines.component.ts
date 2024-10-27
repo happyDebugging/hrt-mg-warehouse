@@ -227,20 +227,24 @@ export class MaterialLinesComponent {
                 resObj.Photo = data.Photo;
 
                 if (data.IsMaterialDamaged) {
+                  //resObj.Quantity = data.DamagedMaterialQuantity;
                   this.damagedMaterialsList.push(resObj);
                   //console.log(this.damagedMaterialsList)
-                } else if (data.IsMaterialDeleted) {
+                } 
+                if (data.IsMaterialDeleted) {
+                  //resObj.Quantity = data.DeletedMaterialQuantity;
                   this.deletedMaterialsList.push(resObj);
                   //console.log(this.deletedMaterialsList)
-                } else {
+                } 
+                if (!data.IsMaterialDamaged && !data.IsMaterialDeleted) {
+                  //resObj.Quantity = data.AvailableMaterialQuantity;
                   this.availableMaterialsList.push(resObj);
                   //console.log(this.availableMaterialsList)
-                }
-
-                if (data.AvailableMaterialQuantity>0 && data.DamagedMaterialQuantity>0) {
+                } else if (data.AvailableMaterialQuantity>0 && data.DamagedMaterialQuantity>0) {
+                  //resObj.Quantity = data.AvailableMaterialQuantity;
                   this.availableMaterialsList.push(resObj);
-                }
-                if (data.AvailableMaterialQuantity>0 && data.DeletedMaterialQuantity>0) {
+                } else if (data.AvailableMaterialQuantity>0 && data.DeletedMaterialQuantity>0) {
+                  //resObj.Quantity = data.AvailableMaterialQuantity;
                   this.availableMaterialsList.push(resObj);
                 }
 
@@ -261,10 +265,12 @@ export class MaterialLinesComponent {
   }
 
   SetAvailableMaterialDetailsToLocalStorage(material: MaterialLines) {
+    localStorage.setItem('materialState', 'available');
+
     localStorage.setItem('materialIdToPreview', material.Id);
     localStorage.setItem('materialNameToPreview', material.MaterialName);
     localStorage.setItem('materialserialNumberToPreview', material.SerialNumber);
-    localStorage.setItem('materialQuantityToPreview', material.Quantity.toString());
+    localStorage.setItem('materialQuantityToPreview', material.AvailableMaterialQuantity.toString()); // material.Quantity.toString()
     localStorage.setItem('availableMaterialQuantityToPreview', material.AvailableMaterialQuantity.toString());
     localStorage.setItem('materialStorageCategoryToPreview', material.StorageCategory);
     localStorage.setItem('materialStoringPlaceToPreview', material.StoringPlace);
@@ -285,10 +291,12 @@ export class MaterialLinesComponent {
   }
 
   SetDamagedMaterialDetailsToLocalStorage(material: MaterialLines) {
+    localStorage.setItem('materialState', 'damaged');
+
     localStorage.setItem('materialIdToPreview', material.Id);
     localStorage.setItem('materialNameToPreview', material.MaterialName);
     localStorage.setItem('materialserialNumberToPreview', material.SerialNumber);
-    localStorage.setItem('materialQuantityToPreview', material.Quantity.toString());
+    localStorage.setItem('materialQuantityToPreview', material.DamagedMaterialQuantity.toString()); //material.Quantity.toString()
     localStorage.setItem('availableMaterialQuantityToPreview', material.AvailableMaterialQuantity.toString());
     localStorage.setItem('materialStorageCategoryToPreview', material.StorageCategory);
     localStorage.setItem('materialStoringPlaceToPreview', material.StoringPlace);
@@ -309,10 +317,12 @@ export class MaterialLinesComponent {
   }
 
   SetDeletedMaterialDetailsToLocalStorage(material: MaterialLines) {
+    localStorage.setItem('materialState', 'deleted');
+
     localStorage.setItem('materialIdToPreview', material.Id);
     localStorage.setItem('materialNameToPreview', material.MaterialName);
     localStorage.setItem('materialserialNumberToPreview', material.SerialNumber);
-    localStorage.setItem('materialQuantityToPreview', material.Quantity.toString());
+    localStorage.setItem('materialQuantityToPreview', material.DeletedMaterialQuantity.toString()); // material.Quantity.toString()
     localStorage.setItem('availableMaterialQuantityToPreview', material.AvailableMaterialQuantity.toString());
     localStorage.setItem('materialStorageCategoryToPreview', material.StorageCategory);
     localStorage.setItem('materialStoringPlaceToPreview', material.StoringPlace);

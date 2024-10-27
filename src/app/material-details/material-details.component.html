@@ -15,8 +15,8 @@
     <div class="mb-2">
         <!-- <input type="file" class="form-control form-control-sm" id="formFileSm" name="formFileSm"
                 [(ngModel)]="materialPhoto" (change)="selectFile($event)"> -->
-        <input *ngIf="isNewMaterial || isMaterialEditEnabled" type="file" class="btn" capture="camera" accept="image/*" id="cameraInput"
-            name="cameraInput" [(ngModel)]="materialPhoto" (change)="selectFile($event)">
+        <input *ngIf="isNewMaterial || isMaterialEditEnabled" type="file" class="btn" capture="camera" accept="image/*"
+            id="cameraInput" name="cameraInput" [(ngModel)]="materialPhoto" (change)="selectFile($event)">
     </div>
 
     <div class="text-wrap fw-light text-primary mb-3" style="font-size: small;">
@@ -48,14 +48,15 @@
         </div>
 
         <div class="form-group mb-3">
-            <label for="serialNumber">Σειριακός Αριθμός<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
+            <label for="serialNumber">Σειριακός Αριθμός<span
+                    *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
             <div class="row">
                 <div class="col-9">
                     <input type="text" class="form-control" id="serialNumber" name="serialNumber"
-                        [(ngModel)]="materialserialNumber" [disabled]="hasNoSerialNumber || (!isNewMaterial && !isMaterialEditEnabled)"
-                        required>
+                        [(ngModel)]="materialserialNumber"
+                        [disabled]="hasNoSerialNumber || (!isNewMaterial && !isMaterialEditEnabled)" required>
                 </div>
-                <div class="col-3 form-check mt-2 mb-3">
+                <div class="col-3 form-check mt-2">
                     <input class="form-check-input" type="checkbox" value="" id="noSerialNumber" name="noSerialNumber"
                         [(ngModel)]="hasNoSerialNumber" (click)="RadioSelectSerialNumberState(hasNoSerialNumber)"
                         [disabled]="!isNewMaterial && !isMaterialEditEnabled">
@@ -70,13 +71,15 @@
         <div class="form-group mb-3">
             <label for="quantity">Αριθμός Τεμαχίων<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
             <input type="text" class="form-control" id="quantity" name="quantity" [(ngModel)]="materialQuantity"
-                [disabled]="!isNewMaterial && !isMaterialEditEnabled" required>
+                [disabled]="(!isNewMaterial && !isMaterialEditEnabled) || materialState == 'damaged' || materialState == 'deleted'"
+                required>
         </div>
 
         <div class="form-group mb-3">
             <label for="place">Θέση που βρίσκεται<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
             <select class="form-select mb-3" name="place" [(ngModel)]="materialStoringPlace"
-                (change)="SetMaterialAsBorrowed(materialStoringPlace)" [disabled]="!isNewMaterial && !isMaterialEditEnabled" required>
+                (change)="SetMaterialAsBorrowed(materialStoringPlace)"
+                [disabled]="!isNewMaterial && !isMaterialEditEnabled" required>
                 <option value="warehouse">Αποθήκη</option>
                 <option value="kepix">Κ.ΕΠΙΧ.</option>
                 <option value="boat">Σκάφος</option>
@@ -93,21 +96,26 @@
             <div *ngIf="isMaterialBorrowed" class="card" style="width: 100%;">
                 <div class="card-body">
                     <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
-                        <label for="borrowedTo">Όνομα Χρεωμένου<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
+                        <label for="borrowedTo">Όνομα Χρεωμένου<span
+                                *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
                         <input type="text" class="form-control" id="borrowedTo" name="borrowedTo"
-                            [(ngModel)]="materialBorrowedTo" [disabled]="!isNewMaterial && !isMaterialEditEnabled" required>
+                            [(ngModel)]="materialBorrowedTo" [disabled]="!isNewMaterial && !isMaterialEditEnabled"
+                            required>
                     </div>
-        
+
                     <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
-                        <label for="borrowedDate">Ημερ/νία Δανεισμού<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
+                        <label for="borrowedDate">Ημερ/νία Δανεισμού<span
+                                *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
                         <input type="date" class="form-control" id="borrowedDate" name="borrowedDate"
                             [(ngModel)]="materialBorrowedAt" [disabled]="!isNewMaterial && !isMaterialEditEnabled">
                     </div>
-        
+
                     <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
-                        <label for="borrowedTo">Τεμάχια σε Δανεισμό<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
+                        <label for="borrowedTo">Τεμάχια σε Δανεισμό<span
+                                *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
                         <input type="text" class="form-control" id="borrowedQuanity" name="borrowedQuanity"
-                            [(ngModel)]="materialBorrowedQuantity" [disabled]="!isNewMaterial && !isMaterialEditEnabled" required>
+                            [(ngModel)]="materialBorrowedQuantity" [disabled]="!isNewMaterial && !isMaterialEditEnabled"
+                            required>
                     </div>
                 </div>
             </div>
@@ -120,83 +128,126 @@
                 [disabled]="!isNewMaterial && !isMaterialEditEnabled">
         </div>
 
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" value="" id="damagedMaterial" name="damagedMaterial"
-                [(ngModel)]="isMaterialDamaged" (click)="RadioSelectMaterialDamagedState(isMaterialDamaged)"
-                [disabled]="!isNewMaterial && !isMaterialEditEnabled">
-            <label class="form-check-label" for="damagedMaterial">
-                Υλικό σε βλάβη/προς επισκευή
-            </label>
-            <div *ngIf="isDamagedMaterialCheckboxChecked" class="row">
-                <div class="col-5">
-                    <input type="text" class="form-control" id="damagedMaterialQuantity" name="damagedMaterialQuantity"
-                        [(ngModel)]="damagedMaterialQuantity" required>
-                </div>
-                <div class="col-2">
-                    τεμάχια<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span>
-                </div>
-            </div>
+        <div class="form-group mb-3">
+            <label for="materialStateDescription">Κατάσταση</label>
+            <textarea class="form-control" id="materialStateDescription" name="materialStateDescription" [(ngModel)]="materialStateDescription" disabled rows="2"></textarea>
         </div>
 
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" value="" id="deletedMaterial" name="deletedMaterial"
-                [(ngModel)]="isMaterialDeleted" (click)="RadioSelectMaterialDeletedState(isMaterialDeleted)"
-                [disabled]="!isNewMaterial && !isMaterialEditEnabled">
-            <label class="form-check-label" for="deletedMaterial">
-                Υλικό προς διαγραφή λόγω καταστροφής ή απώλειας
-            </label>
-            <div *ngIf="isDeletedMaterialCheckboxChecked" class="row">
-                <div class="col-5">
-                    <input type="text" class="form-control" id="deletedMaterialQuantity" name="deletedMaterialQuantity"
-                        [(ngModel)]="deletedMaterialQuantity" required>
-                </div>
-                <div class="col-2">
-                    τεμάχια<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span>
+        <div *ngIf="isNewMaterial || isMaterialEditEnabled">
+            <div *ngIf="materialState!='available'" class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="availableMaterial" name="availableMaterial"
+                    [(ngModel)]="isMaterialAvailable" (click)="RadioSelectMaterialAvailableState(isMaterialDamaged)"
+                    [disabled]="!isNewMaterial && !isMaterialEditEnabled">
+                <label class="form-check-label" for="availableMaterial">
+                    Προσθήκη στα Διαθέσιμα Υλικά
+                </label>
+                <!-- <div *ngIf="isAvailableMaterialCheckboxChecked" class="row"> -->
+                <div class="row">
+                    <div class="col-5">
+                        <input type="text" class="form-control" id="availableMaterialQuantity"
+                            name="availableMaterialQuantity" [(ngModel)]="availableMaterialQuantity"
+                            (keyup)="CheckInputMax(availableMaterialQuantity)" required>
+                    </div>
+                    <div class="col-2">
+                        τεμάχια<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span>
+                    </div>
                 </div>
             </div>
+    
+            <div *ngIf="materialState!='damaged'" class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="damagedMaterial" name="damagedMaterial"
+                    [(ngModel)]="isMaterialDamaged" (click)="RadioSelectMaterialDamagedState(isMaterialDamaged)"
+                    [disabled]="!isNewMaterial && !isMaterialEditEnabled">
+                <label class="form-check-label" for="damagedMaterial">
+                    Υλικό σε βλάβη/προς επισκευή
+                </label>
+                <!-- <div *ngIf="isDamagedMaterialCheckboxChecked" class="row"> -->
+                <div class="row">
+                    <div class="col-5">
+                        <input type="text" class="form-control" id="damagedMaterialQuantity" name="damagedMaterialQuantity"
+                            [(ngModel)]="damagedMaterialQuantity" (keyup)="CheckInputMax(damagedMaterialQuantity)" required>
+                    </div>
+                    <div class="col-2">
+                        τεμάχια<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span>
+                    </div>
+                </div>
+            </div>
+    
+            <div *ngIf="materialState!='deleted'" class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="deletedMaterial" name="deletedMaterial"
+                    [(ngModel)]="isMaterialDeleted" (click)="RadioSelectMaterialDeletedState(isMaterialDeleted)"
+                    [disabled]="!isNewMaterial && !isMaterialEditEnabled">
+                <label class="form-check-label" for="deletedMaterial">
+                    Υλικό προς διαγραφή λόγω καταστροφής ή απώλειας
+                </label>
+                <!-- <div *ngIf="isDeletedMaterialCheckboxChecked" class="row"> -->
+                <div class="row">
+                    <div class="col-5">
+                        <input type="text" class="form-control" id="deletedMaterialQuantity" name="deletedMaterialQuantity"
+                            [(ngModel)]="deletedMaterialQuantity" (keyup)="CheckInputMax(deletedMaterialQuantity)" required>
+                    </div>
+                    <div class="col-2">
+                        τεμάχια<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span>
+                    </div>
+                </div>
+            </div>
+    
+            <div *ngIf="incorrectQuantityInput" class="text-wrap fw-light text-danger mb-3" style="font-size: small;">
+                Ο αριθμός υπερβαίνει το συνολικό αριθμό τεμαχίων.
+            </div>
         </div>
+        
 
-        <div *ngIf="isNewMaterial || isMaterialEditEnabled" class="text-wrap fw-light text-primary mb-3" style="font-size: small;">
-                *Υποχρεωτικό πεδίο.
+        <div *ngIf="isNewMaterial || isMaterialEditEnabled" class="text-wrap fw-light text-primary mb-3"
+            style="font-size: small;">
+            *Υποχρεωτικό πεδίο.
         </div>
 
 
         <div *ngIf="isNewMaterial || (isMaterialEditEnabled && !isSaveSuccessfull)" class="d-grid mb-3">
-            <button type="submit" class="btn btn-primary"
-                (click)="form.checkValidity()? DecideOnSaveMethod() : null">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
-                    <path d="M11 2H9v3h2z"/>
-                    <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
-                    </svg>
-                    Αποθήκευση</button>
+            <button type="submit" class="btn btn-primary" (click)="form.checkValidity()? DecideOnSaveMethod() : null">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy"
+                    viewBox="0 0 16 16">
+                    <path d="M11 2H9v3h2z" />
+                    <path
+                        d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
+                </svg>
+                Αποθήκευση</button>
         </div>
-           
+
         <div *ngIf="isMaterialEditEnabled && isSaveSuccessfull" class="d-grid mb-3">
             <button type="button" class="btn btn-info">Επιτυχής αποθήκευση!</button>
         </div>
 
         <div *ngIf="!isNewMaterial && isMaterialEditEnabled" class="d-grid mb-3">
             <button type="submit" class="btn btn-secondary" (click)="DisableMaterialEdit()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
-                    <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
-                  </svg>
-                  Έξοδος Επεξεργασίας</button>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z" />
+                    <path fill-rule="evenodd"
+                        d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
+                </svg>
+                Έξοδος Επεξεργασίας</button>
         </div>
 
         <hr *ngIf="isMaterialEditEnabled && loggedInUserPermissions == 'All'">
 
-        <div *ngIf="!isNewMaterial && (isMaterialEditEnabled && loggedInUserPermissions == 'All') && !isDeletionSuccessfull" class="d-grid mb-3">
+        <div *ngIf="!isNewMaterial && (isMaterialEditEnabled && loggedInUserPermissions == 'All') && !isDeletionSuccessfull"
+            class="d-grid mb-3">
             <button type="submit" class="btn btn-danger" (click)="DeleteMaterialPermanently()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
-                  </svg>
-                  Οριστική Διαγραφή</button>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                </svg>
+                Οριστική Διαγραφή</button>
         </div>
 
-        <div *ngIf="(isMaterialEditEnabled && loggedInUserPermissions == 'All') && isDeletionSuccessfull" class="d-grid mb-3">
+        <div *ngIf="(isMaterialEditEnabled && loggedInUserPermissions == 'All') && isDeletionSuccessfull"
+            class="d-grid mb-3">
             <button type="submit" class="btn btn-light" (click)="DeleteMaterialPermanently()">
-                  Οριστική Διαγραφή Επιτυχής!</button>
+                Οριστική Διαγραφή Επιτυχής!</button>
         </div>
 
     </form>
