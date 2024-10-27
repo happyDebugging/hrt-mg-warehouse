@@ -90,17 +90,28 @@
                 <option value="borrowed">Σε δανεισμό</option>
             </select>
 
-            <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
-                <label for="borrowedTo">Όνομα Χρεωμένου<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
-                <input type="text" class="form-control" id="borrowedTo" name="borrowedTo"
-                    [(ngModel)]="materialBorrowedTo" [disabled]="!isNewMaterial && !isMaterialEditEnabled" required>
+            <div *ngIf="isMaterialBorrowed" class="card" style="width: 100%;">
+                <div class="card-body">
+                    <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
+                        <label for="borrowedTo">Όνομα Χρεωμένου<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
+                        <input type="text" class="form-control" id="borrowedTo" name="borrowedTo"
+                            [(ngModel)]="materialBorrowedTo" [disabled]="!isNewMaterial && !isMaterialEditEnabled" required>
+                    </div>
+        
+                    <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
+                        <label for="borrowedDate">Ημερ/νία Δανεισμού<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
+                        <input type="date" class="form-control" id="borrowedDate" name="borrowedDate"
+                            [(ngModel)]="materialBorrowedAt" [disabled]="!isNewMaterial && !isMaterialEditEnabled">
+                    </div>
+        
+                    <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
+                        <label for="borrowedTo">Τεμάχια σε Δανεισμό<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
+                        <input type="text" class="form-control" id="borrowedQuanity" name="borrowedQuanity"
+                            [(ngModel)]="materialBorrowedQuanity" [disabled]="!isNewMaterial && !isMaterialEditEnabled" required>
+                    </div>
+                </div>
             </div>
 
-            <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
-                <label for="borrowedDate">Ημερ/νία Δανεισμού<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
-                <input type="date" class="form-control" id="borrowedDate" name="borrowedDate"
-                    [(ngModel)]="materialBorrowedAt" [disabled]="!isNewMaterial && !isMaterialEditEnabled">
-            </div>
         </div>
 
         <div class="form-group mb-3">
@@ -121,8 +132,8 @@
                     <input type="text" class="form-control" id="damagedMaterialQuantity" name="damagedMaterialQuantity"
                         [(ngModel)]="damagedMaterialQuantity" required>
                 </div>
-                <div class="col-1">
-                    τεμάχια
+                <div class="col-2">
+                    τεμάχια<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span>
                 </div>
             </div>
         </div>
@@ -139,8 +150,8 @@
                     <input type="text" class="form-control" id="deletedMaterialQuantity" name="deletedMaterialQuantity"
                         [(ngModel)]="deletedMaterialQuantity" required>
                 </div>
-                <div class="col-1">
-                    τεμάχια
+                <div class="col-2">
+                    τεμάχια<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span>
                 </div>
             </div>
         </div>

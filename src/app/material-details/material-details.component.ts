@@ -51,10 +51,11 @@ export class MaterialDetailsComponent {
   previousMaterialPhoto = '';
 
   isMaterialBorrowed = false;
-  damagedMaterialQuantity = 0;
-  deletedMaterialQuantity = 0;
+  materialBorrowedQuanity = 0;
   isDamagedMaterialCheckboxChecked = false;
+  damagedMaterialQuantity = 0;
   isDeletedMaterialCheckboxChecked = false;
+  deletedMaterialQuantity = 0;
 
   isSaveSuccessfull = false;
   isDeletionSuccessfull = false;
