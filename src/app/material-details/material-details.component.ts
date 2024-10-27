@@ -50,8 +50,9 @@ export class MaterialDetailsComponent {
   materialPhoto = '';
   previousMaterialPhoto = '';
 
+  availableMaterialQuantity = 0;
   isMaterialBorrowed = false;
-  materialBorrowedQuanity = 0;
+  materialBorrowedQuantity = 0;
   isDamagedMaterialCheckboxChecked = false;
   damagedMaterialQuantity = 0;
   isDeletedMaterialCheckboxChecked = false;
@@ -159,6 +160,7 @@ export class MaterialDetailsComponent {
   RadioSelectMaterialDamagedState(isMaterialDamaged: boolean) {
     this.isMaterialDeleted = false;
     this.isDeletedMaterialCheckboxChecked = false;
+    this.deletedMaterialQuantity = 0;
 
     if (this.isMaterialDamaged == true) {
       this.isDamagedMaterialCheckboxChecked = false;
@@ -171,6 +173,7 @@ export class MaterialDetailsComponent {
   RadioSelectMaterialDeletedState(isMaterialDamaged: boolean) {
     this.isMaterialDamaged = false;
     this.isDamagedMaterialCheckboxChecked = false;
+    this.damagedMaterialQuantity = 0;
 
     if (this.isMaterialDeleted == true) {
       this.isDeletedMaterialCheckboxChecked = false;
@@ -211,19 +214,25 @@ export class MaterialDetailsComponent {
       updatedMaterialLine.SerialNumber = 'Άνευ';
     }
     updatedMaterialLine.Quantity = this.materialQuantity;
+    this.availableMaterialQuantity = (+this.materialQuantity) - (+this.damagedMaterialQuantity) - (+this.deletedMaterialQuantity);
+    updatedMaterialLine.AvailableMaterialQuantity = this.availableMaterialQuantity;
     updatedMaterialLine.StorageCategory = this.storageCategoryDescription;
     updatedMaterialLine.StoringPlace = this.materialStoringPlace;
     updatedMaterialLine.StoredNearRepeater = this.materialStoredNearRepeater;//
     if (!this.isMaterialBorrowed) {
       updatedMaterialLine.BorrowedTo = '';
       updatedMaterialLine.BorrowedAt = '';
+      updatedMaterialLine.BorrowedMaterialQuantity = 0;
     } else {
       updatedMaterialLine.BorrowedTo = this.materialBorrowedTo;
       updatedMaterialLine.BorrowedAt = this.materialBorrowedAt;
+      updatedMaterialLine.BorrowedMaterialQuantity = this.materialBorrowedQuantity;
     }
     updatedMaterialLine.ExpiryDate = this.materialExpiryDate;
     updatedMaterialLine.IsMaterialDamaged = this.isMaterialDamaged;
+    updatedMaterialLine.DamagedMaterialQuantity = this.damagedMaterialQuantity;
     updatedMaterialLine.IsMaterialDeleted = this.isMaterialDeleted;
+    updatedMaterialLine.DeletedMaterialQuantity = this.deletedMaterialQuantity;
     updatedMaterialLine.CreatedAt = this.CreatedAt;
     updatedMaterialLine.CreatedBy = this.CreatedBy;
     updatedMaterialLine.LastUpdatedAt = Date.now().toString();
@@ -284,14 +293,27 @@ export class MaterialDetailsComponent {
       materialLine.SerialNumber = 'Άνευ';
     }
     materialLine.Quantity = this.materialQuantity;
+    this.availableMaterialQuantity = (+this.materialQuantity) - (+this.damagedMaterialQuantity) - (+this.deletedMaterialQuantity);
+    materialLine.AvailableMaterialQuantity = this.availableMaterialQuantity;
     materialLine.StorageCategory = this.storageCategoryDescription;
     materialLine.StoringPlace = this.materialStoringPlace;
     materialLine.StoredNearRepeater = this.materialStoredNearRepeater;//
-    materialLine.BorrowedTo = this.materialBorrowedTo;
-    materialLine.BorrowedAt = this.materialBorrowedAt;
+    if (!this.isMaterialBorrowed) {
+      materialLine.BorrowedTo = '';
+      materialLine.BorrowedAt = '';
+      materialLine.BorrowedMaterialQuantity = 0;
+    } else {
+      materialLine.BorrowedTo = this.materialBorrowedTo;
+      materialLine.BorrowedAt = this.materialBorrowedAt;
+      materialLine.BorrowedMaterialQuantity = this.materialBorrowedQuantity;
+    }
     materialLine.ExpiryDate = this.materialExpiryDate;
     materialLine.IsMaterialDamaged = this.isMaterialDamaged;
+    if (this.damagedMaterialQuantity==null) materialLine.DamagedMaterialQuantity = 0;
+    else materialLine.DamagedMaterialQuantity = this.damagedMaterialQuantity;
     materialLine.IsMaterialDeleted = this.isMaterialDeleted;
+    if (this.damagedMaterialQuantity==null) materialLine.DeletedMaterialQuantity = 0;
+    else materialLine.DeletedMaterialQuantity = this.deletedMaterialQuantity;
     materialLine.CreatedAt = Date.now().toString();
     materialLine.CreatedBy = this.loggedInUserName; //this.loggedInUserId;
     //materialLine.LastUpdatedAt = this.LastUpdatedAt;
@@ -341,6 +363,7 @@ export class MaterialDetailsComponent {
       this.materialserialNumber = '';
     }
     this.materialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('materialQuantityToPreview')));
+    this.availableMaterialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('availableMaterialQuantityToPreview')));
     this.materialStorageCategory = JSON.parse(JSON.stringify(localStorage.getItem('materialStorageCategoryToPreview')));
     this.materialStoringPlace = JSON.parse(JSON.stringify(localStorage.getItem('materialStoringPlaceToPreview')));
     this.materialStoredNearRepeater = JSON.parse(JSON.stringify(localStorage.getItem('materialStoredNearRepeaterToPreview')));
@@ -349,13 +372,16 @@ export class MaterialDetailsComponent {
       this.isMaterialBorrowed = true;
     }
     this.materialBorrowedAt = JSON.parse(JSON.stringify(localStorage.getItem('materialBorrowedAtToPreview')));
+    this.materialBorrowedQuantity = JSON.parse(JSON.stringify(localStorage.getItem('materialBorrowedQuantityToPreview')));
     this.materialExpiryDate = JSON.parse(JSON.stringify(localStorage.getItem('materialExpiryDateToPreview')));
     if (JSON.parse(JSON.stringify(localStorage.getItem('isMaterialDamagedToPreview'))) == 'true') {
       this.isMaterialDamaged = true;
     } else this.isMaterialDamaged = false;
+    this.damagedMaterialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('damagedMaterialQuantityToPreview')));
     if (JSON.parse(JSON.stringify(localStorage.getItem('isMaterialDeletedToPreview'))) == 'true') {
       this.isMaterialDeleted = true;
     } else this.isMaterialDeleted = false;
+    this.deletedMaterialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('deletedMaterialQuantityToPreview')));
     this.CreatedAt = JSON.parse(JSON.stringify(localStorage.getItem('CreatedAtToPreview')));
     this.CreatedBy = JSON.parse(JSON.stringify(localStorage.getItem('CreatedByToPreview')));
     this.LastUpdatedAt = JSON.parse(JSON.stringify(localStorage.getItem('LastUpdatedAtToPreview')));

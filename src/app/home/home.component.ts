@@ -96,14 +96,18 @@ export class HomeComponent implements OnInit {
                 resObj.MaterialName = data.MaterialName;
                 resObj.SerialNumber = data.SerialNumber;
                 resObj.Quantity = data.Quantity;
+                resObj.AvailableMaterialQuantity = data.AvailableMaterialQuantity;
                 resObj.StorageCategory = data.StorageCategory;
                 resObj.StoringPlace = data.StoringPlace;
                 resObj.StoredNearRepeater = data.StoredNearRepeater;//
                 resObj.BorrowedTo = data.BorrowedTo;
                 resObj.BorrowedAt = data.BorrowedAt;
+                resObj.BorrowedMaterialQuantity = data.BorrowedMaterialQuantity;
                 resObj.ExpiryDate = data.ExpiryDate;
                 resObj.IsMaterialDamaged = data.IsMaterialDamaged;
+                resObj.DamagedMaterialQuantity = data.DamagedMaterialQuantity;
                 resObj.IsMaterialDeleted = data.IsMaterialDeleted;
+                resObj.DeletedMaterialQuantity = data.DeletedMaterialQuantity;
                 resObj.CreatedAt = data.CreatedAt;
                 resObj.CreatedBy = data.CreatedBy;
                 resObj.LastUpdatedAt = data.LastUpdatedAt;
@@ -160,15 +164,19 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('materialNameToPreview', soonToExpireMaterial.MaterialName);
     localStorage.setItem('materialserialNumberToPreview', soonToExpireMaterial.SerialNumber);
     localStorage.setItem('materialQuantityToPreview', soonToExpireMaterial.Quantity.toString());
+    localStorage.setItem('availableMaterialQuantityToPreview', soonToExpireMaterial.AvailableMaterialQuantity.toString());
     localStorage.setItem('materialStorageCategoryToPreview', this.storageCategory);
     localStorage.setItem('storageCategory', this.storageCategory);
     localStorage.setItem('materialStoringPlaceToPreview', soonToExpireMaterial.StoringPlace);
     localStorage.setItem('materialStoredNearRepeaterToPreview', soonToExpireMaterial.StoredNearRepeater);
     localStorage.setItem('materialBorrowedToToPreview', soonToExpireMaterial.BorrowedTo);
     localStorage.setItem('materialBorrowedAtToPreview', soonToExpireMaterial.BorrowedAt);
+    localStorage.setItem('materialBorrowedQuantityToPreview', soonToExpireMaterial.BorrowedMaterialQuantity.toString());
     localStorage.setItem('materialExpiryDateToPreview', soonToExpireMaterial.ExpiryDate);
     localStorage.setItem('isMaterialDamagedToPreview', soonToExpireMaterial.IsMaterialDamaged.toString());
+    localStorage.setItem('damagedMaterialQuantityToPreview', soonToExpireMaterial.DamagedMaterialQuantity.toString());
     localStorage.setItem('isMaterialDeletedToPreview', soonToExpireMaterial.IsMaterialDeleted.toString());
+    localStorage.setItem('deletedMaterialQuantityToPreview', soonToExpireMaterial.DeletedMaterialQuantity.toString());
     localStorage.setItem('CreatedAtToPreview', soonToExpireMaterial.CreatedAt);
     localStorage.setItem('CreatedByToPreview', soonToExpireMaterial.CreatedBy);
     localStorage.setItem('LastUpdatedAtToPreview', soonToExpireMaterial.LastUpdatedAt);

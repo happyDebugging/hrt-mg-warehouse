@@ -107,7 +107,7 @@
                     <div *ngIf="isMaterialBorrowed" class="form-group mb-3">
                         <label for="borrowedTo">Τεμάχια σε Δανεισμό<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
                         <input type="text" class="form-control" id="borrowedQuanity" name="borrowedQuanity"
-                            [(ngModel)]="materialBorrowedQuanity" [disabled]="!isNewMaterial && !isMaterialEditEnabled" required>
+                            [(ngModel)]="materialBorrowedQuantity" [disabled]="!isNewMaterial && !isMaterialEditEnabled" required>
                     </div>
                 </div>
             </div>
