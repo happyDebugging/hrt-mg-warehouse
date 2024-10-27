@@ -160,10 +160,12 @@ export class HomeComponent implements OnInit {
   
     //console.log(this.storageCategory+'/material-lines'+'/item/'+ soonToExpireMaterial.SerialNumber)
 
+    localStorage.setItem('materialState', 'available');
+
     localStorage.setItem('materialIdToPreview', soonToExpireMaterial.Id);
     localStorage.setItem('materialNameToPreview', soonToExpireMaterial.MaterialName);
     localStorage.setItem('materialserialNumberToPreview', soonToExpireMaterial.SerialNumber);
-    localStorage.setItem('materialQuantityToPreview', soonToExpireMaterial.Quantity.toString());
+    localStorage.setItem('materialQuantityToPreview', soonToExpireMaterial.AvailableMaterialQuantity.toString()); // material.Quantity.toString()
     localStorage.setItem('availableMaterialQuantityToPreview', soonToExpireMaterial.AvailableMaterialQuantity.toString());
     localStorage.setItem('materialStorageCategoryToPreview', this.storageCategory);
     localStorage.setItem('storageCategory', this.storageCategory);
