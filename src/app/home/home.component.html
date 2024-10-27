@@ -82,6 +82,9 @@
                                 <small class="text-muted">Τεμ.: {{ borrowedMaterial.Quantity}} </small>
                             </div>
                             <small class="text-muted">{{ borrowedMaterial.StorageCategory}} </small>
+                            <p class="mb-0">
+                                Δανεισμός σε: {{ borrowedMaterial.BorrowedTo }}
+                            </p>
                             <p class="mb-1">
                                 Ημ/νία Δανεισμού: {{ borrowedMaterial.BorrowedAt | date:"dd/MM/yyyy" }}
                             </p>

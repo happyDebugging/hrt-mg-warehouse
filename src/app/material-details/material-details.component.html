@@ -116,6 +116,15 @@
             <label class="form-check-label" for="damagedMaterial">
                 Υλικό σε βλάβη/προς επισκευή
             </label>
+            <div *ngIf="isDamagedMaterialCheckboxChecked" class="row">
+                <div class="col-5">
+                    <input type="text" class="form-control" id="damagedMaterialQuantity" name="damagedMaterialQuantity"
+                        [(ngModel)]="damagedMaterialQuantity" required>
+                </div>
+                <div class="col-1">
+                    τεμάχια
+                </div>
+            </div>
         </div>
 
         <div class="form-check mb-3">
@@ -125,6 +134,15 @@
             <label class="form-check-label" for="deletedMaterial">
                 Υλικό προς διαγραφή λόγω καταστροφής ή απώλειας
             </label>
+            <div *ngIf="isDeletedMaterialCheckboxChecked" class="row">
+                <div class="col-5">
+                    <input type="text" class="form-control" id="deletedMaterialQuantity" name="deletedMaterialQuantity"
+                        [(ngModel)]="deletedMaterialQuantity" required>
+                </div>
+                <div class="col-1">
+                    τεμάχια
+                </div>
+            </div>
         </div>
 
         <div *ngIf="isNewMaterial || isMaterialEditEnabled" class="text-wrap fw-light text-primary mb-3" style="font-size: small;">

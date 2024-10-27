@@ -51,6 +51,10 @@ export class MaterialDetailsComponent {
   previousMaterialPhoto = '';
 
   isMaterialBorrowed = false;
+  damagedMaterialQuantity = 0;
+  deletedMaterialQuantity = 0;
+  isDamagedMaterialCheckboxChecked = false;
+  isDeletedMaterialCheckboxChecked = false;
 
   isSaveSuccessfull = false;
   isDeletionSuccessfull = false;
@@ -153,10 +157,26 @@ export class MaterialDetailsComponent {
 
   RadioSelectMaterialDamagedState(isMaterialDamaged: boolean) {
     this.isMaterialDeleted = false;
+    this.isDeletedMaterialCheckboxChecked = false;
+
+    if (this.isMaterialDamaged == true) {
+      this.isDamagedMaterialCheckboxChecked = false;
+    } else {
+      this.isDamagedMaterialCheckboxChecked = !this.isDamagedMaterialCheckboxChecked;
+    }
+
   }
 
   RadioSelectMaterialDeletedState(isMaterialDamaged: boolean) {
     this.isMaterialDamaged = false;
+    this.isDamagedMaterialCheckboxChecked = false;
+
+    if (this.isMaterialDeleted == true) {
+      this.isDeletedMaterialCheckboxChecked = false;
+    } else {
+      this.isDeletedMaterialCheckboxChecked = !this.isDeletedMaterialCheckboxChecked;
+    }
+
   }
 
   EnableMaterialEdit() {
