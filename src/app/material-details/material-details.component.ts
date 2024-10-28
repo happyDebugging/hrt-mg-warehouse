@@ -174,7 +174,7 @@ export class MaterialDetailsComponent {
     // if (this.isMaterialAvailable == true) {
     //   this.isAvailableMaterialCheckboxChecked = false;
     // } else {
-    //   this.isAvailableMaterialCheckboxChecked = !this.isAvailableMaterialCheckboxChecked;
+       this.isAvailableMaterialCheckboxChecked = !this.isAvailableMaterialCheckboxChecked;
     // }
 
   }
@@ -187,7 +187,7 @@ export class MaterialDetailsComponent {
     // if (this.isMaterialDamaged == true) {
     //   this.isDamagedMaterialCheckboxChecked = false;
     // } else {
-    //   this.isDamagedMaterialCheckboxChecked = !this.isDamagedMaterialCheckboxChecked;
+       this.isDamagedMaterialCheckboxChecked = !this.isDamagedMaterialCheckboxChecked;
     // }
 
   }
@@ -200,7 +200,7 @@ export class MaterialDetailsComponent {
     // if (this.isMaterialDeleted == true) {
     //   this.isDeletedMaterialCheckboxChecked = false;
     // } else {
-    //   this.isDeletedMaterialCheckboxChecked = !this.isDeletedMaterialCheckboxChecked;
+       this.isDeletedMaterialCheckboxChecked = !this.isDeletedMaterialCheckboxChecked;
     // }
 
   }

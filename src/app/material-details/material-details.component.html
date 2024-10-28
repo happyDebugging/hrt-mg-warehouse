@@ -148,7 +148,7 @@
                     <div class="col-5">
                         <input type="text" class="form-control" id="availableMaterialQuantity"
                             name="availableMaterialQuantity" [(ngModel)]="availableMaterialQuantity"
-                            (keyup)="CheckInputMax(availableMaterialQuantity)" required>
+                            (keyup)="CheckInputMax(availableMaterialQuantity)" [disabled]="!isAvailableMaterialCheckboxChecked" required>
                     </div>
                     <div class="col-2">
                         τεμάχια
@@ -167,7 +167,7 @@
                 <div class="row">
                     <div class="col-5">
                         <input type="text" class="form-control" id="damagedMaterialQuantity" name="damagedMaterialQuantity"
-                            [(ngModel)]="damagedMaterialQuantity" (keyup)="CheckInputMax(damagedMaterialQuantity)" required>
+                            [(ngModel)]="damagedMaterialQuantity" (keyup)="CheckInputMax(damagedMaterialQuantity)" [disabled]="!isDamagedMaterialCheckboxChecked" required>
                     </div>
                     <div class="col-2">
                         τεμάχια
@@ -186,7 +186,7 @@
                 <div class="row">
                     <div class="col-5">
                         <input type="text" class="form-control" id="deletedMaterialQuantity" name="deletedMaterialQuantity"
-                            [(ngModel)]="deletedMaterialQuantity" (keyup)="CheckInputMax(deletedMaterialQuantity)" required>
+                            [(ngModel)]="deletedMaterialQuantity" (keyup)="CheckInputMax(deletedMaterialQuantity)" [disabled]="!isDeletedMaterialCheckboxChecked" required>
                     </div>
                     <div class="col-2">
                         τεμάχια
