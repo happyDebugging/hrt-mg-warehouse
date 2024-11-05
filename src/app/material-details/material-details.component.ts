@@ -73,6 +73,10 @@ export class MaterialDetailsComponent {
 
   isMaterialEditEnabled = false;
 
+  tempAvailableMaterialQuantity = 0;
+  tempDamagedMaterialQuantity = 0;
+  tempDeletedMaterialQuantity = 0;
+
   // Firebase web app configuration
   firebaseConfig = {
     apiKey: "AIzaSyAq82tP-XtNICS4oNiS2hKLN2tzElGQF0Q",
@@ -177,6 +181,7 @@ export class MaterialDetailsComponent {
        this.isAvailableMaterialCheckboxChecked = !this.isAvailableMaterialCheckboxChecked;
     // }
 
+    this.isMaterialAvailable = this.isAvailableMaterialCheckboxChecked;
   }
 
   RadioSelectMaterialDamagedState(isMaterialDamaged: boolean) {
@@ -190,6 +195,7 @@ export class MaterialDetailsComponent {
        this.isDamagedMaterialCheckboxChecked = !this.isDamagedMaterialCheckboxChecked;
     // }
 
+    this.isMaterialDamaged = this.isDamagedMaterialCheckboxChecked;
   }
 
   RadioSelectMaterialDeletedState(isMaterialDamaged: boolean) {
@@ -202,6 +208,10 @@ export class MaterialDetailsComponent {
     // } else {
        this.isDeletedMaterialCheckboxChecked = !this.isDeletedMaterialCheckboxChecked;
     // }
+
+    this.isMaterialDeleted = this.isDeletedMaterialCheckboxChecked;
+
+    console.log(this.isMaterialDeleted, ' ', this.isDeletedMaterialCheckboxChecked)
 
   }
 
@@ -236,6 +246,10 @@ export class MaterialDetailsComponent {
       updatedMaterialLine.SerialNumber = 'Άνευ';
     }
     updatedMaterialLine.Quantity = this.materialQuantity;
+
+    this.availableMaterialQuantity = this.tempAvailableMaterialQuantity;
+    this.damagedMaterialQuantity = this.tempDamagedMaterialQuantity;
+    this.deletedMaterialQuantity = this.tempDeletedMaterialQuantity;
 
     if (this.materialState == 'available') {
       this.availableMaterialQuantity = this.materialQuantity; ////
@@ -332,6 +346,10 @@ export class MaterialDetailsComponent {
     let materialLine = new MaterialLines;
     console.log(this.materialId)
 
+    this.availableMaterialQuantity = this.tempAvailableMaterialQuantity;
+    this.damagedMaterialQuantity = this.tempDamagedMaterialQuantity;
+    this.deletedMaterialQuantity = this.tempDeletedMaterialQuantity;
+
     materialLine.Id = this.materialId;
     materialLine.MaterialName = this.materialName;
     if (!this.hasNoSerialNumber) {
@@ -396,7 +414,8 @@ export class MaterialDetailsComponent {
   }
 
   CheckInputMax(materialQuantity: number) {
-    let materialQuantitySum = (+this.availableMaterialQuantity)+(+this.damagedMaterialQuantity)+(+this.deletedMaterialQuantity);
+
+    let materialQuantitySum = (+this.tempAvailableMaterialQuantity)+(+this.tempDamagedMaterialQuantity)+(+this.tempDeletedMaterialQuantity);
     if (materialQuantitySum > this.materialQuantity) {
       this.incorrectQuantityInput = true;
     } else {
@@ -448,6 +467,9 @@ export class MaterialDetailsComponent {
     if (JSON.parse(JSON.stringify(localStorage.getItem('isMaterialDeletedToPreview'))) == 'true') {
       this.isMaterialDeleted = true;
     } else this.isMaterialDeleted = false;
+    if (!this.isMaterialDamaged && !this.isMaterialDeleted) {
+      this.isMaterialAvailable = true;
+    } else this.isMaterialAvailable = false;
     //this.deletedMaterialQuantity = 
     this.previousDeletedMaterialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('deletedMaterialQuantityToPreview')));
     this.CreatedAt = JSON.parse(JSON.stringify(localStorage.getItem('CreatedAtToPreview')));
