@@ -1,3 +1,43 @@
+<!-- Missing Image Modal -->
+<ng-template #missingImage let-modal>
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="missingImage">Ειδοποίηση</h1>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="mb-3">
+                <h6>Δεν έχει προστεθεί φωτογραφία για το υλικό.</h6>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="DismillModal()">Οκ</button>
+    </div>
+</ng-template>
+
+<!-- Exit Warning Modal -->
+<ng-template #exitWarning let-modal>
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exitWarning">Ειδοποίηση</h1>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="mb-3">
+                <h6>Η εργασία δεν έχει ολοκληρωθεί. Έξοδος από τη σελίδα;</h6>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="DismillModal()">
+            Άκυρο
+        </button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="">
+            Οκ
+        </button>
+    </div>
+</ng-template>
+
+
 <hr>
 <div class="container-fluid">
     <p>{{ storageCategoryDescription }}</p>
@@ -130,7 +170,8 @@
 
         <div class="form-group mb-3">
             <label for="materialStateDescription">Κατάσταση</label>
-            <textarea class="form-control" id="materialStateDescription" name="materialStateDescription" [(ngModel)]="materialStateDescription" disabled rows="2"></textarea>
+            <textarea class="form-control" id="materialStateDescription" name="materialStateDescription"
+                [(ngModel)]="materialStateDescription" disabled rows="2"></textarea>
         </div>
 
         <hr *ngIf="isNewMaterial || isMaterialEditEnabled">
@@ -138,7 +179,8 @@
         <div *ngIf="isNewMaterial || isMaterialEditEnabled">
             <div *ngIf="materialState!='available'" class="form-check mb-3">
                 <input class="form-check-input" type="checkbox" value="" id="availableMaterial" name="availableMaterial"
-                    [(ngModel)]="isAvailableMaterialCheckboxChecked" (click)="RadioSelectMaterialAvailableState(isAvailableMaterialCheckboxChecked)"
+                    [(ngModel)]="isAvailableMaterialCheckboxChecked"
+                    (click)="RadioSelectMaterialAvailableState(isAvailableMaterialCheckboxChecked)"
                     [disabled]="!isNewMaterial && !isMaterialEditEnabled">
                 <label class="form-check-label" for="availableMaterial">
                     Προσθήκη στα Διαθέσιμα Υλικά
@@ -148,17 +190,19 @@
                     <div class="col-5">
                         <input type="text" class="form-control" id="availableMaterialQuantity"
                             name="availableMaterialQuantity" [(ngModel)]="tempAvailableMaterialQuantity"
-                            (keyup)="CheckInputMax(tempAvailableMaterialQuantity)" [disabled]="!isAvailableMaterialCheckboxChecked" required>
+                            (keyup)="CheckInputMax(tempAvailableMaterialQuantity)"
+                            [disabled]="!isAvailableMaterialCheckboxChecked" required>
                     </div>
                     <div class="col-2">
                         τεμάχια
                     </div>
                 </div>
             </div>
-    
+
             <div *ngIf="materialState!='damaged'" class="form-check mb-3">
                 <input class="form-check-input" type="checkbox" value="" id="damagedMaterial" name="damagedMaterial"
-                    [(ngModel)]="isDamagedMaterialCheckboxChecked" (click)="RadioSelectMaterialDamagedState(isDamagedMaterialCheckboxChecked)"
+                    [(ngModel)]="isDamagedMaterialCheckboxChecked"
+                    (click)="RadioSelectMaterialDamagedState(isDamagedMaterialCheckboxChecked)"
                     [disabled]="!isNewMaterial && !isMaterialEditEnabled">
                 <label class="form-check-label" for="damagedMaterial">
                     Υλικό σε βλάβη/προς επισκευή
@@ -166,18 +210,21 @@
                 <!-- <div *ngIf="isDamagedMaterialCheckboxChecked" class="row"> -->
                 <div class="row">
                     <div class="col-5">
-                        <input type="text" class="form-control" id="damagedMaterialQuantity" name="damagedMaterialQuantity"
-                            [(ngModel)]="tempDamagedMaterialQuantity" (keyup)="CheckInputMax(tempDamagedMaterialQuantity)" [disabled]="!isDamagedMaterialCheckboxChecked" required>
+                        <input type="text" class="form-control" id="damagedMaterialQuantity"
+                            name="damagedMaterialQuantity" [(ngModel)]="tempDamagedMaterialQuantity"
+                            (keyup)="CheckInputMax(tempDamagedMaterialQuantity)"
+                            [disabled]="!isDamagedMaterialCheckboxChecked" required>
                     </div>
                     <div class="col-2">
                         τεμάχια
                     </div>
                 </div>
             </div>
-    
+
             <div *ngIf="materialState!='deleted'" class="form-check mb-3">
                 <input class="form-check-input" type="checkbox" value="" id="deletedMaterial" name="deletedMaterial"
-                    [(ngModel)]="isDeletedMaterialCheckboxChecked" (click)="RadioSelectMaterialDeletedState(isDeletedMaterialCheckboxChecked)"
+                    [(ngModel)]="isDeletedMaterialCheckboxChecked"
+                    (click)="RadioSelectMaterialDeletedState(isDeletedMaterialCheckboxChecked)"
                     [disabled]="!isNewMaterial && !isMaterialEditEnabled">
                 <label class="form-check-label" for="deletedMaterial">
                     Υλικό προς διαγραφή λόγω καταστροφής ή απώλειας
@@ -185,20 +232,22 @@
                 <!-- <div *ngIf="isDeletedMaterialCheckboxChecked" class="row"> -->
                 <div class="row">
                     <div class="col-5">
-                        <input type="text" class="form-control" id="deletedMaterialQuantity" name="deletedMaterialQuantity"
-                            [(ngModel)]="tempDeletedMaterialQuantity" (keyup)="CheckInputMax(tempDeletedMaterialQuantity)" [disabled]="!isDeletedMaterialCheckboxChecked" required>
+                        <input type="text" class="form-control" id="deletedMaterialQuantity"
+                            name="deletedMaterialQuantity" [(ngModel)]="tempDeletedMaterialQuantity"
+                            (keyup)="CheckInputMax(tempDeletedMaterialQuantity)"
+                            [disabled]="!isDeletedMaterialCheckboxChecked" required>
                     </div>
                     <div class="col-2">
                         τεμάχια
                     </div>
                 </div>
             </div>
-    
+
             <div *ngIf="incorrectQuantityInput" class="text-wrap fw-light text-danger mb-3" style="font-size: small;">
                 Ο αριθμός υπερβαίνει το συνολικό αριθμό τεμαχίων.
             </div>
         </div>
-        
+
 
         <div *ngIf="isNewMaterial || isMaterialEditEnabled" class="text-wrap fw-light text-primary mb-3"
             style="font-size: small;">

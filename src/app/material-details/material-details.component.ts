@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
 import { deleteObject, getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
@@ -7,6 +7,7 @@ import { MaterialLines } from '../shared/models/material-lines.model';
 import { map, Subscription } from 'rxjs';
 import * as imageConversion from 'image-conversion';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-material-details',
@@ -77,6 +78,9 @@ export class MaterialDetailsComponent {
   tempDamagedMaterialQuantity = 0;
   tempDeletedMaterialQuantity = 0;
 
+  @ViewChild('missingImage') missingImage: any;
+  @ViewChild('exitWarning') exitWarning: any;
+
   // Firebase web app configuration
   firebaseConfig = {
     apiKey: "AIzaSyAq82tP-XtNICS4oNiS2hKLN2tzElGQF0Q",
@@ -102,7 +106,7 @@ export class MaterialDetailsComponent {
 
   updateMaterialLines: Subscription = new Subscription;
 
-  constructor(private dbFunctionService: DbFunctionService, private router: Router) { }
+  constructor(private dbFunctionService: DbFunctionService, private modalService: NgbModal, private router: Router) { }
 
   ngOnInit() {
 
@@ -123,6 +127,14 @@ export class MaterialDetailsComponent {
 
     this.GetMaterialPhotoFromStorage();
 
+  }
+
+  NotifyUserThatMaterialImageIsMissing() {
+    this.modalService.open(this.missingImage, { centered: true, size: 'sm', windowClass: 'zindex' });
+  }
+
+  ShowExitWarning() {
+    this.modalService.open(this.exitWarning, { centered: true, size: 'sm', windowClass: 'zindex' });
   }
 
   selectFile(event: any) {
