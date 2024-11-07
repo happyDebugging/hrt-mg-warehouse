@@ -78,7 +78,7 @@ export class MaterialDetailsComponent {
   tempDamagedMaterialQuantity = 0;
   tempDeletedMaterialQuantity = 0;
 
-  @ViewChild('missingImage') missingImage: any;
+  @ViewChild('invalidFormWarning') invalidFormWarning: any;
   @ViewChild('exitWarning') exitWarning: any;
 
   // Firebase web app configuration
@@ -129,8 +129,8 @@ export class MaterialDetailsComponent {
 
   }
 
-  NotifyUserThatMaterialImageIsMissing() {
-    this.modalService.open(this.missingImage, { centered: true, size: 'sm', windowClass: 'zindex' });
+  ShowInvalidFormMessage() {
+    this.modalService.open(this.invalidFormWarning, { centered: true, size: 'sm', windowClass: 'zindex' });
   }
 
   ShowExitWarning() {
@@ -539,6 +539,10 @@ export class MaterialDetailsComponent {
           console.log(err);
         }
       );
+  }
+
+  DismillModal() {
+    this.modalService.dismissAll();
   }
 
   ngOnDestroy() {

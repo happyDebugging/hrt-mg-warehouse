@@ -1,12 +1,12 @@
 <!-- Missing Image Modal -->
-<ng-template #missingImage let-modal>
+<ng-template #invalidFormWarning let-modal>
     <div class="modal-header">
-        <h1 class="modal-title fs-5" id="missingImage">Ειδοποίηση</h1>
+        <h1 class="modal-title fs-5" id="invalidFormWarning">Ειδοποίηση</h1>
     </div>
     <div class="modal-body">
         <form>
             <div class="mb-3">
-                <h6>Δεν έχει προστεθεί φωτογραφία για το υλικό.</h6>
+                <h6>Μη συμπληρωμένα υποχρεωτικά πεδία ή ελλειπής φωτογραφία.</h6>
             </div>
         </form>
     </div>
@@ -31,7 +31,7 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="DismillModal()">
             Άκυρο
         </button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
             Οκ
         </button>
     </div>
@@ -47,40 +47,42 @@
 
 <div class="container-fluid">
 
-    <div class="card mb-1" style="width: 100%; height: 19rem;">
-        <img [src]="preview" class="card-img-top img-fluid" style="object-fit: contain; overflow: hidden;"
-            id="photoPreview" alt="Προεπισκόπιση Εικόνας">
-    </div>
-
-    <div class="mb-2">
-        <!-- <input type="file" class="form-control form-control-sm" id="formFileSm" name="formFileSm"
-                [(ngModel)]="materialPhoto" (change)="selectFile($event)"> -->
-        <input *ngIf="isNewMaterial || isMaterialEditEnabled" type="file" class="btn" capture="camera" accept="image/*"
-            id="cameraInput" name="cameraInput" [(ngModel)]="materialPhoto" (change)="selectFile($event)">
-    </div>
-
-    <div class="text-wrap fw-light text-primary mb-3" style="font-size: small;">
-        <div *ngIf="CreatedAt != '' && CreatedAt != null && CreatedAt != undefined">
-            Προστέθηκε στις {{ CreatedAt | date:"dd/MM/yyyy '-' HH:mm" }} από {{ CreatedBy }}.
-        </div>
-        <div *ngIf="LastUpdatedAt != '' && LastUpdatedAt != null && LastUpdatedAt != 'undefined'">
-            Τελευταία τροποποίηση στις {{ LastUpdatedAt | date:"dd/MM/yyyy '-' HH:mm" }} από {{ LastUpdatedBy }}.
-        </div>
-    </div>
-
-    <div *ngIf="!isNewMaterial && !isMaterialEditEnabled" class="d-grid mb-3">
-        <button type="submit" class="btn btn-secondary" (click)="EnableMaterialEdit()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-pencil-square" viewBox="0 0 16 16">
-                <path
-                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                <path fill-rule="evenodd"
-                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-            </svg>
-            Επεξεργασία</button>
-    </div>
-
     <form ngNativeValidate #form>
+        <div class="card mb-1" style="width: 100%; height: 19rem;">
+            <img [src]="preview" class="card-img-top img-fluid" style="object-fit: contain; overflow: hidden;"
+                id="photoPreview" alt="Προεπισκόπιση Εικόνας">
+        </div>
+
+        <div class="mb-2">
+            <!-- <input type="file" class="form-control form-control-sm" id="formFileSm" name="formFileSm"
+                [(ngModel)]="materialPhoto" (change)="selectFile($event)"> -->
+            <input *ngIf="isNewMaterial || isMaterialEditEnabled" type="file" class="btn" capture="camera"
+                accept="image/*" id="cameraInput" name="cameraInput" [(ngModel)]="materialPhoto"
+                (change)="selectFile($event)" required>
+        </div>
+
+        <div class="text-wrap fw-light text-primary mb-3" style="font-size: small;">
+            <div *ngIf="CreatedAt != '' && CreatedAt != null && CreatedAt != undefined">
+                Προστέθηκε στις {{ CreatedAt | date:"dd/MM/yyyy '-' HH:mm" }} από {{ CreatedBy }}.
+            </div>
+            <div *ngIf="LastUpdatedAt != '' && LastUpdatedAt != null && LastUpdatedAt != 'undefined'">
+                Τελευταία τροποποίηση στις {{ LastUpdatedAt | date:"dd/MM/yyyy '-' HH:mm" }} από {{ LastUpdatedBy }}.
+            </div>
+        </div>
+
+        <div *ngIf="!isNewMaterial && !isMaterialEditEnabled" class="d-grid mb-3">
+            <button type="submit" class="btn btn-secondary" (click)="EnableMaterialEdit()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-pencil-square" viewBox="0 0 16 16">
+                    <path
+                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                    <path fill-rule="evenodd"
+                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                </svg>
+                Επεξεργασία</button>
+        </div>
+
+
         <div class="form-group mb-3">
             <label for="materialName">Όνομα Υλικού<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
             <input type="text" class="form-control" id="materialName" name="materialName" [(ngModel)]="materialName"
@@ -257,7 +259,8 @@
         <hr *ngIf="isNewMaterial || isMaterialEditEnabled">
 
         <div *ngIf="isNewMaterial || (isMaterialEditEnabled && !isSaveSuccessfull)" class="d-grid mb-3">
-            <button type="submit" class="btn btn-primary" (click)="form.checkValidity()? DecideOnSaveMethod() : null">
+            <button type="submit" class="btn btn-primary"
+                (click)="form.checkValidity()? DecideOnSaveMethod() : ShowInvalidFormMessage()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy"
                     viewBox="0 0 16 16">
                     <path d="M11 2H9v3h2z" />
