@@ -1,0 +1,21 @@
+<!-- Exit Warning Modal -->
+<ng-template #exitWarning let-modal>
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exitWarning">Ειδοποίηση</h1>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="mb-3">
+                <h6>Η εργασία δεν έχει ολοκληρωθεί. Έξοδος από τη σελίδα;</h6>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="DismillModal()">
+            Άκυρο
+        </button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+            Οκ
+        </button>
+    </div>
+</ng-template>

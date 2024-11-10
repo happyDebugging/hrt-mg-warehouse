@@ -229,10 +229,12 @@ export class MaterialDetailsComponent {
 
   EnableMaterialEdit() {
     this.isMaterialEditEnabled = true;
+    localStorage.setItem('isMaterialEditEnabled', 'true');
   }
 
   DisableMaterialEdit() {
     this.isMaterialEditEnabled = false;
+    localStorage.setItem('isMaterialEditEnabled', 'false');
   }
 
   DecideOnSaveMethod() {
@@ -449,6 +451,7 @@ export class MaterialDetailsComponent {
     if (this.materialId == null) {
       console.log('this.materialId: '+this.materialId)
       this.isNewMaterial = true;
+      localStorage.setItem('isNewMaterial', 'true');
     }
     this.materialName = JSON.parse(JSON.stringify(localStorage.getItem('materialNameToPreview')));
     this.materialserialNumber = JSON.parse(JSON.stringify(localStorage.getItem('materialserialNumberToPreview')));

@@ -7,6 +7,7 @@ import { MaterialDetailsComponent } from './material-details/material-details.co
 import { HomeComponent } from './home/home.component';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
+import { UnsavedChangesGuard } from './unsaved-changes/unsaved-changes.guard';
 
 const routes: Routes = [
   { path: 'auth', component: AuthComponent, pathMatch: 'full' },
@@ -14,28 +15,28 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
 
   {path: 'mountain/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard]},
-  {path: 'mountain/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
-  {path: 'mountain/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'mountain/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard], canDeactivate: [UnsavedChangesGuard]},
+  {path: 'mountain/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard], canDeactivate: [UnsavedChangesGuard]},
 
   { path: 'water/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard] },
-  {path: 'water/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
-  {path: 'water/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'water/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard], canDeactivate: [UnsavedChangesGuard]},
+  {path: 'water/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard], canDeactivate: [UnsavedChangesGuard]},
 
   { path: 'disaster/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard] },
-  {path: 'disaster/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
-  {path: 'disaster/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'disaster/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard], canDeactivate: [UnsavedChangesGuard]},
+  {path: 'disaster/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard], canDeactivate: [UnsavedChangesGuard]},
 
   { path: 'firstAid/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard] },
-  {path: 'firstAid/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
-  {path: 'firstAid/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'firstAid/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard], canDeactivate: [UnsavedChangesGuard]},
+  {path: 'firstAid/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard], canDeactivate: [UnsavedChangesGuard]},
 
   { path: 'communications/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard] },
-  {path: 'communications/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
-  {path: 'communications/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'communications/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard], canDeactivate: [UnsavedChangesGuard]},
+  {path: 'communications/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard], canDeactivate: [UnsavedChangesGuard]},
 
   { path: 'socialCare/material-lines', component: MaterialLinesComponent, canActivate: [AuthGuard] },
-  {path: 'socialCare/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
-  {path: 'socialCare/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'socialCare/material-lines/item', component: MaterialDetailsComponent, canActivate: [AuthGuard], canDeactivate: [UnsavedChangesGuard]},
+  {path: 'socialCare/material-lines/item/:serial-number', component: MaterialDetailsComponent, canActivate: [AuthGuard], canDeactivate: [UnsavedChangesGuard]},
 
   { path: 'history', component: HistoryComponent, canActivate: [AuthGuard] },
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },

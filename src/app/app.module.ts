@@ -15,6 +15,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthComponent } from './auth/auth.component';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
+import { UnsavedChangesGuard } from './unsaved-changes/unsaved-changes.guard';
+import { UnsavedChangesComponent } from './unsaved-changes/unsaved-changes.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { AuthGuard } from './auth/auth.guard';
     MaterialDetailsComponent,
     MaterialLinesComponent,
     HomeComponent,
-    AuthComponent
+    AuthComponent,
+    UnsavedChangesComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,8 @@ import { AuthGuard } from './auth/auth.guard';
   providers: [
     DbFunctionService,
     AuthGuard,
-    AuthService
+    AuthService,
+    UnsavedChangesGuard
   ],
   bootstrap: [AppComponent]
 })
