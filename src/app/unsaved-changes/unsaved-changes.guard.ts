@@ -13,6 +13,7 @@ export class UnsavedChangesGuard implements CanDeactivate<UnsavedChangesComponen
 
     isNewMaterial = 'false';
     isMaterialEditEnabled = 'false';
+    isDeletionSuccessfull = 'false';
 
     @ViewChild('exitWarning') exitWarning: any;
 
@@ -22,21 +23,28 @@ export class UnsavedChangesGuard implements CanDeactivate<UnsavedChangesComponen
 
         this.isNewMaterial = JSON.parse(JSON.stringify(localStorage.getItem("isNewMaterial")));
         this.isMaterialEditEnabled = JSON.parse(JSON.stringify(localStorage.getItem("isMaterialEditEnabled")));
+        this.isDeletionSuccessfull = JSON.parse(JSON.stringify(localStorage.getItem("isDeletionSuccessfull")));
 
-        if (this.isNewMaterial == 'true' || this.isMaterialEditEnabled == 'true') {
-            console.log('feugeis?')
+        //if (this.isNewMaterial == 'true' || this.isMaterialEditEnabled == 'true') {
 
-            //this.ShowExitWarning();
+            //if (!this.isDeletionSuccessfull) {
+            //    console.log('feugeis?')
+
+                //this.ShowExitWarning();
+                //return false;
+                //return confirm("Η εργασία δεν έχει ολοκληρωθεί. Έξοδος από τη σελίδα;"); //true; ////component.canDeactivate()
+                // if (confirm("Η εργασία δεν έχει ολοκληρωθεί. Έξοδος από τη σελίδα;") == false) {
+                //     return false;
+                //     localStorage.setItem('isMaterialEditEnabled', 'false');
+                // }
+                // return false;
+            //} else {
+                return true;
+            //}
             //return false;
-            return confirm("Η εργασία δεν έχει ολοκληρωθεί. Έξοδος από τη σελίδα;"); //component.canDeactivate()
-            // if (confirm("Η εργασία δεν έχει ολοκληρωθεί. Έξοδος από τη σελίδα;") == false) {
-            //     return false;
-            //     localStorage.setItem('isMaterialEditEnabled', 'false');
-            // }
-            // return false;
-        } else {
-            return true;
-        }
+        //} else {
+            //return true;
+        //}
 
         //return component.canDeactivate ? component.canDeactivate() : true;
 

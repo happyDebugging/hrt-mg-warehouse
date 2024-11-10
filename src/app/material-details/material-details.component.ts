@@ -530,9 +530,11 @@ export class MaterialDetailsComponent {
           //if ((res != null) || (res != undefined)) {
 
             this.isDeletionSuccessfull = true;
+            localStorage.setItem('isDeletionSuccessfull', 'true');
 
             setTimeout(() => {
               this.isDeletionSuccessfull = false;
+              //localStorage.setItem('isDeletionSuccessfull', 'false');
               this.router.navigate([this.storageCategory + '/material-lines']);
             }, 2000);
 
