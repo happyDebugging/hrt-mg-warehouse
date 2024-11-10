@@ -25,19 +25,25 @@ export class UnsavedChangesGuard implements CanDeactivate<UnsavedChangesComponen
 
         if (this.isNewMaterial == 'true' || this.isMaterialEditEnabled == 'true') {
             console.log('feugeis?')
+
             //this.ShowExitWarning();
             //return false;
             return confirm("Η εργασία δεν έχει ολοκληρωθεί. Έξοδος από τη σελίδα;"); //component.canDeactivate()
+            // if (confirm("Η εργασία δεν έχει ολοκληρωθεί. Έξοδος από τη σελίδα;") == false) {
+            //     return false;
+            //     localStorage.setItem('isMaterialEditEnabled', 'false');
+            // }
+            // return false;
         } else {
             return true;
         }
-        
+
         //return component.canDeactivate ? component.canDeactivate() : true;
 
     }
 
     ShowExitWarning() {
         this.modalService.open(this.exitWarning, { centered: true, size: 'sm', windowClass: 'zindex' });
-      }
-    
+    }
+
 }
