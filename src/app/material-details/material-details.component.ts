@@ -67,6 +67,7 @@ export class MaterialDetailsComponent {
   deletedMaterialQuantity = 0;
   previousDeletedMaterialQuantity = 0;
 
+  isSaveButtonClicked = false;
   isSaveSuccessfull = false;
   isDeletionSuccessfull = false;
 
@@ -250,6 +251,7 @@ export class MaterialDetailsComponent {
   }
 
   UpdateMaterialLine() {
+    this.isSaveButtonClicked = true;
 
     let updatedMaterialLine = new MaterialLines;
 
@@ -341,6 +343,7 @@ export class MaterialDetailsComponent {
 
         setTimeout(() => {
           this.isSaveSuccessfull = false;
+          this.isSaveButtonClicked = false;
         }, 2000);
 
       }))
@@ -357,6 +360,7 @@ export class MaterialDetailsComponent {
   }
 
   PostMaterialLine() {
+    this.isSaveButtonClicked = true;
 
     let materialLine = new MaterialLines;
     console.log(this.materialId)
@@ -414,6 +418,7 @@ export class MaterialDetailsComponent {
 
         setTimeout(() => {
           this.isSaveSuccessfull = false;
+          this.isSaveButtonClicked = false;
           this.router.navigate([this.storageCategory + '/material-lines']);
         }, 2000);
 
@@ -455,6 +460,8 @@ export class MaterialDetailsComponent {
       console.log('this.materialId: ' + this.materialId)
       this.isNewMaterial = true;
       localStorage.setItem('isNewMaterial', 'true');
+      this.materialState = 'available';
+      this.materialStateDescription = 'Διαθέσιμο Υλικό';
     }
     this.materialName = JSON.parse(JSON.stringify(localStorage.getItem('materialNameToPreview')));
     this.materialserialNumber = JSON.parse(JSON.stringify(localStorage.getItem('materialserialNumberToPreview')));
