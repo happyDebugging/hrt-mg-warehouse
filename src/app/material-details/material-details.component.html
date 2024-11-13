@@ -259,7 +259,7 @@
 
         <hr *ngIf="isNewMaterial || isMaterialEditEnabled">
 
-        <div *ngIf="isNewMaterial || (isMaterialEditEnabled && !isSaveSuccessfull)" class="d-grid mb-3">
+        <div *ngIf="(isNewMaterial && !isSaveSuccessfull) || (isMaterialEditEnabled && !isSaveSuccessfull)" class="d-grid mb-3">
             <button type="submit" class="btn btn-primary"
                 (click)="form.checkValidity()? DecideOnSaveMethod() : ShowInvalidFormMessage()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy"
@@ -271,7 +271,7 @@
                 Αποθήκευση</button>
         </div>
 
-        <div *ngIf="isMaterialEditEnabled && isSaveSuccessfull" class="d-grid mb-3">
+        <div *ngIf="(isNewMaterial && isSaveSuccessfull) || (isMaterialEditEnabled && isSaveSuccessfull)" class="d-grid mb-3">
             <button type="button" class="btn btn-info">Επιτυχής αποθήκευση!</button>
         </div>
 

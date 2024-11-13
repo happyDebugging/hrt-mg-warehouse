@@ -105,6 +105,7 @@ export class MaterialDetailsComponent {
 
 
   updateMaterialLines: Subscription = new Subscription;
+  postMaterialLines: Subscription = new Subscription;
 
   constructor(private dbFunctionService: DbFunctionService, private modalService: NgbModal, private router: Router) { }
 
@@ -190,7 +191,7 @@ export class MaterialDetailsComponent {
     // if (this.isMaterialAvailable == true) {
     //   this.isAvailableMaterialCheckboxChecked = false;
     // } else {
-       this.isAvailableMaterialCheckboxChecked = !this.isAvailableMaterialCheckboxChecked;
+    this.isAvailableMaterialCheckboxChecked = !this.isAvailableMaterialCheckboxChecked;
     // }
 
     this.isMaterialAvailable = this.isAvailableMaterialCheckboxChecked;
@@ -204,7 +205,7 @@ export class MaterialDetailsComponent {
     // if (this.isMaterialDamaged == true) {
     //   this.isDamagedMaterialCheckboxChecked = false;
     // } else {
-       this.isDamagedMaterialCheckboxChecked = !this.isDamagedMaterialCheckboxChecked;
+    this.isDamagedMaterialCheckboxChecked = !this.isDamagedMaterialCheckboxChecked;
     // }
 
     this.isMaterialDamaged = this.isDamagedMaterialCheckboxChecked;
@@ -218,7 +219,7 @@ export class MaterialDetailsComponent {
     // if (this.isMaterialDeleted == true) {
     //   this.isDeletedMaterialCheckboxChecked = false;
     // } else {
-       this.isDeletedMaterialCheckboxChecked = !this.isDeletedMaterialCheckboxChecked;
+    this.isDeletedMaterialCheckboxChecked = !this.isDeletedMaterialCheckboxChecked;
     // }
 
     this.isMaterialDeleted = this.isDeletedMaterialCheckboxChecked;
@@ -388,10 +389,10 @@ export class MaterialDetailsComponent {
     }
     materialLine.ExpiryDate = this.materialExpiryDate;
     materialLine.IsMaterialDamaged = this.isMaterialDamaged;
-    if (this.damagedMaterialQuantity==null) materialLine.DamagedMaterialQuantity = 0;
+    if (this.damagedMaterialQuantity == null) materialLine.DamagedMaterialQuantity = 0;
     else materialLine.DamagedMaterialQuantity = this.damagedMaterialQuantity;
     materialLine.IsMaterialDeleted = this.isMaterialDeleted;
-    if (this.damagedMaterialQuantity==null) materialLine.DeletedMaterialQuantity = 0;
+    if (this.damagedMaterialQuantity == null) materialLine.DeletedMaterialQuantity = 0;
     else materialLine.DeletedMaterialQuantity = this.deletedMaterialQuantity;
     materialLine.CreatedAt = Date.now().toString();
     materialLine.CreatedBy = this.loggedInUserName; //this.loggedInUserId;
@@ -404,21 +405,23 @@ export class MaterialDetailsComponent {
       console.log('Uploaded image!');
     });
 
-    this.dbFunctionService.postMaterialLineToDb(materialLine)
+    this.postMaterialLines = this.dbFunctionService.postMaterialLineToDb(materialLine)
+      .pipe(map((response: any) => {
+
+        this.isNewMaterialLineAdded = true;
+
+        this.isSaveSuccessfull = true;
+
+        setTimeout(() => {
+          this.isSaveSuccessfull = false;
+          this.router.navigate([this.storageCategory + '/material-lines']);
+        }, 2000);
+
+      }))
       .subscribe(
         (res: any) => {
-          console.log(res);
           if ((res != null) || (res != undefined)) {
-
-            this.isNewMaterialLineAdded = true;
-
-            this.isSaveSuccessfull = true;
-
-            setTimeout(() => {
-              this.isSaveSuccessfull = false;
-              this.router.navigate([this.storageCategory + '/material-lines']);
-            }, 2000);
-
+            console.log(res);
           }
         },
         err => {
@@ -429,7 +432,7 @@ export class MaterialDetailsComponent {
 
   CheckInputMax(materialQuantity: number) {
 
-    let materialQuantitySum = (+this.tempAvailableMaterialQuantity)+(+this.tempDamagedMaterialQuantity)+(+this.tempDeletedMaterialQuantity);
+    let materialQuantitySum = (+this.tempAvailableMaterialQuantity) + (+this.tempDamagedMaterialQuantity) + (+this.tempDeletedMaterialQuantity);
     if (materialQuantitySum > this.materialQuantity) {
       this.incorrectQuantityInput = true;
     } else {
@@ -438,7 +441,7 @@ export class MaterialDetailsComponent {
   }
 
   GetItemDetailsToPreviewFromLocalStorage() {
-    this.materialState= JSON.parse(JSON.stringify(localStorage.getItem('materialState')));
+    this.materialState = JSON.parse(JSON.stringify(localStorage.getItem('materialState')));
     if (this.materialState == 'available') {
       this.materialStateDescription = 'Διαθέσιμο Υλικό';
     } else if (this.materialState == 'damaged') {
@@ -449,7 +452,7 @@ export class MaterialDetailsComponent {
 
     this.materialId = JSON.parse(JSON.stringify(localStorage.getItem('materialIdToPreview')));
     if (this.materialId == null) {
-      console.log('this.materialId: '+this.materialId)
+      console.log('this.materialId: ' + this.materialId)
       this.isNewMaterial = true;
       localStorage.setItem('isNewMaterial', 'true');
     }
@@ -529,14 +532,14 @@ export class MaterialDetailsComponent {
           console.log(res);
           //if ((res != null) || (res != undefined)) {
 
-            this.isDeletionSuccessfull = true;
-            localStorage.setItem('isDeletionSuccessfull', 'true');
+          this.isDeletionSuccessfull = true;
+          localStorage.setItem('isDeletionSuccessfull', 'true');
 
-            setTimeout(() => {
-              this.isDeletionSuccessfull = false;
-              //localStorage.setItem('isDeletionSuccessfull', 'false');
-              this.router.navigate([this.storageCategory + '/material-lines']);
-            }, 2000);
+          setTimeout(() => {
+            this.isDeletionSuccessfull = false;
+            //localStorage.setItem('isDeletionSuccessfull', 'false');
+            this.router.navigate([this.storageCategory + '/material-lines']);
+          }, 2000);
 
           //}
         },
@@ -554,6 +557,10 @@ export class MaterialDetailsComponent {
 
     if (this.updateMaterialLines && !this.updateMaterialLines.closed) {
       this.updateMaterialLines.unsubscribe();
+    }
+
+    if (this.postMaterialLines && !this.postMaterialLines.closed) {
+      this.postMaterialLines.unsubscribe();
     }
 
   }
