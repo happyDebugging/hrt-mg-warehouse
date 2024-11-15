@@ -8,6 +8,7 @@ import { map, Subscription } from 'rxjs';
 import * as imageConversion from 'image-conversion';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HistoryLines } from '../shared/models/history-lines.model';
 
 @Component({
   selector: 'app-material-details',
@@ -344,6 +345,10 @@ export class MaterialDetailsComponent {
         setTimeout(() => {
           this.isSaveSuccessfull = false;
           this.isSaveButtonClicked = false;
+
+          let actionType = 'Ενημέρωση υλικού';
+          this.AddHistoryRecord(updatedMaterialLine.MaterialName, updatedMaterialLine.SerialNumber, actionType);
+
         }, 2000);
 
       }))
@@ -419,6 +424,10 @@ export class MaterialDetailsComponent {
         setTimeout(() => {
           this.isSaveSuccessfull = false;
           this.isSaveButtonClicked = false;
+
+          let actionType = 'Προσθήκη υλικού';
+          this.AddHistoryRecord(materialLine.MaterialName, materialLine.SerialNumber, actionType);
+
           this.router.navigate([this.storageCategory + '/material-lines']);
         }, 2000);
 
@@ -545,10 +554,40 @@ export class MaterialDetailsComponent {
           setTimeout(() => {
             this.isDeletionSuccessfull = false;
             //localStorage.setItem('isDeletionSuccessfull', 'false');
+
+            let actionType = 'Οριστική διαγραφή υλικού';
+            this.AddHistoryRecord(this.materialName, this.materialserialNumber, actionType);
+
             this.router.navigate([this.storageCategory + '/material-lines']);
           }, 2000);
 
           //}
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
+  AddHistoryRecord(materialName: string, serialNumber: string, actionType: string) {
+
+    let historyLine = new HistoryLines;
+    historyLine.Id = '';
+    historyLine.Date = Date.now().toString();
+    historyLine.ActionType = actionType;
+    historyLine.MaterialName = materialName;
+    historyLine.SerialNumber = serialNumber;
+    historyLine.Responsible = this.loggedInUserName;
+
+    this.dbFunctionService.postHistoryLinesToDb(historyLine)
+      .pipe(map((response: any) => {
+
+      }))
+      .subscribe(
+        (res: any) => {
+          if ((res != null) || (res != undefined)) {
+            console.log(res);
+          }
         },
         err => {
           console.log(err);

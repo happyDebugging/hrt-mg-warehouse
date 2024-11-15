@@ -8,27 +8,46 @@
 <div class="container-fluid">
 
     <div class="table-responsive">
-    <table class="table table-striped table-responsive">
-        <thead>
-            <tr>
-                <th scope="col">Α/α</th>
-                <th scope="col">Ημ/νία</th>
-                <th scope="col">Είδος Ενέργειας</th>
-                <th scope="col">Υλικό</th>
-                <th scope="col">Σειριακός</th>
-                <th scope="col">Υπεύθυνος</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let historyLine of historyLinesList; index as i;">
-                <th scope="row">{{ historyLine.Date }}</th>
-                <td>{{ historyLine.ActionType }}</td>
-                <td>{{ historyLine.MaterialName }}</td>
-                <td>{{ historyLine.SerialNumber }}</td>
-                <td>{{ historyLine.Responsible }}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+        <table class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th scope="col">Ημ/νία</th>
+                    <th scope="col">Είδος Ενέργειας</th>
+                    <th scope="col">Υλικό</th>
+                    <th scope="col">Σειριακός</th>
+                    <th scope="col">Υπεύθυνος</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let historyLine of historyLinesList; index as i;">
+                    <td>{{ historyLine.Date | date:"dd/MM/yyyy '-' HH:mm" }}</td>
+                    <td>{{ historyLine.ActionType }}</td>
+                    <td>{{ historyLine.MaterialName }}</td>
+                    <td>{{ historyLine.SerialNumber }}</td>
+                    <td>{{ historyLine.Responsible }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+
+    <nav aria-label="History page navigation">
+        <ul class="pagination  justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" (click)="nextPage()" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
 </div>
