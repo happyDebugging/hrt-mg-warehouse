@@ -120,7 +120,7 @@ export class MaterialLinesComponent {
   
     this.RemoveMaterialDetailsFromLocalStorage();
 
-    this.GetFMaterialLines();
+    this.GetMaterialLines();
   }
 
   // GetLoggedInUserDetails() {
@@ -172,7 +172,7 @@ export class MaterialLinesComponent {
 
   // }
 
-  GetFMaterialLines() {
+  GetMaterialLines() {
     this.availableMaterialsList = [];
     this.damagedMaterialsList = [];
     this.deletedMaterialsList = [];

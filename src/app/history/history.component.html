@@ -1,1 +1,34 @@
-<p>history works!</p>
+<hr>
+<div class="container-fluid">
+    <p>Ιστορικό Ενεργειών</p>
+</div>
+
+<hr>
+
+<div class="container-fluid">
+
+    <div class="table-responsive">
+    <table class="table table-striped table-responsive">
+        <thead>
+            <tr>
+                <th scope="col">Α/α</th>
+                <th scope="col">Ημ/νία</th>
+                <th scope="col">Είδος Ενέργειας</th>
+                <th scope="col">Υλικό</th>
+                <th scope="col">Σειριακός</th>
+                <th scope="col">Υπεύθυνος</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let historyLine of historyLinesList; index as i;">
+                <th scope="row">{{ historyLine.Date }}</th>
+                <td>{{ historyLine.ActionType }}</td>
+                <td>{{ historyLine.MaterialName }}</td>
+                <td>{{ historyLine.SerialNumber }}</td>
+                <td>{{ historyLine.Responsible }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</div>

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { MaterialLines } from '../models/material-lines.model';
 import { Users } from '../models/users.model';
+import { HistoryLines } from '../models/history-lines.model';
 
 @Injectable()
 export class DbFunctionService {
@@ -140,6 +141,21 @@ export class DbFunctionService {
     }
     
 
+    geHistoryLinesFromDb() {
+        let options: any = {
+            headers: { "Access-Control-Allow-Origin": "*" },
+            observe: 'response'
+        }
+        return this.http.get<HistoryLines>(environment.databaseURL + environment.historyLinesTable + '.json');
+    }
+
+    postHistoryLinesToDb(historyLine: HistoryLines) {
+        let options: any = {
+            headers: { "Access-Control-Allow-Origin": "*" },
+            observe: 'response'
+        }
+        return this.http.post(environment.databaseURL + environment.historyLinesTable + '.json', historyLine, options);
+    }
 
 }
 
