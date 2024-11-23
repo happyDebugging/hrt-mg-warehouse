@@ -19,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let historyLine of historyLinesList; index as i;">
+                <tr *ngFor="let historyLine of historyLinesList[pageCount-1]; index as i;">
                     <td>{{ historyLine.Date | date:"dd/MM/yyyy '-' HH:mm" }}</td>
                     <td>{{ historyLine.ActionType }}</td>
                     <td>{{ historyLine.MaterialName }}</td>
@@ -35,13 +35,14 @@
     <nav aria-label="History page navigation">
         <ul class="pagination  justify-content-center">
             <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
+                <a class="page-link" (click)="previousPage()" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <!-- <li class="page-item"><a class="page-link" (click)="setPageNumber(leftPageNum)">{{ leftPageNum }}</a></li>
+            <li class="page-item"><a class="page-link" (click)="setPageNumber(midPageNum)">{{ midPageNum }}</a></li>
+            <li class="page-item"><a class="page-link" (click)="setPageNumber(rightPageNum)">{{ rightPageNum }}</a></li> -->
+            <li class="page-item"><a class="page-link">...</a></li>
             <li class="page-item">
                 <a class="page-link" (click)="nextPage()" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
