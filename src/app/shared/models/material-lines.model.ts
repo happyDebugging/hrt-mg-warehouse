@@ -15,6 +15,7 @@ export class MaterialLines {
     DamagedMaterialQuantity!: number;
     IsMaterialDeleted!: boolean;
     DeletedMaterialQuantity!: number;
+    IsMaterialConsumable!: boolean;
     CreatedAt!: string;
     CreatedBy!: string;
     LastUpdatedAt!: string;

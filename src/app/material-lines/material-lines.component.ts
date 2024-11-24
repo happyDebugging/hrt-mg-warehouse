@@ -43,6 +43,7 @@ export class MaterialLinesComponent {
     DamagedMaterialQuantity: 0,
     IsMaterialDeleted: false,
     DeletedMaterialQuantity: 0,
+    IsMaterialConsumable: false,
     CreatedAt: '',
     CreatedBy: '',
     LastUpdatedAt: '',
@@ -67,6 +68,7 @@ export class MaterialLinesComponent {
     DamagedMaterialQuantity: 0,
     IsMaterialDeleted: false,
     DeletedMaterialQuantity: 0,
+    IsMaterialConsumable: false,
     CreatedAt: '',
     CreatedBy: '',
     LastUpdatedAt: '',
@@ -91,6 +93,7 @@ export class MaterialLinesComponent {
     DamagedMaterialQuantity: 0,
     IsMaterialDeleted: false,
     DeletedMaterialQuantity: 0,
+    IsMaterialConsumable: false,
     CreatedAt: '',
     CreatedBy: '',
     LastUpdatedAt: '',
@@ -220,6 +223,7 @@ export class MaterialLinesComponent {
                 resObj.DamagedMaterialQuantity = data.DamagedMaterialQuantity;
                 resObj.IsMaterialDeleted = data.IsMaterialDeleted;
                 resObj.DeletedMaterialQuantity = data.DeletedMaterialQuantity;
+                resObj.IsMaterialConsumable = data.IsMaterialConsumable;
                 resObj.CreatedAt = data.CreatedAt;
                 resObj.CreatedBy = data.CreatedBy;
                 resObj.LastUpdatedAt = data.LastUpdatedAt;
@@ -283,6 +287,7 @@ export class MaterialLinesComponent {
     localStorage.setItem('damagedMaterialQuantityToPreview', material.DamagedMaterialQuantity.toString());
     localStorage.setItem('isMaterialDeletedToPreview', material.IsMaterialDeleted.toString());
     localStorage.setItem('deletedMaterialQuantityToPreview', material.DeletedMaterialQuantity.toString());
+    localStorage.setItem('isMaterialConsumableToPreview', material.IsMaterialConsumable.toString());
     localStorage.setItem('CreatedAtToPreview', material.CreatedAt);
     localStorage.setItem('CreatedByToPreview', material.CreatedBy);
     localStorage.setItem('LastUpdatedAtToPreview', material.LastUpdatedAt);
@@ -309,6 +314,7 @@ export class MaterialLinesComponent {
     localStorage.setItem('damagedMaterialQuantityToPreview', material.DamagedMaterialQuantity.toString());
     localStorage.setItem('isMaterialDeletedToPreview', material.IsMaterialDeleted.toString());
     localStorage.setItem('deletedMaterialQuantityToPreview', material.DeletedMaterialQuantity.toString());
+    localStorage.setItem('isMaterialConsumableToPreview', material.IsMaterialConsumable.toString());
     localStorage.setItem('CreatedAtToPreview', material.CreatedAt);
     localStorage.setItem('CreatedByToPreview', material.CreatedBy);
     localStorage.setItem('LastUpdatedAtToPreview', material.LastUpdatedAt);
@@ -335,6 +341,7 @@ export class MaterialLinesComponent {
     localStorage.setItem('damagedMaterialQuantityToPreview', material.DamagedMaterialQuantity.toString());
     localStorage.setItem('isMaterialDeletedToPreview', material.IsMaterialDeleted.toString());
     localStorage.setItem('deletedMaterialQuantityToPreview', material.DeletedMaterialQuantity.toString());
+    localStorage.setItem('isMaterialConsumableToPreview', material.IsMaterialConsumable.toString());
     localStorage.setItem('CreatedAtToPreview', material.CreatedAt);
     localStorage.setItem('CreatedByToPreview', material.CreatedBy);
     localStorage.setItem('LastUpdatedAtToPreview', material.LastUpdatedAt);
@@ -359,6 +366,7 @@ export class MaterialLinesComponent {
     localStorage.removeItem('damagedMaterialQuantityToPreview');
     localStorage.removeItem('isMaterialDeletedToPreview');
     localStorage.removeItem('deletedMaterialQuantityToPreview');
+    localStorage.removeItem('isMaterialConsumableToPreview');
     localStorage.removeItem('CreatedAtToPreview');
     localStorage.removeItem('CreatedByToPreview');
     localStorage.removeItem('LastUpdatedAtToPreview');

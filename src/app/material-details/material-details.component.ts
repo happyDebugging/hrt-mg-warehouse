@@ -55,6 +55,7 @@ export class MaterialDetailsComponent {
   LastUpdatedBy = '';
   materialPhoto = '';
   previousMaterialPhoto = '';
+  isMaterialConsumable = false;
 
   availableMaterialQuantity = 0;
   previousAvailableMaterialQuantity = 0;
@@ -230,6 +231,10 @@ export class MaterialDetailsComponent {
 
   }
 
+  SelectConsumableMaterialState() {
+    this.isMaterialConsumable = !this.isMaterialConsumable;
+  }
+
   EnableMaterialEdit() {
     this.isMaterialEditEnabled = true;
     localStorage.setItem('isMaterialEditEnabled', 'true');
@@ -312,6 +317,7 @@ export class MaterialDetailsComponent {
     updatedMaterialLine.DamagedMaterialQuantity = this.damagedMaterialQuantity;
     updatedMaterialLine.IsMaterialDeleted = this.isMaterialDeleted;
     updatedMaterialLine.DeletedMaterialQuantity = this.deletedMaterialQuantity;
+    updatedMaterialLine.IsMaterialConsumable = this.isMaterialConsumable;
     updatedMaterialLine.CreatedAt = this.CreatedAt;
     updatedMaterialLine.CreatedBy = this.CreatedBy;
     updatedMaterialLine.LastUpdatedAt = Date.now().toString();
@@ -403,6 +409,7 @@ export class MaterialDetailsComponent {
     materialLine.IsMaterialDeleted = this.isMaterialDeleted;
     if (this.damagedMaterialQuantity == null) materialLine.DeletedMaterialQuantity = 0;
     else materialLine.DeletedMaterialQuantity = this.deletedMaterialQuantity;
+    materialLine.IsMaterialConsumable = this.isMaterialConsumable;
     materialLine.CreatedAt = Date.now().toString();
     materialLine.CreatedBy = this.loggedInUserName; //this.loggedInUserId;
     //materialLine.LastUpdatedAt = this.LastUpdatedAt;
@@ -506,6 +513,7 @@ export class MaterialDetailsComponent {
     } else this.isMaterialAvailable = false;
     //this.deletedMaterialQuantity = 
     this.previousDeletedMaterialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('deletedMaterialQuantityToPreview')));
+    this.isMaterialConsumable = JSON.parse(JSON.stringify(localStorage.getItem('isMaterialConsumableToPreview')));
     this.CreatedAt = JSON.parse(JSON.stringify(localStorage.getItem('CreatedAtToPreview')));
     this.CreatedBy = JSON.parse(JSON.stringify(localStorage.getItem('CreatedByToPreview')));
     this.LastUpdatedAt = JSON.parse(JSON.stringify(localStorage.getItem('LastUpdatedAtToPreview')));

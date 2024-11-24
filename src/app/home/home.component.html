@@ -57,6 +57,47 @@
         </div>
     </div>
 
+
+    <div class="accordion" id="soonToExpireConsumableMaterialLinesList">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panel12StayOpen-headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panel12StayOpen-collapseOne" aria-expanded="true"
+                    aria-controls="panel12StayOpen-collapseOne">
+                    Αναλώσιμα υλικά
+                </button>
+            </h2>
+            <div id="panel12StayOpen-collapseOne" class="accordion-collapse collapse show"
+                aria-labelledby="panel12StayOpen-headingOne">
+                <div class="accordion-body">
+
+                    <div class="list-group">
+                        <a *ngFor="let soonToExpireConsumableMaterial of soonToExpireConsumableMaterialLinesList; index as i;"
+                            class="list-group-item list-group-item-action"
+                            (click)="SetMaterialDetailsToLocalStorage(soonToExpireConsumableMaterial)">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ soonToExpireConsumableMaterial.MaterialName }}</h6>
+                                <small class="text-muted">Τεμ.: {{ soonToExpireConsumableMaterial.AvailableMaterialQuantity}} </small>
+                            </div>
+                            <small class="text-muted">{{ soonToExpireConsumableMaterial.StorageCategory}} </small>
+                            <p class="mb-1">
+                                Λήξη/Επανέλεγχος:
+                                <span
+                                    [ngStyle]="{color: ((this.todaysDate>materialExpirationDate[i]) ? 'red' : 'black')}">
+                                    {{ soonToExpireConsumableMaterial.ExpiryDate | date:"dd/MM/yyyy" }}
+                                </span>
+                            </p>
+                        </a>
+                    </div>
+                    <div *ngIf="soonToExpireConsumableMaterialLinesList.length==0" class="text-center text-wrap fw-light">
+                        Δεν υπάρχουν υλικά στη λίστα.
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     
     <br>
 

@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
 
   todaysDate = new Date();
   materialExpirationDate: Array<Date> = [];
+  consumableMaterialExpirationDate: Array<Date> = [];
 
   loggedInUserId = '';
   isUserLoggedIn = false;
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit {
   storageCategory = '';
   storageCategoryDescription = '';
   soonToExpireMaterialLinesList: MaterialLines[] = [];
+  soonToExpireConsumableMaterialLinesList: MaterialLines[] = [];
   borrowedMaterialLinesList: MaterialLines[] = [];
 
   getMaterialLines: Subscription = new Subscription;
@@ -61,7 +63,9 @@ export class HomeComponent implements OnInit {
 
   GetFMaterialLines() {
     this.soonToExpireMaterialLinesList = [];
+    this.soonToExpireConsumableMaterialLinesList = [];
     this.materialExpirationDate = [];
+    this.consumableMaterialExpirationDate = [];
     this.borrowedMaterialLinesList = [];
 
     this.getMaterialLines = this.dbFunctionService.getMaterialLinesFromDb()
@@ -108,6 +112,7 @@ export class HomeComponent implements OnInit {
                 resObj.DamagedMaterialQuantity = data.DamagedMaterialQuantity;
                 resObj.IsMaterialDeleted = data.IsMaterialDeleted;
                 resObj.DeletedMaterialQuantity = data.DeletedMaterialQuantity;
+                resObj.IsMaterialConsumable = data.IsMaterialConsumable;
                 resObj.CreatedAt = data.CreatedAt;
                 resObj.CreatedBy = data.CreatedBy;
                 resObj.LastUpdatedAt = data.LastUpdatedAt;
@@ -129,10 +134,18 @@ export class HomeComponent implements OnInit {
                     //console.log("expirationDate: " + this.materialExpirationDate[responseData.indexOf(data)].toDateString());
                     //console.log("3 months Prior Date: " + threeMonthsPriorDate.toLocaleDateString());
 
-                    this.soonToExpireMaterialLinesList.push(resObj);
-                    this.materialExpirationDate.push(new Date(resObj.ExpiryDate));
+                    if (data.IsMaterialConsumable) {
+                      this.soonToExpireConsumableMaterialLinesList.push(resObj);
+                      this.consumableMaterialExpirationDate.push(new Date(resObj.ExpiryDate));
+                      
+                      console.log(this.soonToExpireConsumableMaterialLinesList)
+                    } else {
+                      this.soonToExpireMaterialLinesList.push(resObj);
+                      this.materialExpirationDate.push(new Date(resObj.ExpiryDate));
+                      
+                      console.log(this.soonToExpireMaterialLinesList)
+                    }
                     
-                    console.log(this.soonToExpireMaterialLinesList)
                   }
 
                 }
@@ -179,6 +192,7 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('damagedMaterialQuantityToPreview', soonToExpireMaterial.DamagedMaterialQuantity.toString());
     localStorage.setItem('isMaterialDeletedToPreview', soonToExpireMaterial.IsMaterialDeleted.toString());
     localStorage.setItem('deletedMaterialQuantityToPreview', soonToExpireMaterial.DeletedMaterialQuantity.toString());
+    localStorage.setItem('isMaterialConsumableToPreview', soonToExpireMaterial.IsMaterialConsumable.toString());
     localStorage.setItem('CreatedAtToPreview', soonToExpireMaterial.CreatedAt);
     localStorage.setItem('CreatedByToPreview', soonToExpireMaterial.CreatedBy);
     localStorage.setItem('LastUpdatedAtToPreview', soonToExpireMaterial.LastUpdatedAt);
