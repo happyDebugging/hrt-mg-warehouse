@@ -513,7 +513,9 @@ export class MaterialDetailsComponent {
     } else this.isMaterialAvailable = false;
     //this.deletedMaterialQuantity = 
     this.previousDeletedMaterialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('deletedMaterialQuantityToPreview')));
-    this.isMaterialConsumable = JSON.parse(JSON.stringify(localStorage.getItem('isMaterialConsumableToPreview')));
+    if (JSON.parse(JSON.stringify(localStorage.getItem('isMaterialConsumableToPreview'))) == 'true') {
+      this.isMaterialConsumable = true;
+    } else this.isMaterialConsumable = false;
     this.CreatedAt = JSON.parse(JSON.stringify(localStorage.getItem('CreatedAtToPreview')));
     this.CreatedBy = JSON.parse(JSON.stringify(localStorage.getItem('CreatedByToPreview')));
     this.LastUpdatedAt = JSON.parse(JSON.stringify(localStorage.getItem('LastUpdatedAtToPreview')));
