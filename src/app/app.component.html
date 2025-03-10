@@ -117,10 +117,10 @@
               </li>
             </ul>
           </li>
-          <li  *ngIf="loggedInUserPermissions == 'All'" class="nav-item">
+          <li *ngIf="loggedInUserPermissions == 'All'" class="nav-item">
             <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" routerLink="history">Ιστορικό</a>
           </li>
-          <li class="nav-item">
+          <li *ngIf="loggedInUserPermissions == 'All'" class="nav-item">
             <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" routerLink="admin">Κέντρο Διαχείρισης</a>
           </li>
           <hr>
