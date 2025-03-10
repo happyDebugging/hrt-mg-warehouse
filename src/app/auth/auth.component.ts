@@ -21,6 +21,7 @@ export class AuthComponent implements OnInit {
   isPassword6Characters = true;
   isChangePasswordSuccessfull = false;
   errorMessageToShow = '';
+  isPasswordVisible = false;
 
   hasForgottenPassword = false;
   emailSent = false;
@@ -55,6 +56,10 @@ export class AuthComponent implements OnInit {
 
     console.log(this.loggedInUserId)
 
+  }
+
+  ToggleShowHidePassword() {
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 
   EnterMailForPasswordReset() {
