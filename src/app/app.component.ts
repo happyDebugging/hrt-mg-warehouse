@@ -63,18 +63,18 @@ export class AppComponent {
     // Initialize Firebase Authentication and get a reference to the service
     this.auth = getAuth(this.firebaseApp);
 
-    this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
-    this.loggedInUserId = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserId")));
-    this.loggedInUserPermissions = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserPermissions")));
+    this.isUserLoggedIn = JSON.parse(JSON.stringify(sessionStorage.getItem("isUserLoggedIn")));
+    this.loggedInUserId = JSON.parse(JSON.stringify(sessionStorage.getItem("loggedInUserId")));
+    this.loggedInUserPermissions = JSON.parse(JSON.stringify(sessionStorage.getItem("loggedInUserPermissions")));
     console.log('this.loggedInUserPermissions1 ' + this.loggedInUserPermissions)
-    this.loggedInUser.FirstName = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserFirstName")));
-    this.loggedInUser.LastName = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserLastName")));
-    this.loggedInUser.Email = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserEmail")));
+    this.loggedInUser.FirstName = JSON.parse(JSON.stringify(sessionStorage.getItem("loggedInUserFirstName")));
+    this.loggedInUser.LastName = JSON.parse(JSON.stringify(sessionStorage.getItem("loggedInUserLastName")));
+    this.loggedInUser.Email = JSON.parse(JSON.stringify(sessionStorage.getItem("loggedInUserEmail")));
 
-    if (JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn"))) == 'true') this.isUserLoggedIn = true; else this.isUserLoggedIn = false;
+    if (JSON.parse(JSON.stringify(sessionStorage.getItem("isUserLoggedIn"))) == 'true') this.isUserLoggedIn = true; else this.isUserLoggedIn = false;
     console.log('this.isUserLoggedIn4 ' + this.isUserLoggedIn)
 
-    this.storageCategory = JSON.parse(JSON.stringify(localStorage.getItem('storageCategory')));
+    this.storageCategory = JSON.parse(JSON.stringify(sessionStorage.getItem('storageCategory')));
 
     // this.dbFunctionService.postUsersToDb()
     //   .subscribe(
@@ -92,32 +92,32 @@ export class AppComponent {
   }
 
   SetMountainCategory() {
-    localStorage.setItem('storageCategory', 'mountain');
+    sessionStorage.setItem('storageCategory', 'mountain');
     console.log('mountain')
   }
 
   SetWaterCategory() {
-    localStorage.setItem('storageCategory', 'water');
+    sessionStorage.setItem('storageCategory', 'water');
     console.log('water')
   }
 
   SetDisasterCategory() {
-    localStorage.setItem('storageCategory', 'disaster');
+    sessionStorage.setItem('storageCategory', 'disaster');
     console.log('disaster')
   }
 
   SetFirstAidCategory() {
-    localStorage.setItem('storageCategory', 'firstAid');
+    sessionStorage.setItem('storageCategory', 'firstAid');
     console.log('firstAid')
   }
 
   SetCommunicationsCategory() {
-    localStorage.setItem('storageCategory', 'communications');
+    sessionStorage.setItem('storageCategory', 'communications');
     console.log('communications')
   }
 
   SetSocialCareCategory() {
-    localStorage.setItem('storageCategory', 'socialCare');
+    sessionStorage.setItem('storageCategory', 'socialCare');
     console.log('socialCare')
   }
 
@@ -191,12 +191,12 @@ export class AppComponent {
   Logout() {
     this.isUserLoggedIn = false;
 
-    localStorage.setItem('isUserLoggedIn', this.isUserLoggedIn.toString());
-    localStorage.setItem('sessionExpirationDate', '');
+    sessionStorage.setItem('isUserLoggedIn', this.isUserLoggedIn.toString());
+    sessionStorage.setItem('sessionExpirationDate', '');
 
     this.authService.LogoutUser();
 
-    console.log('this.isUserLoggedIn2 ' + JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn"))))
+    console.log('this.isUserLoggedIn2 ' + JSON.parse(JSON.stringify(sessionStorage.getItem("isUserLoggedIn"))))
   }
 
 

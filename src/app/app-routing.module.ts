@@ -8,9 +8,10 @@ import { HomeComponent } from './home/home.component';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
 import { UnsavedChangesGuard } from './unsaved-changes/unsaved-changes.guard';
+import { LoggedInGuard } from './auth/logged-in.guard';
 
 const routes: Routes = [
-  { path: 'auth', component: AuthComponent, pathMatch: 'full' },
+  { path: 'auth', component: AuthComponent, pathMatch: 'full', canActivate: [LoggedInGuard]}, 
 
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
 

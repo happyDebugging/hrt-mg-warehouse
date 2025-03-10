@@ -46,7 +46,7 @@
                                     <div class="list-group">
                                         <a *ngFor="let soonToExpireMaterial of soonToExpireMaterialLinesList; index as i;"
                                             class="list-group-item list-group-item-action"
-                                            (click)="SetMaterialDetailsToLocalStorage(soonToExpireMaterial)">
+                                            (click)="SetMaterialDetailsTosessionStorage(soonToExpireMaterial)">
                                             <div class="d-flex w-100 justify-content-between">
                                                 <h6 class="mb-1">{{ soonToExpireMaterial.MaterialName }}</h6>
                                                 <small class="text-muted">Τεμ.: {{ soonToExpireMaterial.AvailableMaterialQuantity}} </small>
@@ -88,7 +88,7 @@
                                     <div class="list-group">
                                         <a *ngFor="let soonToExpireConsumableMaterial of soonToExpireConsumableMaterialLinesList; index as i;"
                                             class="list-group-item list-group-item-action"
-                                            (click)="SetMaterialDetailsToLocalStorage(soonToExpireConsumableMaterial)">
+                                            (click)="SetMaterialDetailsTosessionStorage(soonToExpireConsumableMaterial)">
                                             <div class="d-flex w-100 justify-content-between">
                                                 <h6 class="mb-1">{{ soonToExpireConsumableMaterial.MaterialName }}</h6>
                                                 <small class="text-muted">Τεμ.: {{ soonToExpireConsumableMaterial.AvailableMaterialQuantity}} </small>
@@ -135,7 +135,7 @@
                     <div class="list-group">
                         <a *ngFor="let borrowedMaterial of borrowedMaterialLinesList; index as i;"
                             class="list-group-item list-group-item-action"
-                            (click)="SetMaterialDetailsToLocalStorage(borrowedMaterial)">
+                            (click)="SetMaterialDetailsTosessionStorage(borrowedMaterial)">
                             <div class="d-flex w-100 justify-content-between">
                                 <h6 class="mb-1">{{ borrowedMaterial.MaterialName }}</h6>
                                 <small class="text-muted">Τεμ.: {{ borrowedMaterial.BorrowedMaterialQuantity}} </small>

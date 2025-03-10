@@ -17,6 +17,7 @@ import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
 import { UnsavedChangesGuard } from './unsaved-changes/unsaved-changes.guard';
 import { UnsavedChangesComponent } from './unsaved-changes/unsaved-changes.component';
+import { LoggedInGuard } from './auth/logged-in.guard';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { UnsavedChangesComponent } from './unsaved-changes/unsaved-changes.compo
   providers: [
     DbFunctionService,
     AuthGuard,
+    LoggedInGuard,
     AuthService,
     UnsavedChangesGuard
   ],

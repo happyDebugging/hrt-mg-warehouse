@@ -21,9 +21,9 @@ export class UnsavedChangesGuard implements CanDeactivate<UnsavedChangesComponen
 
     canDeactivate(component: UnsavedChangesComponent, route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
-        this.isNewMaterial = JSON.parse(JSON.stringify(localStorage.getItem("isNewMaterial")));
-        this.isMaterialEditEnabled = JSON.parse(JSON.stringify(localStorage.getItem("isMaterialEditEnabled")));
-        this.isDeletionSuccessfull = JSON.parse(JSON.stringify(localStorage.getItem("isDeletionSuccessfull")));
+        this.isNewMaterial = JSON.parse(JSON.stringify(sessionStorage.getItem("isNewMaterial")));
+        this.isMaterialEditEnabled = JSON.parse(JSON.stringify(sessionStorage.getItem("isMaterialEditEnabled")));
+        this.isDeletionSuccessfull = JSON.parse(JSON.stringify(sessionStorage.getItem("isDeletionSuccessfull")));
 
         //if (this.isNewMaterial == 'true' || this.isMaterialEditEnabled == 'true') {
 
@@ -35,7 +35,7 @@ export class UnsavedChangesGuard implements CanDeactivate<UnsavedChangesComponen
                 //return confirm("Η εργασία δεν έχει ολοκληρωθεί. Έξοδος από τη σελίδα;"); //true; ////component.canDeactivate()
                 // if (confirm("Η εργασία δεν έχει ολοκληρωθεί. Έξοδος από τη σελίδα;") == false) {
                 //     return false;
-                //     localStorage.setItem('isMaterialEditEnabled', 'false');
+                //     sessionStorage.setItem('isMaterialEditEnabled', 'false');
                 // }
                 // return false;
             //} else {

@@ -107,12 +107,12 @@ export class MaterialLinesComponent {
 
   ngOnInit() {
 
-    this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
-    this.loggedInUserId = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserId")));
+    this.isUserLoggedIn = JSON.parse(JSON.stringify(sessionStorage.getItem("isUserLoggedIn")));
+    this.loggedInUserId = JSON.parse(JSON.stringify(sessionStorage.getItem("loggedInUserId")));
 
     //this.GetLoggedInUserDetails();
 
-    this.storageCategory = JSON.parse(JSON.stringify(localStorage.getItem('storageCategory')));
+    this.storageCategory = JSON.parse(JSON.stringify(sessionStorage.getItem('storageCategory')));
 
     if (this.storageCategory == 'mountain') this.storageCategoryDescription = 'Τμήμα Ορεινής Διάσωσης';
     else if (this.storageCategory == 'water') this.storageCategoryDescription = 'Τμήμα Υγρού Στοιχείου';
@@ -121,7 +121,7 @@ export class MaterialLinesComponent {
     else if (this.storageCategory == 'communications') this.storageCategoryDescription = 'Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας';
     else if (this.storageCategory == 'socialCare') this.storageCategoryDescription = 'Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών';
   
-    this.RemoveMaterialDetailsFromLocalStorage();
+    this.RemoveMaterialDetailsFromsessionStorage();
 
     this.GetMaterialLines();
   }
@@ -162,7 +162,7 @@ export class MaterialLinesComponent {
   //             if (this.loggedInUserId == resObj.UserId) {
   //               this.loggedInUser = resObj;
   //               //console.log(this.loggedInUser.Id, ' ',this.loggedInUser.FirstName)
-  //               localStorage.setItem('loggedInUserName', this.loggedInUser.FirstName + ' ' + this.loggedInUser.LastName);
+  //               sessionStorage.setItem('loggedInUserName', this.loggedInUser.FirstName + ' ' + this.loggedInUser.LastName);
   //             }
               
   //           }
@@ -268,110 +268,110 @@ export class MaterialLinesComponent {
       );
   }
 
-  SetAvailableMaterialDetailsToLocalStorage(material: MaterialLines) {
-    localStorage.setItem('materialState', 'available');
+  SetAvailableMaterialDetailsTosessionStorage(material: MaterialLines) {
+    sessionStorage.setItem('materialState', 'available');
 
-    localStorage.setItem('materialIdToPreview', material.Id);
-    localStorage.setItem('materialNameToPreview', material.MaterialName);
-    localStorage.setItem('materialserialNumberToPreview', material.SerialNumber);
-    localStorage.setItem('materialQuantityToPreview', material.AvailableMaterialQuantity.toString()); // material.Quantity.toString()
-    localStorage.setItem('availableMaterialQuantityToPreview', material.AvailableMaterialQuantity.toString());
-    localStorage.setItem('materialStorageCategoryToPreview', material.StorageCategory);
-    localStorage.setItem('materialStoringPlaceToPreview', material.StoringPlace);
-    localStorage.setItem('materialStoredNearRepeaterToPreview', material.StoredNearRepeater);
-    localStorage.setItem('materialBorrowedToToPreview', material.BorrowedTo);
-    localStorage.setItem('materialBorrowedAtToPreview', material.BorrowedAt);
-    localStorage.setItem('materialBorrowedQuantityToPreview', material.BorrowedMaterialQuantity.toString());
-    localStorage.setItem('materialExpiryDateToPreview', material.ExpiryDate);
-    localStorage.setItem('isMaterialDamagedToPreview', material.IsMaterialDamaged.toString());
-    localStorage.setItem('damagedMaterialQuantityToPreview', material.DamagedMaterialQuantity.toString());
-    localStorage.setItem('isMaterialDeletedToPreview', material.IsMaterialDeleted.toString());
-    localStorage.setItem('deletedMaterialQuantityToPreview', material.DeletedMaterialQuantity.toString());
-    localStorage.setItem('isMaterialConsumableToPreview', material.IsMaterialConsumable.toString());
-    localStorage.setItem('CreatedAtToPreview', material.CreatedAt);
-    localStorage.setItem('CreatedByToPreview', material.CreatedBy);
-    localStorage.setItem('LastUpdatedAtToPreview', material.LastUpdatedAt);
-    localStorage.setItem('LastUpdatedByToPreview', material.LastUpdatedBy);
-    localStorage.setItem('materialPhotoToPreview', material.Photo);
+    sessionStorage.setItem('materialIdToPreview', material.Id);
+    sessionStorage.setItem('materialNameToPreview', material.MaterialName);
+    sessionStorage.setItem('materialserialNumberToPreview', material.SerialNumber);
+    sessionStorage.setItem('materialQuantityToPreview', material.AvailableMaterialQuantity.toString()); // material.Quantity.toString()
+    sessionStorage.setItem('availableMaterialQuantityToPreview', material.AvailableMaterialQuantity.toString());
+    sessionStorage.setItem('materialStorageCategoryToPreview', material.StorageCategory);
+    sessionStorage.setItem('materialStoringPlaceToPreview', material.StoringPlace);
+    sessionStorage.setItem('materialStoredNearRepeaterToPreview', material.StoredNearRepeater);
+    sessionStorage.setItem('materialBorrowedToToPreview', material.BorrowedTo);
+    sessionStorage.setItem('materialBorrowedAtToPreview', material.BorrowedAt);
+    sessionStorage.setItem('materialBorrowedQuantityToPreview', material.BorrowedMaterialQuantity.toString());
+    sessionStorage.setItem('materialExpiryDateToPreview', material.ExpiryDate);
+    sessionStorage.setItem('isMaterialDamagedToPreview', material.IsMaterialDamaged.toString());
+    sessionStorage.setItem('damagedMaterialQuantityToPreview', material.DamagedMaterialQuantity.toString());
+    sessionStorage.setItem('isMaterialDeletedToPreview', material.IsMaterialDeleted.toString());
+    sessionStorage.setItem('deletedMaterialQuantityToPreview', material.DeletedMaterialQuantity.toString());
+    sessionStorage.setItem('isMaterialConsumableToPreview', material.IsMaterialConsumable.toString());
+    sessionStorage.setItem('CreatedAtToPreview', material.CreatedAt);
+    sessionStorage.setItem('CreatedByToPreview', material.CreatedBy);
+    sessionStorage.setItem('LastUpdatedAtToPreview', material.LastUpdatedAt);
+    sessionStorage.setItem('LastUpdatedByToPreview', material.LastUpdatedBy);
+    sessionStorage.setItem('materialPhotoToPreview', material.Photo);
   }
 
-  SetDamagedMaterialDetailsToLocalStorage(material: MaterialLines) {
-    localStorage.setItem('materialState', 'damaged');
+  SetDamagedMaterialDetailsTosessionStorage(material: MaterialLines) {
+    sessionStorage.setItem('materialState', 'damaged');
 
-    localStorage.setItem('materialIdToPreview', material.Id);
-    localStorage.setItem('materialNameToPreview', material.MaterialName);
-    localStorage.setItem('materialserialNumberToPreview', material.SerialNumber);
-    localStorage.setItem('materialQuantityToPreview', material.DamagedMaterialQuantity.toString()); //material.Quantity.toString()
-    localStorage.setItem('availableMaterialQuantityToPreview', material.AvailableMaterialQuantity.toString());
-    localStorage.setItem('materialStorageCategoryToPreview', material.StorageCategory);
-    localStorage.setItem('materialStoringPlaceToPreview', material.StoringPlace);
-    localStorage.setItem('materialStoredNearRepeaterToPreview', material.StoredNearRepeater);
-    localStorage.setItem('materialBorrowedToToPreview', material.BorrowedTo);
-    localStorage.setItem('materialBorrowedAtToPreview', material.BorrowedAt);
-    localStorage.setItem('materialBorrowedQuantityToPreview', material.BorrowedMaterialQuantity.toString());
-    localStorage.setItem('materialExpiryDateToPreview', material.ExpiryDate);
-    localStorage.setItem('isMaterialDamagedToPreview', material.IsMaterialDamaged.toString());
-    localStorage.setItem('damagedMaterialQuantityToPreview', material.DamagedMaterialQuantity.toString());
-    localStorage.setItem('isMaterialDeletedToPreview', material.IsMaterialDeleted.toString());
-    localStorage.setItem('deletedMaterialQuantityToPreview', material.DeletedMaterialQuantity.toString());
-    localStorage.setItem('isMaterialConsumableToPreview', material.IsMaterialConsumable.toString());
-    localStorage.setItem('CreatedAtToPreview', material.CreatedAt);
-    localStorage.setItem('CreatedByToPreview', material.CreatedBy);
-    localStorage.setItem('LastUpdatedAtToPreview', material.LastUpdatedAt);
-    localStorage.setItem('LastUpdatedByToPreview', material.LastUpdatedBy);
-    localStorage.setItem('materialPhotoToPreview', material.Photo);
+    sessionStorage.setItem('materialIdToPreview', material.Id);
+    sessionStorage.setItem('materialNameToPreview', material.MaterialName);
+    sessionStorage.setItem('materialserialNumberToPreview', material.SerialNumber);
+    sessionStorage.setItem('materialQuantityToPreview', material.DamagedMaterialQuantity.toString()); //material.Quantity.toString()
+    sessionStorage.setItem('availableMaterialQuantityToPreview', material.AvailableMaterialQuantity.toString());
+    sessionStorage.setItem('materialStorageCategoryToPreview', material.StorageCategory);
+    sessionStorage.setItem('materialStoringPlaceToPreview', material.StoringPlace);
+    sessionStorage.setItem('materialStoredNearRepeaterToPreview', material.StoredNearRepeater);
+    sessionStorage.setItem('materialBorrowedToToPreview', material.BorrowedTo);
+    sessionStorage.setItem('materialBorrowedAtToPreview', material.BorrowedAt);
+    sessionStorage.setItem('materialBorrowedQuantityToPreview', material.BorrowedMaterialQuantity.toString());
+    sessionStorage.setItem('materialExpiryDateToPreview', material.ExpiryDate);
+    sessionStorage.setItem('isMaterialDamagedToPreview', material.IsMaterialDamaged.toString());
+    sessionStorage.setItem('damagedMaterialQuantityToPreview', material.DamagedMaterialQuantity.toString());
+    sessionStorage.setItem('isMaterialDeletedToPreview', material.IsMaterialDeleted.toString());
+    sessionStorage.setItem('deletedMaterialQuantityToPreview', material.DeletedMaterialQuantity.toString());
+    sessionStorage.setItem('isMaterialConsumableToPreview', material.IsMaterialConsumable.toString());
+    sessionStorage.setItem('CreatedAtToPreview', material.CreatedAt);
+    sessionStorage.setItem('CreatedByToPreview', material.CreatedBy);
+    sessionStorage.setItem('LastUpdatedAtToPreview', material.LastUpdatedAt);
+    sessionStorage.setItem('LastUpdatedByToPreview', material.LastUpdatedBy);
+    sessionStorage.setItem('materialPhotoToPreview', material.Photo);
   }
 
-  SetDeletedMaterialDetailsToLocalStorage(material: MaterialLines) {
-    localStorage.setItem('materialState', 'deleted');
+  SetDeletedMaterialDetailsTosessionStorage(material: MaterialLines) {
+    sessionStorage.setItem('materialState', 'deleted');
 
-    localStorage.setItem('materialIdToPreview', material.Id);
-    localStorage.setItem('materialNameToPreview', material.MaterialName);
-    localStorage.setItem('materialserialNumberToPreview', material.SerialNumber);
-    localStorage.setItem('materialQuantityToPreview', material.DeletedMaterialQuantity.toString()); // material.Quantity.toString()
-    localStorage.setItem('availableMaterialQuantityToPreview', material.AvailableMaterialQuantity.toString());
-    localStorage.setItem('materialStorageCategoryToPreview', material.StorageCategory);
-    localStorage.setItem('materialStoringPlaceToPreview', material.StoringPlace);
-    localStorage.setItem('materialStoredNearRepeaterToPreview', material.StoredNearRepeater);
-    localStorage.setItem('materialBorrowedToToPreview', material.BorrowedTo);
-    localStorage.setItem('materialBorrowedAtToPreview', material.BorrowedAt);
-    localStorage.setItem('materialBorrowedQuantityToPreview', material.BorrowedMaterialQuantity.toString());
-    localStorage.setItem('materialExpiryDateToPreview', material.ExpiryDate);
-    localStorage.setItem('isMaterialDamagedToPreview', material.IsMaterialDamaged.toString());
-    localStorage.setItem('damagedMaterialQuantityToPreview', material.DamagedMaterialQuantity.toString());
-    localStorage.setItem('isMaterialDeletedToPreview', material.IsMaterialDeleted.toString());
-    localStorage.setItem('deletedMaterialQuantityToPreview', material.DeletedMaterialQuantity.toString());
-    localStorage.setItem('isMaterialConsumableToPreview', material.IsMaterialConsumable.toString());
-    localStorage.setItem('CreatedAtToPreview', material.CreatedAt);
-    localStorage.setItem('CreatedByToPreview', material.CreatedBy);
-    localStorage.setItem('LastUpdatedAtToPreview', material.LastUpdatedAt);
-    localStorage.setItem('LastUpdatedByToPreview', material.LastUpdatedBy);
-    localStorage.setItem('materialPhotoToPreview', material.Photo);
+    sessionStorage.setItem('materialIdToPreview', material.Id);
+    sessionStorage.setItem('materialNameToPreview', material.MaterialName);
+    sessionStorage.setItem('materialserialNumberToPreview', material.SerialNumber);
+    sessionStorage.setItem('materialQuantityToPreview', material.DeletedMaterialQuantity.toString()); // material.Quantity.toString()
+    sessionStorage.setItem('availableMaterialQuantityToPreview', material.AvailableMaterialQuantity.toString());
+    sessionStorage.setItem('materialStorageCategoryToPreview', material.StorageCategory);
+    sessionStorage.setItem('materialStoringPlaceToPreview', material.StoringPlace);
+    sessionStorage.setItem('materialStoredNearRepeaterToPreview', material.StoredNearRepeater);
+    sessionStorage.setItem('materialBorrowedToToPreview', material.BorrowedTo);
+    sessionStorage.setItem('materialBorrowedAtToPreview', material.BorrowedAt);
+    sessionStorage.setItem('materialBorrowedQuantityToPreview', material.BorrowedMaterialQuantity.toString());
+    sessionStorage.setItem('materialExpiryDateToPreview', material.ExpiryDate);
+    sessionStorage.setItem('isMaterialDamagedToPreview', material.IsMaterialDamaged.toString());
+    sessionStorage.setItem('damagedMaterialQuantityToPreview', material.DamagedMaterialQuantity.toString());
+    sessionStorage.setItem('isMaterialDeletedToPreview', material.IsMaterialDeleted.toString());
+    sessionStorage.setItem('deletedMaterialQuantityToPreview', material.DeletedMaterialQuantity.toString());
+    sessionStorage.setItem('isMaterialConsumableToPreview', material.IsMaterialConsumable.toString());
+    sessionStorage.setItem('CreatedAtToPreview', material.CreatedAt);
+    sessionStorage.setItem('CreatedByToPreview', material.CreatedBy);
+    sessionStorage.setItem('LastUpdatedAtToPreview', material.LastUpdatedAt);
+    sessionStorage.setItem('LastUpdatedByToPreview', material.LastUpdatedBy);
+    sessionStorage.setItem('materialPhotoToPreview', material.Photo);
   }
 
-  RemoveMaterialDetailsFromLocalStorage() {
-    localStorage.removeItem('materialIdToPreview');
-    localStorage.removeItem('materialNameToPreview');
-    localStorage.removeItem('materialserialNumberToPreview');
-    localStorage.removeItem('materialQuantityToPreview');
-    localStorage.removeItem('availableMaterialQuantityToPreview');
-    localStorage.removeItem('materialStorageCategoryToPreview');
-    localStorage.removeItem('materialStoringPlaceToPreview');
-    localStorage.removeItem('materialStoredNearRepeaterToPreview');
-    localStorage.removeItem('materialBorrowedToToPreview');
-    localStorage.removeItem('materialBorrowedAtToPreview');
-    localStorage.removeItem('materialBorrowedQuantityToPreview');
-    localStorage.removeItem('materialExpiryDateToPreview');
-    localStorage.removeItem('isMaterialDamagedToPreview');
-    localStorage.removeItem('damagedMaterialQuantityToPreview');
-    localStorage.removeItem('isMaterialDeletedToPreview');
-    localStorage.removeItem('deletedMaterialQuantityToPreview');
-    localStorage.removeItem('isMaterialConsumableToPreview');
-    localStorage.removeItem('CreatedAtToPreview');
-    localStorage.removeItem('CreatedByToPreview');
-    localStorage.removeItem('LastUpdatedAtToPreview');
-    localStorage.removeItem('LastUpdatedByToPreview');
-    localStorage.removeItem('materialPhotoToPreview');
+  RemoveMaterialDetailsFromsessionStorage() {
+    sessionStorage.removeItem('materialIdToPreview');
+    sessionStorage.removeItem('materialNameToPreview');
+    sessionStorage.removeItem('materialserialNumberToPreview');
+    sessionStorage.removeItem('materialQuantityToPreview');
+    sessionStorage.removeItem('availableMaterialQuantityToPreview');
+    sessionStorage.removeItem('materialStorageCategoryToPreview');
+    sessionStorage.removeItem('materialStoringPlaceToPreview');
+    sessionStorage.removeItem('materialStoredNearRepeaterToPreview');
+    sessionStorage.removeItem('materialBorrowedToToPreview');
+    sessionStorage.removeItem('materialBorrowedAtToPreview');
+    sessionStorage.removeItem('materialBorrowedQuantityToPreview');
+    sessionStorage.removeItem('materialExpiryDateToPreview');
+    sessionStorage.removeItem('isMaterialDamagedToPreview');
+    sessionStorage.removeItem('damagedMaterialQuantityToPreview');
+    sessionStorage.removeItem('isMaterialDeletedToPreview');
+    sessionStorage.removeItem('deletedMaterialQuantityToPreview');
+    sessionStorage.removeItem('isMaterialConsumableToPreview');
+    sessionStorage.removeItem('CreatedAtToPreview');
+    sessionStorage.removeItem('CreatedByToPreview');
+    sessionStorage.removeItem('LastUpdatedAtToPreview');
+    sessionStorage.removeItem('LastUpdatedByToPreview');
+    sessionStorage.removeItem('materialPhotoToPreview');
   }
 
   ngOnDestroy() {

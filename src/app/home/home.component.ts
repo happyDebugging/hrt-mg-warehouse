@@ -41,15 +41,15 @@ export class HomeComponent implements OnInit {
 
     let tokenSubscription = of(null).pipe(delay(36000000)).subscribe(() => { //logout after 10 hours
       console.log('EXPIRED!')
-      localStorage.setItem('isUserLoggedIn', 'false');
-      localStorage.setItem('sessionExpirationDate', '');
+      sessionStorage.setItem('isUserLoggedIn', 'false');
+      sessionStorage.setItem('sessionExpirationDate', '');
     });
 
-    this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
-    this.loggedInUserId = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserId")));
-    this.loggedInUser.Permissions = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserPermissions")));
-    this.loggedInUser.FirstName = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserFirstName")));
-    this.loggedInUser.LastName = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserLastName")));
+    this.isUserLoggedIn = JSON.parse(JSON.stringify(sessionStorage.getItem("isUserLoggedIn")));
+    this.loggedInUserId = JSON.parse(JSON.stringify(sessionStorage.getItem("loggedInUserId")));
+    this.loggedInUser.Permissions = JSON.parse(JSON.stringify(sessionStorage.getItem("loggedInUserPermissions")));
+    this.loggedInUser.FirstName = JSON.parse(JSON.stringify(sessionStorage.getItem("loggedInUserFirstName")));
+    this.loggedInUser.LastName = JSON.parse(JSON.stringify(sessionStorage.getItem("loggedInUserLastName")));
 
     ////this.loggedInUserId='';
     //console.log(this.loggedInUserId)
@@ -162,7 +162,7 @@ export class HomeComponent implements OnInit {
       );
   }
 
-  SetMaterialDetailsToLocalStorage(soonToExpireMaterial: MaterialLines) {
+  SetMaterialDetailsTosessionStorage(soonToExpireMaterial: MaterialLines) {
 
     if (soonToExpireMaterial.StorageCategory == 'Τμήμα Ορεινής Διάσωσης') this.storageCategory = 'mountain';
     else if (soonToExpireMaterial.StorageCategory == 'Τμήμα Υγρού Στοιχείου') this.storageCategory = 'water';
@@ -173,31 +173,31 @@ export class HomeComponent implements OnInit {
   
     //console.log(this.storageCategory+'/material-lines'+'/item/'+ soonToExpireMaterial.SerialNumber)
 
-    localStorage.setItem('materialState', 'available');
+    sessionStorage.setItem('materialState', 'available');
 
-    localStorage.setItem('materialIdToPreview', soonToExpireMaterial.Id);
-    localStorage.setItem('materialNameToPreview', soonToExpireMaterial.MaterialName);
-    localStorage.setItem('materialserialNumberToPreview', soonToExpireMaterial.SerialNumber);
-    localStorage.setItem('materialQuantityToPreview', soonToExpireMaterial.AvailableMaterialQuantity.toString()); // material.Quantity.toString()
-    localStorage.setItem('availableMaterialQuantityToPreview', soonToExpireMaterial.AvailableMaterialQuantity.toString());
-    localStorage.setItem('materialStorageCategoryToPreview', this.storageCategory);
-    localStorage.setItem('storageCategory', this.storageCategory);
-    localStorage.setItem('materialStoringPlaceToPreview', soonToExpireMaterial.StoringPlace);
-    localStorage.setItem('materialStoredNearRepeaterToPreview', soonToExpireMaterial.StoredNearRepeater);
-    localStorage.setItem('materialBorrowedToToPreview', soonToExpireMaterial.BorrowedTo);
-    localStorage.setItem('materialBorrowedAtToPreview', soonToExpireMaterial.BorrowedAt);
-    localStorage.setItem('materialBorrowedQuantityToPreview', soonToExpireMaterial.BorrowedMaterialQuantity.toString());
-    localStorage.setItem('materialExpiryDateToPreview', soonToExpireMaterial.ExpiryDate);
-    localStorage.setItem('isMaterialDamagedToPreview', soonToExpireMaterial.IsMaterialDamaged.toString());
-    localStorage.setItem('damagedMaterialQuantityToPreview', soonToExpireMaterial.DamagedMaterialQuantity.toString());
-    localStorage.setItem('isMaterialDeletedToPreview', soonToExpireMaterial.IsMaterialDeleted.toString());
-    localStorage.setItem('deletedMaterialQuantityToPreview', soonToExpireMaterial.DeletedMaterialQuantity.toString());
-    localStorage.setItem('isMaterialConsumableToPreview', soonToExpireMaterial.IsMaterialConsumable.toString());
-    localStorage.setItem('CreatedAtToPreview', soonToExpireMaterial.CreatedAt);
-    localStorage.setItem('CreatedByToPreview', soonToExpireMaterial.CreatedBy);
-    localStorage.setItem('LastUpdatedAtToPreview', soonToExpireMaterial.LastUpdatedAt);
-    localStorage.setItem('LastUpdatedByToPreview', soonToExpireMaterial.LastUpdatedBy);
-    localStorage.setItem('materialPhotoToPreview', soonToExpireMaterial.Photo);
+    sessionStorage.setItem('materialIdToPreview', soonToExpireMaterial.Id);
+    sessionStorage.setItem('materialNameToPreview', soonToExpireMaterial.MaterialName);
+    sessionStorage.setItem('materialserialNumberToPreview', soonToExpireMaterial.SerialNumber);
+    sessionStorage.setItem('materialQuantityToPreview', soonToExpireMaterial.AvailableMaterialQuantity.toString()); // material.Quantity.toString()
+    sessionStorage.setItem('availableMaterialQuantityToPreview', soonToExpireMaterial.AvailableMaterialQuantity.toString());
+    sessionStorage.setItem('materialStorageCategoryToPreview', this.storageCategory);
+    sessionStorage.setItem('storageCategory', this.storageCategory);
+    sessionStorage.setItem('materialStoringPlaceToPreview', soonToExpireMaterial.StoringPlace);
+    sessionStorage.setItem('materialStoredNearRepeaterToPreview', soonToExpireMaterial.StoredNearRepeater);
+    sessionStorage.setItem('materialBorrowedToToPreview', soonToExpireMaterial.BorrowedTo);
+    sessionStorage.setItem('materialBorrowedAtToPreview', soonToExpireMaterial.BorrowedAt);
+    sessionStorage.setItem('materialBorrowedQuantityToPreview', soonToExpireMaterial.BorrowedMaterialQuantity.toString());
+    sessionStorage.setItem('materialExpiryDateToPreview', soonToExpireMaterial.ExpiryDate);
+    sessionStorage.setItem('isMaterialDamagedToPreview', soonToExpireMaterial.IsMaterialDamaged.toString());
+    sessionStorage.setItem('damagedMaterialQuantityToPreview', soonToExpireMaterial.DamagedMaterialQuantity.toString());
+    sessionStorage.setItem('isMaterialDeletedToPreview', soonToExpireMaterial.IsMaterialDeleted.toString());
+    sessionStorage.setItem('deletedMaterialQuantityToPreview', soonToExpireMaterial.DeletedMaterialQuantity.toString());
+    sessionStorage.setItem('isMaterialConsumableToPreview', soonToExpireMaterial.IsMaterialConsumable.toString());
+    sessionStorage.setItem('CreatedAtToPreview', soonToExpireMaterial.CreatedAt);
+    sessionStorage.setItem('CreatedByToPreview', soonToExpireMaterial.CreatedBy);
+    sessionStorage.setItem('LastUpdatedAtToPreview', soonToExpireMaterial.LastUpdatedAt);
+    sessionStorage.setItem('LastUpdatedByToPreview', soonToExpireMaterial.LastUpdatedBy);
+    sessionStorage.setItem('materialPhotoToPreview', soonToExpireMaterial.Photo);
 
     this.router.navigate([this.storageCategory+'/material-lines'+'/item/'+ soonToExpireMaterial.SerialNumber]);
   }

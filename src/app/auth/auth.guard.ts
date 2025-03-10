@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-        const expireDateString = localStorage.getItem('sessionExpirationDate');
+        const expireDateString = sessionStorage.getItem('sessionExpirationDate');
         //console.log('sessionExpirationDate ', expireDateString)
 
         const now = new Date();
@@ -25,7 +25,7 @@ export class AuthGuard implements CanActivate {
             return false;
         }
 
-        if (JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn"))) == 'true') {
+        if (JSON.parse(JSON.stringify(sessionStorage.getItem("isUserLoggedIn"))) == 'true') {
             //console.log('home1')
             //this.router.navigate(['home']);
             //window.location.href = environment.appUrl + '/home';

@@ -46,11 +46,12 @@ export class AuthComponent implements OnInit {
 
   ngOnInit() {
     this.hasForgottenPassword = false;
+    sessionStorage.clear();
 
-    localStorage.setItem('isUserLoggedIn', this.isUserLoggedIn.toString());
+    sessionStorage.setItem('isUserLoggedIn', this.isUserLoggedIn.toString());
 
-    this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
-    this.loggedInUserId = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserId")));
+    this.isUserLoggedIn = JSON.parse(JSON.stringify(sessionStorage.getItem("isUserLoggedIn")));
+    this.loggedInUserId = JSON.parse(JSON.stringify(sessionStorage.getItem("loggedInUserId")));
 
     console.log(this.loggedInUserId)
 
@@ -82,12 +83,12 @@ export class AuthComponent implements OnInit {
   }
 
   Login() {
-    localStorage.setItem('userEmail', this.userEmail);
-    localStorage.setItem('userPassword', this.userPassword);
+    sessionStorage.setItem('userEmail', this.userEmail);
+    sessionStorage.setItem('userPassword', this.userPassword);
 
     this.errorMessageToShow = '';
     this.authService.AuthenticateUser().then(res => {
-      this.errorMessageToShow = JSON.parse(JSON.stringify(localStorage.getItem("signinErrorMessage")));
+      this.errorMessageToShow = JSON.parse(JSON.stringify(sessionStorage.getItem("signinErrorMessage")));
       if (this.errorMessageToShow != '') {
         console.log('111111111111111111111')
         this.isCredentialsWrong = true;

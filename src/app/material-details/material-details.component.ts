@@ -114,12 +114,12 @@ export class MaterialDetailsComponent {
 
   ngOnInit() {
 
-    this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
-    this.loggedInUserId = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserId")));
-    this.loggedInUserName = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserName")));
-    this.loggedInUserPermissions = JSON.parse(JSON.stringify(localStorage.getItem("loggedInUserPermissions")));
+    this.isUserLoggedIn = JSON.parse(JSON.stringify(sessionStorage.getItem("isUserLoggedIn")));
+    this.loggedInUserId = JSON.parse(JSON.stringify(sessionStorage.getItem("loggedInUserId")));
+    this.loggedInUserName = JSON.parse(JSON.stringify(sessionStorage.getItem("loggedInUserName")));
+    this.loggedInUserPermissions = JSON.parse(JSON.stringify(sessionStorage.getItem("loggedInUserPermissions")));
 
-    this.storageCategory = JSON.parse(JSON.stringify(localStorage.getItem('storageCategory')));
+    this.storageCategory = JSON.parse(JSON.stringify(sessionStorage.getItem('storageCategory')));
     if (this.storageCategory == 'mountain') this.storageCategoryDescription = 'Τμήμα Ορεινής Διάσωσης';
     else if (this.storageCategory == 'water') this.storageCategoryDescription = 'Τμήμα Υγρού Στοιχείου';
     else if (this.storageCategory == 'disaster') this.storageCategoryDescription = 'Τμήμα Αντιμετώπισης Καταστροφών';
@@ -127,7 +127,7 @@ export class MaterialDetailsComponent {
     else if (this.storageCategory == 'communications') this.storageCategoryDescription = 'Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας';
     else if (this.storageCategory == 'socialCare') this.storageCategoryDescription = 'Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών';
 
-    this.GetItemDetailsToPreviewFromLocalStorage();
+    this.GetItemDetailsToPreviewFromsessionStorage();
 
     this.GetMaterialPhotoFromStorage();
 
@@ -237,12 +237,12 @@ export class MaterialDetailsComponent {
 
   EnableMaterialEdit() {
     this.isMaterialEditEnabled = true;
-    localStorage.setItem('isMaterialEditEnabled', 'true');
+    sessionStorage.setItem('isMaterialEditEnabled', 'true');
   }
 
   DisableMaterialEdit() {
     this.isMaterialEditEnabled = false;
-    localStorage.setItem('isMaterialEditEnabled', 'false');
+    sessionStorage.setItem('isMaterialEditEnabled', 'false');
   }
 
   DecideOnSaveMethod() {
@@ -325,7 +325,7 @@ export class MaterialDetailsComponent {
 
     if (this.hasPreviewPhotoChanged) {
       updatedMaterialLine.Photo = this.materialName + '_' + this.materialserialNumber + '_' + Date.now().toString();
-      localStorage.setItem('materialPhotoToPreview', updatedMaterialLine.Photo);
+      sessionStorage.setItem('materialPhotoToPreview', updatedMaterialLine.Photo);
 
       const desertRef = ref(this.storage, this.previousMaterialPhoto);
       // Delete previous uploaded image
@@ -461,8 +461,8 @@ export class MaterialDetailsComponent {
     }
   }
 
-  GetItemDetailsToPreviewFromLocalStorage() {
-    this.materialState = JSON.parse(JSON.stringify(localStorage.getItem('materialState')));
+  GetItemDetailsToPreviewFromsessionStorage() {
+    this.materialState = JSON.parse(JSON.stringify(sessionStorage.getItem('materialState')));
     if (this.materialState == 'available') {
       this.materialStateDescription = 'Διαθέσιμο Υλικό';
     } else if (this.materialState == 'damaged') {
@@ -471,57 +471,57 @@ export class MaterialDetailsComponent {
       this.materialStateDescription = 'Υλικό προς διαγραφή λόγω καταστροφής ή απώλειας';
     }
 
-    this.materialId = JSON.parse(JSON.stringify(localStorage.getItem('materialIdToPreview')));
+    this.materialId = JSON.parse(JSON.stringify(sessionStorage.getItem('materialIdToPreview')));
     if (this.materialId == null) {
       console.log('this.materialId: ' + this.materialId)
       this.isNewMaterial = true;
-      localStorage.setItem('isNewMaterial', 'true');
+      sessionStorage.setItem('isNewMaterial', 'true');
       this.materialState = 'available';
       this.materialStateDescription = 'Διαθέσιμο Υλικό';
     }
-    this.materialName = JSON.parse(JSON.stringify(localStorage.getItem('materialNameToPreview')));
-    this.materialserialNumber = JSON.parse(JSON.stringify(localStorage.getItem('materialserialNumberToPreview')));
+    this.materialName = JSON.parse(JSON.stringify(sessionStorage.getItem('materialNameToPreview')));
+    this.materialserialNumber = JSON.parse(JSON.stringify(sessionStorage.getItem('materialserialNumberToPreview')));
     if (this.materialserialNumber != 'Άνευ') {
       this.hasNoSerialNumber = false;
     } else {
       this.hasNoSerialNumber = true;
       this.materialserialNumber = '';
     }
-    this.materialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('materialQuantityToPreview')));
+    this.materialQuantity = JSON.parse(JSON.stringify(sessionStorage.getItem('materialQuantityToPreview')));
     //this.availableMaterialQuantity = 
-    this.previousAvailableMaterialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('availableMaterialQuantityToPreview')));
-    this.materialStorageCategory = JSON.parse(JSON.stringify(localStorage.getItem('materialStorageCategoryToPreview')));
-    this.materialStoringPlace = JSON.parse(JSON.stringify(localStorage.getItem('materialStoringPlaceToPreview')));
-    this.materialStoredNearRepeater = JSON.parse(JSON.stringify(localStorage.getItem('materialStoredNearRepeaterToPreview')));
-    this.materialBorrowedTo = JSON.parse(JSON.stringify(localStorage.getItem('materialBorrowedToToPreview')));
+    this.previousAvailableMaterialQuantity = JSON.parse(JSON.stringify(sessionStorage.getItem('availableMaterialQuantityToPreview')));
+    this.materialStorageCategory = JSON.parse(JSON.stringify(sessionStorage.getItem('materialStorageCategoryToPreview')));
+    this.materialStoringPlace = JSON.parse(JSON.stringify(sessionStorage.getItem('materialStoringPlaceToPreview')));
+    this.materialStoredNearRepeater = JSON.parse(JSON.stringify(sessionStorage.getItem('materialStoredNearRepeaterToPreview')));
+    this.materialBorrowedTo = JSON.parse(JSON.stringify(sessionStorage.getItem('materialBorrowedToToPreview')));
     if (this.materialBorrowedTo != '' && this.materialBorrowedTo != null && this.materialBorrowedTo != undefined && this.materialBorrowedTo != 'undefined') {
       this.isMaterialBorrowed = true;
     }
-    this.materialBorrowedAt = JSON.parse(JSON.stringify(localStorage.getItem('materialBorrowedAtToPreview')));
-    this.materialBorrowedQuantity = JSON.parse(JSON.stringify(localStorage.getItem('materialBorrowedQuantityToPreview')));
-    this.materialExpiryDate = JSON.parse(JSON.stringify(localStorage.getItem('materialExpiryDateToPreview')));
-    if (JSON.parse(JSON.stringify(localStorage.getItem('isMaterialDamagedToPreview'))) == 'true') {
+    this.materialBorrowedAt = JSON.parse(JSON.stringify(sessionStorage.getItem('materialBorrowedAtToPreview')));
+    this.materialBorrowedQuantity = JSON.parse(JSON.stringify(sessionStorage.getItem('materialBorrowedQuantityToPreview')));
+    this.materialExpiryDate = JSON.parse(JSON.stringify(sessionStorage.getItem('materialExpiryDateToPreview')));
+    if (JSON.parse(JSON.stringify(sessionStorage.getItem('isMaterialDamagedToPreview'))) == 'true') {
       this.isMaterialDamaged = true;
     } else this.isMaterialDamaged = false;
     //this.damagedMaterialQuantity = 
-    this.previousDamagedMaterialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('damagedMaterialQuantityToPreview')));
-    if (JSON.parse(JSON.stringify(localStorage.getItem('isMaterialDeletedToPreview'))) == 'true') {
+    this.previousDamagedMaterialQuantity = JSON.parse(JSON.stringify(sessionStorage.getItem('damagedMaterialQuantityToPreview')));
+    if (JSON.parse(JSON.stringify(sessionStorage.getItem('isMaterialDeletedToPreview'))) == 'true') {
       this.isMaterialDeleted = true;
     } else this.isMaterialDeleted = false;
     if (!this.isMaterialDamaged && !this.isMaterialDeleted) {
       this.isMaterialAvailable = true;
     } else this.isMaterialAvailable = false;
     //this.deletedMaterialQuantity = 
-    this.previousDeletedMaterialQuantity = JSON.parse(JSON.stringify(localStorage.getItem('deletedMaterialQuantityToPreview')));
-    if (JSON.parse(JSON.stringify(localStorage.getItem('isMaterialConsumableToPreview'))) == 'true') {
+    this.previousDeletedMaterialQuantity = JSON.parse(JSON.stringify(sessionStorage.getItem('deletedMaterialQuantityToPreview')));
+    if (JSON.parse(JSON.stringify(sessionStorage.getItem('isMaterialConsumableToPreview'))) == 'true') {
       this.isMaterialConsumable = true;
     } else this.isMaterialConsumable = false;
-    this.CreatedAt = JSON.parse(JSON.stringify(localStorage.getItem('CreatedAtToPreview')));
-    this.CreatedBy = JSON.parse(JSON.stringify(localStorage.getItem('CreatedByToPreview')));
-    this.LastUpdatedAt = JSON.parse(JSON.stringify(localStorage.getItem('LastUpdatedAtToPreview')));
-    this.LastUpdatedBy = JSON.parse(JSON.stringify(localStorage.getItem('LastUpdatedByToPreview')));
-    this.materialPhoto = JSON.parse(JSON.stringify(localStorage.getItem('materialPhotoToPreview')));
-    this.previousMaterialPhoto = JSON.parse(JSON.stringify(localStorage.getItem('materialPhotoToPreview')));
+    this.CreatedAt = JSON.parse(JSON.stringify(sessionStorage.getItem('CreatedAtToPreview')));
+    this.CreatedBy = JSON.parse(JSON.stringify(sessionStorage.getItem('CreatedByToPreview')));
+    this.LastUpdatedAt = JSON.parse(JSON.stringify(sessionStorage.getItem('LastUpdatedAtToPreview')));
+    this.LastUpdatedBy = JSON.parse(JSON.stringify(sessionStorage.getItem('LastUpdatedByToPreview')));
+    this.materialPhoto = JSON.parse(JSON.stringify(sessionStorage.getItem('materialPhotoToPreview')));
+    this.previousMaterialPhoto = JSON.parse(JSON.stringify(sessionStorage.getItem('materialPhotoToPreview')));
   }
 
   GetMaterialPhotoFromStorage() {
@@ -559,11 +559,11 @@ export class MaterialDetailsComponent {
           //if ((res != null) || (res != undefined)) {
 
           this.isDeletionSuccessfull = true;
-          localStorage.setItem('isDeletionSuccessfull', 'true');
+          sessionStorage.setItem('isDeletionSuccessfull', 'true');
 
           setTimeout(() => {
             this.isDeletionSuccessfull = false;
-            //localStorage.setItem('isDeletionSuccessfull', 'false');
+            //sessionStorage.setItem('isDeletionSuccessfull', 'false');
 
             let actionType = 'Οριστική διαγραφή υλικού';
             this.AddHistoryRecord(this.materialName, this.materialserialNumber, actionType);

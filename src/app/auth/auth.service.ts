@@ -53,8 +53,8 @@ export class AuthService {
 
   AuthenticateUser() {
     return new Promise((resolve, reject) => {
-      this.userEmail = JSON.parse(JSON.stringify(localStorage.getItem("userEmail")));
-      this.userPassword = JSON.parse(JSON.stringify(localStorage.getItem("userPassword")));
+      this.userEmail = JSON.parse(JSON.stringify(sessionStorage.getItem("userEmail")));
+      this.userPassword = JSON.parse(JSON.stringify(sessionStorage.getItem("userPassword")));
 
       this.errorMessageToShow = '';
 
@@ -64,7 +64,7 @@ export class AuthService {
           const user = userCredential.user;
 
           this.isUserLoggedIn = true;
-          localStorage.setItem("isUserLoggedIn", "true");
+          sessionStorage.setItem("isUserLoggedIn", "true");
 
           this.isCredentialsWrong = false;
 
@@ -72,20 +72,20 @@ export class AuthService {
           this.userPassword = '';
 
           this.loggedInUserId = user.uid;
-          localStorage.setItem("loggedInUserId", user.uid);
+          sessionStorage.setItem("loggedInUserId", user.uid);
 
           //this.GetLoggedInUserDetails();
 
           //this.accessToken = user.accessToken;
 
           console.log(this.isUserLoggedIn);
-          localStorage.setItem('isUserLoggedIn', this.isUserLoggedIn.toString());
+          sessionStorage.setItem('isUserLoggedIn', this.isUserLoggedIn.toString());
 
 
           let expiresDate = new Date();
           const expiresDateUnix = expiresDate.valueOf();
           expiresDate = new Date(expiresDateUnix * 1000);
-          localStorage.setItem('sessionExpirationDate', Math.floor(expiresDate.getTime() / 1000).toString());
+          sessionStorage.setItem('sessionExpirationDate', Math.floor(expiresDate.getTime() / 1000).toString());
           console.log('sessionExpirationDate ', Math.floor(expiresDate.getTime() / 1000).toString())
 
           this.GetLoggedInUserDetails();
@@ -107,10 +107,10 @@ export class AuthService {
             this.errorMessageToShow = '';
           }
 
-          localStorage.setItem('signinErrorMessage', this.errorMessageToShow);
+          sessionStorage.setItem('signinErrorMessage', this.errorMessageToShow);
 
           this.isUserLoggedIn = false;
-          //localStorage.clear();
+          //sessionStorage.clear();
 
           this.isCredentialsWrong = true;
 
@@ -161,11 +161,11 @@ export class AuthService {
                 console.log(this.loggedInUser.Id, ' ', this.loggedInUser.FirstName)
                 console.log('this.loggedInUser.Permissions2', ' ', this.loggedInUser.Permissions)
 
-                localStorage.setItem('loggedInUserName', this.loggedInUser.FirstName + ' ' + this.loggedInUser.LastName);
-                localStorage.setItem("loggedInUserEmail", this.loggedInUser.Email);
-                localStorage.setItem('loggedInUserFirstName', this.loggedInUser.FirstName);
-                localStorage.setItem('loggedInUserLastName', this.loggedInUser.LastName);
-                localStorage.setItem("loggedInUserPermissions", this.loggedInUser.Permissions);
+                sessionStorage.setItem('loggedInUserName', this.loggedInUser.FirstName + ' ' + this.loggedInUser.LastName);
+                sessionStorage.setItem("loggedInUserEmail", this.loggedInUser.Email);
+                sessionStorage.setItem('loggedInUserFirstName', this.loggedInUser.FirstName);
+                sessionStorage.setItem('loggedInUserLastName', this.loggedInUser.LastName);
+                sessionStorage.setItem("loggedInUserPermissions", this.loggedInUser.Permissions);
               }
 
             }
@@ -181,9 +181,10 @@ export class AuthService {
   }
 
   LogoutUser() {
-    this.isUserLoggedIn = JSON.parse(JSON.stringify(localStorage.getItem("isUserLoggedIn")));
-
+    this.isUserLoggedIn = JSON.parse(JSON.stringify(sessionStorage.getItem("isUserLoggedIn")));
+    sessionStorage.clear();
     this.router.navigate(['auth']);
+    //window.location.href = environment.appUrl + '/auth';
     console.log('this.isUserLoggedIn1 ' + this.isUserLoggedIn)
     return this.isUserLoggedIn;
   }

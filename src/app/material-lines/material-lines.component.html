@@ -28,7 +28,7 @@
           <div *ngIf="availableMaterialsList.length>0" class="list-group list-group-flush">
             <a *ngFor="let availableMaterial of availableMaterialsList; index as i;" [routerLink]="['item', availableMaterial.SerialNumber]"  
               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" 
-              (click)="SetAvailableMaterialDetailsToLocalStorage(availableMaterial)">
+              (click)="SetAvailableMaterialDetailsTosessionStorage(availableMaterial)">
               {{ availableMaterial.MaterialName }}
               <span class="badge bg-primary rounded-pill">{{ availableMaterial.AvailableMaterialQuantity }}</span>
             </a>
@@ -55,7 +55,7 @@
           <div *ngIf="damagedMaterialsList.length>0" class="list-group list-group-flush">
             <a *ngFor="let damagedMaterial of damagedMaterialsList; index as i;" [routerLink]="['item', damagedMaterial.SerialNumber]" 
             class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-            (click)="SetDamagedMaterialDetailsToLocalStorage(damagedMaterial)">
+            (click)="SetDamagedMaterialDetailsTosessionStorage(damagedMaterial)">
               {{ damagedMaterial.MaterialName }}
               <span class="badge bg-primary rounded-pill">{{ damagedMaterial.DamagedMaterialQuantity }}</span>
             </a>
@@ -83,7 +83,7 @@
           <div *ngIf="deletedMaterialsList.length>0" class="list-group list-group-flush">
             <a *ngFor="let deletedMaterial of deletedMaterialsList; index as i;" [routerLink]="['item', deletedMaterial.SerialNumber]" 
             class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-            (click)="SetDeletedMaterialDetailsToLocalStorage(deletedMaterial)">
+            (click)="SetDeletedMaterialDetailsTosessionStorage(deletedMaterial)">
               {{ deletedMaterial.MaterialName }}
               <span class="badge bg-primary rounded-pill">{{ deletedMaterial.DeletedMaterialQuantity }}</span>
             </a>
