@@ -6,7 +6,7 @@
     <div class="modal-body">
         <form>
             <div class="mb-3">
-                <h6>Μη συμπληρωμένα υποχρεωτικά πεδία ή ελλειπής φωτογραφία.</h6>
+                <h6>Μη έγκυρη εισαγωγή πεδίων ή ελλειπής φωτογραφία.</h6>
             </div>
         </form>
     </div>
@@ -111,7 +111,7 @@
 
         <div class="form-group mb-3">
             <label for="quantity">Αριθμός Τεμαχίων<span *ngIf="isNewMaterial || isMaterialEditEnabled">*</span></label>
-            <input type="text" class="form-control" id="quantity" name="quantity" [(ngModel)]="materialQuantity"
+            <input type="number" class="form-control" id="quantity" name="quantity" [(ngModel)]="materialQuantity"
                 [disabled]="(!isNewMaterial && !isMaterialEditEnabled) || materialState == 'damaged' || materialState == 'deleted'"
                 required>
         </div>
