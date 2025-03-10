@@ -1,1 +1,61 @@
-<p>admin works!</p>
+<hr>
+<div class="container-fluid">
+    <p>Κέντρο Διαχείρισης</p>
+</div>
+
+<hr>
+
+<div class="container-fluid">
+
+
+    <div class="alert alert-warning text-center text-wrap" role="alert">
+        -- ΥΠΟ ΚΑΤΑΣΚΕΥΗ --
+    </div>
+
+
+    <div class="accordion" id="toDoList">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panel1StayOpen-headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panel1StayOpen-collapseOne" aria-expanded="true"
+                    aria-controls="panel1StayOpen-collapseOne">
+                    Διαχείριση Λογαριασμών
+                </button>
+            </h2>
+            <div id="panel1StayOpen-collapseOne" class="accordion-collapse collapse show"
+                aria-labelledby="panel1StayOpen-headingOne">
+                <div class="accordion-body">
+
+                    <label for="userManagementAction">Ενέργεια</label>
+                    <!-- (change)="SetMaterialAsBorrowed(materialStoringPlace)" -->
+                    <select class="form-select mb-3" name="userManagementAction" [(ngModel)]="userManagementAction"
+                        required>
+                        <option value="create_user">Δημιουργία</option>
+                        <option value="update_user_info">Επεξεργασία</option>
+                        <option value="delete_user">Διαγραφή</option>
+                    </select>
+
+                    <label for="user">Λογαριασμός χρήστη</label>
+                    <!-- (change)="SetMaterialAsBorrowed(materialStoringPlace)" -->
+                    <select class="form-select mb-3" name="user" [(ngModel)]="userToManage" required>
+                        <option value="none" [disabled]></option>
+                        <option *ngFor="let user of users; index as i;" value="user">{{ user.FirstName }} {{
+                            user.LastName }}</option>
+                    </select>
+
+                    <div *ngIf="1!=1" class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary" (click)="CreateUser()">
+                            Δημιουργία λογαριασμού</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+
+    <br><br>
+
+</div>
