@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { AuthChangeEvent, AuthSession, createClient, Session, SupabaseClient, User } from '@supabase/supabase-js'
 import { environment } from '../../environments/environment.development';
 //import { environment } from '../../environments/environment';
 import { DbFunctionService } from '../shared/services/db-functions.service';
@@ -49,7 +50,13 @@ export class AuthService {
   // Initialize Firebase Authentication and get a reference to the service
   auth = getAuth(this.firebaseApp);
 
-  constructor(private router: Router, private dbFunctionService: DbFunctionService) { }
+  // Initialize Supabase
+  private supabase: SupabaseClient
+  _session: AuthSession | null = null
+
+  constructor(private router: Router, private dbFunctionService: DbFunctionService) { 
+    this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey)
+  }
 
   AuthenticateUser() {
     return new Promise((resolve, reject) => {
@@ -58,6 +65,67 @@ export class AuthService {
 
       this.errorMessageToShow = '';
 
+      // //Sign in with Supabase
+      // this.supabase.auth.signInWithPassword({ email: this.userEmail.trim(), password: this.userPassword.trim() })
+      // .then((userCredential) => {
+      //     // Signed in 
+      //     const user = userCredential.data.user;
+
+      //     this.isUserLoggedIn = true;
+      //     sessionStorage.setItem("isUserLoggedIn", "true");
+
+      //     this.isCredentialsWrong = false;
+
+      //     this.userEmail = '';
+      //     this.userPassword = '';
+
+      //     this.loggedInUserId = user!.id;
+      //     sessionStorage.setItem("loggedInUserId", user!.id);
+
+      //     //this.GetLoggedInUserDetails();
+
+      //     //this.accessToken = user.accessToken;
+
+      //     console.log(this.isUserLoggedIn);
+      //     sessionStorage.setItem('isUserLoggedIn', this.isUserLoggedIn.toString());
+
+
+      //     let expiresDate = new Date();
+      //     const expiresDateUnix = expiresDate.valueOf();
+      //     expiresDate = new Date(expiresDateUnix * 1000);
+      //     sessionStorage.setItem('sessionExpirationDate', Math.floor(expiresDate.getTime() / 1000).toString());
+      //     console.log('sessionExpirationDate ', Math.floor(expiresDate.getTime() / 1000).toString())
+
+      //     this.GetLoggedInUserDetails();
+
+      //     //window.location.href = environment.appUrl + '/home';
+
+      //   })
+      //   .catch((error) => {
+      //     const errorCode = error.code;
+      //     const errorMessage = error.message;
+
+      //     console.log(error.code)
+
+      //     if (error.code = 'auth/invalid-credential') {
+      //       this.errorMessageToShow = 'Λάθος email ή κωδικός πρόσβασης.';
+      //     } else if (error.code = 'auth/too-many-requests') {
+      //       this.errorMessageToShow = 'Υπέρβαση προσπαθειών σύνδεσης, προσπαθήστε αργότερα.';
+      //     } else {
+      //       this.errorMessageToShow = '';
+      //     }
+
+      //     sessionStorage.setItem('signinErrorMessage', this.errorMessageToShow);
+
+      //     this.isUserLoggedIn = false;
+      //     //sessionStorage.clear();
+
+      //     this.isCredentialsWrong = true;
+
+      //     resolve(this.errorMessageToShow);
+      //   });
+
+      //Sign in with Firebase
       signInWithEmailAndPassword(this.auth, this.userEmail.trim(), this.userPassword.trim())
         .then((userCredential) => {
           // Signed in 
