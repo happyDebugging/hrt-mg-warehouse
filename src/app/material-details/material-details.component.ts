@@ -262,9 +262,9 @@ export class MaterialDetailsComponent {
     let updatedMaterialLine = new MaterialLines;
 
     updatedMaterialLine.Id = this.materialId;
-    updatedMaterialLine.MaterialName = this.materialName;
+    updatedMaterialLine.MaterialName = this.materialName.trim();
     if (!this.hasNoSerialNumber) {
-      updatedMaterialLine.SerialNumber = this.materialserialNumber;
+      updatedMaterialLine.SerialNumber = this.materialserialNumber.trim();
     } else {
       updatedMaterialLine.SerialNumber = 'Άνευ';
     }
@@ -324,7 +324,7 @@ export class MaterialDetailsComponent {
     updatedMaterialLine.LastUpdatedBy = this.loggedInUserName; //this.LastUpdatedBy;
 
     if (this.hasPreviewPhotoChanged) {
-      updatedMaterialLine.Photo = this.storageCategory + '_' + btoa(this.materialName.substring(0,10).replace('/','-')) + '_' + this.materialserialNumber + '_' + Date.now().toString();
+      updatedMaterialLine.Photo = this.storageCategory + '_' + btoa(updatedMaterialLine.MaterialName.substring(0,10).replace('/','-')) + '_' + updatedMaterialLine.SerialNumber + '_' + Date.now().toString();
       sessionStorage.setItem('materialPhotoToPreview', updatedMaterialLine.Photo);
 
       const desertRef = ref(this.storage, this.previousMaterialPhoto);
@@ -381,9 +381,9 @@ export class MaterialDetailsComponent {
     this.deletedMaterialQuantity = this.tempDeletedMaterialQuantity;
 
     materialLine.Id = this.materialId;
-    materialLine.MaterialName = this.materialName;
+    materialLine.MaterialName = this.materialName.trim();
     if (!this.hasNoSerialNumber) {
-      materialLine.SerialNumber = this.materialserialNumber;
+      materialLine.SerialNumber = this.materialserialNumber.trim();
     } else {
       materialLine.SerialNumber = 'Άνευ';
     }
@@ -414,7 +414,7 @@ export class MaterialDetailsComponent {
     materialLine.CreatedBy = this.loggedInUserName; //this.loggedInUserId;
     //materialLine.LastUpdatedAt = this.LastUpdatedAt;
     //materialLine.LastUpdatedBy = this.LastUpdatedBy;
-    materialLine.Photo = this.storageCategory + '_' + btoa(this.materialName.substring(0,10).replace('/','-')) + '_' + this.materialserialNumber + '_' + Date.now().toString(); //this.materialPhoto;
+    materialLine.Photo = this.storageCategory + '_' + btoa(materialLine.MaterialName.substring(0,10).replace('/','-')) + '_' + materialLine.SerialNumber + '_' + Date.now().toString(); //this.materialPhoto;
 
     this.storageRef = ref(this.storage, materialLine.Photo);
     uploadString(this.storageRef, this.preview, 'data_url').then((snapshot) => {
