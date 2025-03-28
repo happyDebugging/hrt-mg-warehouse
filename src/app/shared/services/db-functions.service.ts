@@ -4,18 +4,27 @@ import { environment } from '../../../environments/environment';
 import { MaterialLines } from '../models/material-lines.model';
 import { Users } from '../models/users.model';
 import { HistoryLines } from '../models/history-lines.model';
+import { createClient, Session, SupabaseClient, User } from '@supabase/supabase-js'
 
 @Injectable()
 export class DbFunctionService {
 
-    constructor(private http: HttpClient) { }
+    // Initialize Supabase
+    private supabase: SupabaseClient
 
-    getMaterialLinesFromDb() {
+    constructor(private http: HttpClient) {
+        this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
+    }
+
+    async getMaterialLinesFromDb() {
         let options: any = {
             headers: { "Access-Control-Allow-Origin": "*" },
             observe: 'response'
         }
-        return this.http.get<MaterialLines>(environment.databaseURL + environment.materialLinesTable + '.json');
+        //return this.http.get<MaterialLines>(environment.databaseURL + environment.materialLinesTable + '.json');
+        const data = await this.supabase.from('materialLines').select('*'); //.eq('StorageCategory', 'Τμήμα Πρώτων Βοηθειών');
+        
+        return data["data"];
     }
 
     postMaterialLineToDb(materialLine: MaterialLines) {
@@ -139,14 +148,17 @@ export class DbFunctionService {
         }
         return this.http.put(environment.databaseURL + environment.usersTable + '/' + user.UserId + '.json', user, options);
     }
-    
 
-    geHistoryLinesFromDb() {
+
+    async geHistoryLinesFromDb() {
         let options: any = {
             headers: { "Access-Control-Allow-Origin": "*" },
             observe: 'response'
         }
-        return this.http.get<HistoryLines>(environment.databaseURL + environment.historyLinesTable + '.json');
+        //return this.http.get<HistoryLines>(environment.databaseURL + environment.historyLinesTable + '.json');
+        const data = await this.supabase.from('history').select('*'); //.eq('StorageCategory', 'Τμήμα Πρώτων Βοηθειών');
+        
+        return data["data"];
     }
 
     postHistoryLinesToDb(historyLine: HistoryLines) {

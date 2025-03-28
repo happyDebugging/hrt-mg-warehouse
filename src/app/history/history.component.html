@@ -19,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let historyLine of historyLinesList[pageCount-1]; index as i;">
+                <tr *ngFor="let historyLine of historyLinesList; index as i;">
                     <td>{{ historyLine.Date | date:"dd/MM/yyyy '-' HH:mm" }}</td>
                     <td>{{ historyLine.ActionType }}</td>
                     <td>{{ historyLine.MaterialName }}</td>

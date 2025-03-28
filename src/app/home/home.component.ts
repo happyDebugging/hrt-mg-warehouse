@@ -68,28 +68,30 @@ export class HomeComponent implements OnInit {
     this.consumableMaterialExpirationDate = [];
     this.borrowedMaterialLinesList = [];
 
-    this.getMaterialLines = this.dbFunctionService.getMaterialLinesFromDb()
-      .pipe(map((response: any) => {
-        let markerArray: MaterialLines[] = [];
+    //this.getMaterialLines = 
+    this.dbFunctionService.getMaterialLinesFromDb()
+      // .pipe(map((response: any) => {
+      //   let markerArray: MaterialLines[] = [];
 
-        for (const key in response) {
-          if (response.hasOwnProperty(key)) {
+      //   for (const key in response) {
+      //     if (response.hasOwnProperty(key)) {
 
-            markerArray.push({ ...response[key], Id: key })
+      //       markerArray.push({ ...response[key], Id: key })
 
-          }
-        }
+      //     }
+      //   }
 
-        return markerArray.reverse();
+      //   return markerArray.reverse();
 
-      }))
-      .subscribe(
+      // }))
+      // .subscribe(
+        .then(
         (res: any) => {
           if ((res != null) || (res != undefined)) {
             //console.log(res)
-            const responseData = new Array<MaterialLines>(...res);
+            //const responseData = new Array<MaterialLines>(...res);
 
-            for (const data of responseData) {
+            for (const data of res) {
               //console.log(data.StorageCategory, ' ', this.loggedInUser.Permissions)
 
               if (data.StorageCategory == this.loggedInUser.Permissions || this.loggedInUser.Permissions == 'All') {
@@ -129,7 +131,7 @@ export class HomeComponent implements OnInit {
                   
                   let threeMonthsPriorDate = new Date(new Date(resObj.ExpiryDate).setMonth(new Date(resObj.ExpiryDate).getMonth() - 3));
                   
-                  if (this.todaysDate >= threeMonthsPriorDate) {
+                  if (resObj.ExpiryDate != null && this.todaysDate >= threeMonthsPriorDate) {
                     //console.log('todayDate ',this.todaysDate.toDateString())
                     //console.log("expirationDate: " + this.materialExpirationDate[responseData.indexOf(data)].toDateString());
                     //console.log("3 months Prior Date: " + threeMonthsPriorDate.toLocaleDateString());
@@ -143,7 +145,7 @@ export class HomeComponent implements OnInit {
                       this.soonToExpireMaterialLinesList.push(resObj);
                       this.materialExpirationDate.push(new Date(resObj.ExpiryDate));
                       
-                      console.log(this.soonToExpireMaterialLinesList)
+                      //console.log(this.soonToExpireMaterialLinesList)
                     }
                     
                   }

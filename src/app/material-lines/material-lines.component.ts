@@ -180,28 +180,30 @@ export class MaterialLinesComponent {
     this.damagedMaterialsList = [];
     this.deletedMaterialsList = [];
 
-    this.getMaterialLines = this.dbFunctionService.getMaterialLinesFromDb()
-      .pipe(map((response: any) => {
-        let markerArray: MaterialLines[] = [];
+    //this.getMaterialLines = 
+    this.dbFunctionService.getMaterialLinesFromDb()
+      // .pipe(map((response: any) => {
+      //   let markerArray: MaterialLines[] = [];
 
-        for (const key in response) {
-          if (response.hasOwnProperty(key)) {
+      //   for (const key in response) {
+      //     if (response.hasOwnProperty(key)) {
 
-            markerArray.push({ ...response[key], Id: key })
+      //       markerArray.push({ ...response[key], Id: key })
 
-          }
-        }
+      //     }
+      //   }
 
-        return markerArray.reverse();
+      //   return markerArray.reverse();
 
-      }))
-      .subscribe(
+      // }))
+      //.subscribe(
+        .then(
         (res: any) => {
           if ((res != null) || (res != undefined)) {
             //console.log(res)
-            const responseData = new Array<MaterialLines>(...res);
+            //const responseData = new Array<MaterialLines>(res);
 
-            for (const data of responseData) {
+            for (const data of res) {
               
               if (data.StorageCategory == this.storageCategoryDescription) {
 

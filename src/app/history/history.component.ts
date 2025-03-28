@@ -19,22 +19,15 @@ export class HistoryComponent {
   midPageNum = 2;
   rightPageNum = 3;
 
-  // historyLinesList: Array<{
-  //   Id: '',
-  //   Date: '',
-  //   ActionType: '',
-  //   MaterialName: '',
-  //   SerialNumber: '',
-  //   Responsible: ''
-  // }> = [{
-  //   Id: '',
-  //   Date: '',
-  //   ActionType: '',
-  //   MaterialName: '',
-  //   SerialNumber: '',
-  //   Responsible: ''
-  // }];
-  historyLinesList: Array<HistoryLines[]> = [];
+  historyLinesList = [{
+    Id: '',
+    Date: '',
+    ActionType: '',
+    MaterialName: '',
+    SerialNumber: '',
+    Responsible: ''
+  }];
+  //historyLinesList: HistoryLines[] = [];
 
   getHistoryLines: Subscription = new Subscription;
 
@@ -64,100 +57,102 @@ export class HistoryComponent {
   GetHistoryLines() {
     this.historyLinesList = [];
 
-    // this.getHistoryLines = this.dbFunctionService.geHistoryLinesFromDb()
-    //   .pipe(map((response: any) => {
-    //     let markerArray: HistoryLines[] = [];
+    //this.getHistoryLines = 
+    this.dbFunctionService.geHistoryLinesFromDb()
+      // .pipe(map((response: any) => {
+      //   let markerArray: HistoryLines[] = [];
 
-    //     for (const key in response) {
-    //       if (response.hasOwnProperty(key)) {
+      //   for (const key in response) {
+      //     if (response.hasOwnProperty(key)) {
 
-    //         markerArray.push({ ...response[key], Id: key })
+      //       markerArray.push({ ...response[key], Id: key })
 
-    //       }
-    //     }
+      //     }
+      //   }
 
-    //     return markerArray.reverse();
+      //   return markerArray.reverse();
 
-    //   }))
-    //   .subscribe(
-    //     (res: any) => {
-    //       if ((res != null) || (res != undefined)) {
-    //         console.log(res)
-    //         const responseData = new Array<HistoryLines>(...res);
+      // }))
+      // .subscribe(
+      .then(
+        (res: any) => {
+          if ((res != null) || (res != undefined)) {
+            console.log(res)
+            //const responseData = new Array<HistoryLines>(...res);
 
-    //         for (const data of responseData) {
+            for (const data of res) {
 
-    //           const resObj = new HistoryLines();
+              const resObj = new HistoryLines();
 
-    //           resObj.Id = data.Id;
-    //           resObj.Date = data.Date;
-    //           resObj.ActionType = data.ActionType;
-    //           resObj.MaterialName = data.MaterialName;
-    //           resObj.SerialNumber = data.SerialNumber;
-    //           resObj.Responsible = data.Responsible;
+              resObj.Id = data.Id;
+              resObj.Date = data.Date;
+              resObj.ActionType = data.ActionType;
+              resObj.MaterialName = data.MaterialName;
+              resObj.SerialNumber = data.SerialNumber;
+              resObj.Responsible = data.Responsible;
 
-    //           this.historyLinesList.push(resObj);
+              this.historyLinesList.push(resObj);
 
-    //         }
+            }
 
-    //         //this.historyLinesList.reverse();
+            this.historyLinesList.reverse();
 
-    //       }
-    //     },
-    //     err => {
-    //       //console.log(err);
-    //     }
-    //   );
-
-
-    const startCountRef = ref(this.database, '/history');
-    let historyLines = new Array<HistoryLines>();
-    onValue(startCountRef, (snapshot) => {
-      const res = snapshot.val();
-
-      let markerArray: HistoryLines[] = [];
-
-      for (const key in res) {
-        if (res.hasOwnProperty(key)) {
-
-          markerArray.push({ ...res[key], Id: key })
-
-        }
-      }
-      markerArray.reverse();
-
-      console.log(markerArray)
-      let counter = 0;
-      let index = 0;
-      console.log(Math.ceil(markerArray.length / this.historyRows))
-
-      for (var y = 0; y <= Math.ceil(markerArray.length / this.historyRows); y++) {
-        historyLines = [];
-
-        for (var i = y + counter; i <= y + counter + (this.historyRows - 1); i++) {
-          let resObj = new HistoryLines();
-
-          if (markerArray[i] != undefined) {
-            resObj.Id = markerArray[i].Id;
-            resObj.Date = markerArray[i].Date;
-            resObj.ActionType = markerArray[i].ActionType;
-            resObj.MaterialName = markerArray[i].MaterialName;
-            resObj.SerialNumber = markerArray[i].SerialNumber;
-            resObj.Responsible = markerArray[i].Responsible;
-
-            historyLines.push(resObj);
           }
+        },
+        err => {
+          //console.log(err);
         }
+      );
 
-        this.historyLinesList[index] = historyLines;
 
-        counter += (this.historyRows - 1);
-        index++;
-      }
+    // const startCountRef = ref(this.database, '/history');
+    // let historyLines = new Array<HistoryLines>();
+    // onValue(startCountRef, (snapshot) => {
+    //   const res = snapshot.val();
 
-      console.log(this.historyLinesList)
+    //   let markerArray: HistoryLines[] = [];
 
-    });
+    //   for (const key in res) {
+    //     if (res.hasOwnProperty(key)) {
+
+    //       markerArray.push({ ...res[key], Id: key })
+
+    //     }
+    //   }
+    //   markerArray.reverse();
+
+    //   console.log(markerArray)
+    //   let counter = 0;
+    //   let index = 0;
+    //   console.log(Math.ceil(markerArray.length / this.historyRows))
+
+    //   for (var y = 0; y <= Math.ceil(markerArray.length / this.historyRows); y++) {
+    //     historyLines = [];
+
+    //     for (var i = y + counter; i <= y + counter + (this.historyRows - 1); i++) {
+    //       let resObj = new HistoryLines();
+
+    //       if (markerArray[i] != undefined) {
+    //         resObj.Id = markerArray[i].Id;
+    //         resObj.Date = markerArray[i].Date;
+    //         resObj.ActionType = markerArray[i].ActionType;
+    //         resObj.MaterialName = markerArray[i].MaterialName;
+    //         resObj.SerialNumber = markerArray[i].SerialNumber;
+    //         resObj.Responsible = markerArray[i].Responsible;
+
+    //         historyLines.push(resObj);
+    //       }
+    //     }
+
+    //     this.historyLinesList[index] = historyLines;
+
+    //     counter += (this.historyRows - 1);
+    //     index++;
+    //   }
+
+    //   console.log(this.historyLinesList)
+
+    // });
 
 
   }
