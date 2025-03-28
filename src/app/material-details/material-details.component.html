@@ -62,10 +62,10 @@
         </div>
 
         <div class="text-wrap fw-light text-primary mb-3" style="font-size: small;">
-            <div *ngIf="CreatedAt != '' && CreatedAt != null && CreatedAt != undefined">
+            <div *ngIf="CreatedAt != '' && CreatedAt != null && CreatedAt != 'null' && CreatedAt != undefined">
                 Προστέθηκε στις {{ CreatedAt | date:"dd/MM/yyyy '-' HH:mm" }} από {{ CreatedBy }}.
             </div>
-            <div *ngIf="LastUpdatedAt != '' && LastUpdatedAt != null && LastUpdatedAt != 'undefined'">
+            <div *ngIf="LastUpdatedAt != '' && LastUpdatedAt != null && LastUpdatedAt != 'null' && LastUpdatedAt != 'undefined'">
                 Τελευταία τροποποίηση στις {{ LastUpdatedAt | date:"dd/MM/yyyy '-' HH:mm" }} από {{ LastUpdatedBy }}.
             </div>
         </div>
