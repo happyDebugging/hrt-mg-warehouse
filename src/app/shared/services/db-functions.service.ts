@@ -51,6 +51,16 @@ export class DbFunctionService {
         return this.http.delete(environment.databaseURL + environment.materialLinesTable + '/' + materialLine.Id + '.json');
     }
 
+    async geGetMaterialPhotoFromDb(materialImage: string) {
+        let options: any = {
+            headers: { "Access-Control-Allow-Origin": "*" },
+            observe: 'response'
+        }
+        //return this.http.get<HistoryLines>(environment.databaseURL + environment.historyLinesTable + '.json');
+        const data = await this.supabase.storage.from('hrt-mg-warehouse-photo-storage').getPublicUrl(materialImage);
+        return data["data"];
+    }
+
     users = [
         {
             Id: '',

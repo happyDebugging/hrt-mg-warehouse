@@ -527,13 +527,22 @@ export class MaterialDetailsComponent {
   GetMaterialPhotoFromStorage() {
     if (this.materialPhoto != null) {
 
-      getDownloadURL(this.storageRef = ref(this.storage, this.materialPhoto))
+      // getDownloadURL(this.storageRef = ref(this.storage, this.materialPhoto))
+      //   .then((url) => {
+      //     this.preview = url;
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   });
+
+      this.dbFunctionService.geGetMaterialPhotoFromDb(this.materialPhoto)
         .then((url) => {
-          this.preview = url;
+          this.preview = url.publicUrl + '.jpg';
         })
         .catch((error) => {
           console.log(error)
         });
+
     }
   }
 
