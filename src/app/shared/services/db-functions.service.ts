@@ -23,16 +23,42 @@ export class DbFunctionService {
         }
         //return this.http.get<MaterialLines>(environment.databaseURL + environment.materialLinesTable + '.json');
         const data = await this.supabase.from('materialLines').select('*'); //.eq('StorageCategory', 'Τμήμα Πρώτων Βοηθειών');
-        
+
         return data["data"];
     }
 
-    postMaterialLineToDb(materialLine: MaterialLines) {
+    async postMaterialLineToDb(materialLine: MaterialLines) {
         let options: any = {
             headers: { "Access-Control-Allow-Origin": "*" },
             observe: 'response'
         }
-        return this.http.post(environment.databaseURL + environment.materialLinesTable + '.json', materialLine, options);
+        //return this.http.post(environment.databaseURL + environment.materialLinesTable + '.json', materialLine, options);
+        const data = await this.supabase.from('materialLines')
+            .insert({
+                MaterialName: materialLine.MaterialName,
+                SerialNumber: materialLine.SerialNumber,
+                Quantity: materialLine.Quantity,
+                AvailableMaterialQuantity: materialLine.AvailableMaterialQuantity,
+                StorageCategory: materialLine.StorageCategory,
+                StoringPlace: materialLine.StoringPlace,
+                StoredNearRepeater: materialLine.StoredNearRepeater,
+                BorrowedTo: materialLine.BorrowedTo,
+                BorrowedAt: materialLine.BorrowedAt,
+                BorrowedMaterialQuantity: materialLine.BorrowedMaterialQuantity,
+                ExpiryDate: materialLine.ExpiryDate,
+                IsMaterialDamaged: materialLine.IsMaterialDamaged,
+                DamagedMaterialQuantity: materialLine.DamagedMaterialQuantity,
+                IsMaterialDeleted: materialLine.IsMaterialDeleted,
+                DeletedMaterialQuantity: materialLine.DeletedMaterialQuantity,
+                IsMaterialConsumable: materialLine.IsMaterialConsumable,
+                CreatedAt: materialLine.CreatedAt,
+                CreatedBy: materialLine.CreatedBy,
+                LastUpdatedAt: materialLine.LastUpdatedAt,
+                LastUpdatedBy: materialLine.LastUpdatedBy,
+                Photo: materialLine.Photo
+            }).select();
+
+        return data;
     }
 
     updateMaterialLinesToDb(materialLine: MaterialLines) {
@@ -51,13 +77,28 @@ export class DbFunctionService {
         return this.http.delete(environment.databaseURL + environment.materialLinesTable + '/' + materialLine.Id + '.json');
     }
 
-    async geGetMaterialPhotoFromDb(materialImage: string) {
+    async getGetMaterialPhotoFromDb(materialImage: string) {
         let options: any = {
             headers: { "Access-Control-Allow-Origin": "*" },
             observe: 'response'
         }
         //return this.http.get<HistoryLines>(environment.databaseURL + environment.historyLinesTable + '.json');
         const data = await this.supabase.storage.from('hrt-mg-warehouse-photo-storage').getPublicUrl(materialImage);
+        return data["data"];
+    }
+
+    async postGetMaterialPhotoToDb(materialImage: string, selectedImageFile: any, preview: string) {
+        let options: any = {
+            headers: { "Access-Control-Allow-Origin": "*" },
+            observe: 'response'
+        }
+        //return this.http.get<HistoryLines>(environment.databaseURL + environment.historyLinesTable + '.json');
+        //const photoFile = event.target.files[0];
+        console.log(selectedImageFile[0])
+        const data = await this.supabase.storage.from('hrt-mg-warehouse-photo-storage')
+            .upload(materialImage, selectedImageFile[0], { cacheControl: '3600', upsert: false, contentType: 'image/jpeg' });
+        //.uploadToSignedUrl(materialImage+'.jpg', 'token-from-createSignedUploadUrl', selectedImageFile, {contentType: 'image/jpeg'})
+
         return data["data"];
     }
 
@@ -167,7 +208,7 @@ export class DbFunctionService {
         }
         //return this.http.get<HistoryLines>(environment.databaseURL + environment.historyLinesTable + '.json');
         const data = await this.supabase.from('history').select('*'); //.eq('StorageCategory', 'Τμήμα Πρώτων Βοηθειών');
-        
+
         return data["data"];
     }
 

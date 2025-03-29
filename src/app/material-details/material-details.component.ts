@@ -74,6 +74,7 @@ export class MaterialDetailsComponent {
   isDeletionSuccessfull = false;
 
   hasPreviewPhotoChanged = false;
+  selectedImageFile: any;
 
   isMaterialEditEnabled = false;
 
@@ -144,6 +145,7 @@ export class MaterialDetailsComponent {
   selectFile(event: any) {
     this.preview = '';
     const selectedFiles = event.target.files;
+    this.selectedImageFile = selectedFiles;
 
     if (selectedFiles) {
       const file: File | null = selectedFiles.item(0);
@@ -324,7 +326,7 @@ export class MaterialDetailsComponent {
     updatedMaterialLine.LastUpdatedBy = this.loggedInUserName; //this.LastUpdatedBy;
 
     if (this.hasPreviewPhotoChanged) {
-      updatedMaterialLine.Photo = this.storageCategory + '_' + btoa(updatedMaterialLine.MaterialName.substring(0,10)).replaceAll('/','-') + '_' + this.RemoveSpecialCharacters(updatedMaterialLine.SerialNumber) + '_' + Date.now().toString();
+      updatedMaterialLine.Photo = this.storageCategory + '_' + btoa(updatedMaterialLine.MaterialName.substring(0, 10)).replaceAll('/', '-') + '_' + this.RemoveSpecialCharacters(this.materialserialNumber) + '_' + Date.now().toString();
       sessionStorage.setItem('materialPhotoToPreview', updatedMaterialLine.Photo);
 
       const desertRef = ref(this.storage, this.previousMaterialPhoto);
@@ -414,35 +416,54 @@ export class MaterialDetailsComponent {
     materialLine.CreatedBy = this.loggedInUserName; //this.loggedInUserId;
     //materialLine.LastUpdatedAt = this.LastUpdatedAt;
     //materialLine.LastUpdatedBy = this.LastUpdatedBy;
-    materialLine.Photo = this.storageCategory + '_' + btoa(materialLine.MaterialName.substring(0,10)).replaceAll('/','-') + '_' + this.RemoveSpecialCharacters(materialLine.SerialNumber) + '_' + Date.now().toString(); //this.materialPhoto;
+    materialLine.Photo = this.storageCategory + '_' + btoa(materialLine.MaterialName.substring(0, 10)).replaceAll('/', '-') + '_' + this.RemoveSpecialCharacters(this.materialserialNumber) + '_' + Date.now().toString(); //this.materialPhoto;
 
-    this.storageRef = ref(this.storage, materialLine.Photo);
-    uploadString(this.storageRef, this.preview, 'data_url').then((snapshot) => {
-      console.log('Uploaded image!');
-    });
+    // this.storageRef = ref(this.storage, materialLine.Photo);
+    // uploadString(this.storageRef, this.preview, 'data_url').then((snapshot) => {
+    //   console.log('Uploaded image!');
+    // });
+    this.PostMaterialPhotoToStorage(materialLine.Photo);
 
-    this.postMaterialLines = this.dbFunctionService.postMaterialLineToDb(materialLine)
-      .pipe(map((response: any) => {
 
-        this.isNewMaterialLineAdded = true;
+    //this.postMaterialLines = 
+    this.dbFunctionService.postMaterialLineToDb(materialLine)
+      // .pipe(map((response: any) => {
 
-        this.isSaveSuccessfull = true;
+      //   this.isNewMaterialLineAdded = true;
 
-        setTimeout(() => {
-          this.isSaveSuccessfull = false;
-          this.isSaveButtonClicked = false;
+      //   this.isSaveSuccessfull = true;
 
-          let actionType = 'Προσθήκη υλικού';
-          this.AddHistoryRecord(materialLine.MaterialName, materialLine.SerialNumber, actionType);
+      //   setTimeout(() => {
+      //     this.isSaveSuccessfull = false;
+      //     this.isSaveButtonClicked = false;
 
-          this.router.navigate([this.storageCategory + '/material-lines']);
-        }, 2000);
+      //     let actionType = 'Προσθήκη υλικού';
+      //     this.AddHistoryRecord(materialLine.MaterialName, materialLine.SerialNumber, actionType);
 
-      }))
-      .subscribe(
+      //     this.router.navigate([this.storageCategory + '/material-lines']);
+      //   }, 2000);
+
+      // }))
+      // .subscribe(
+      .then(
         (res: any) => {
           if ((res != null) || (res != undefined)) {
             console.log(res);
+
+            this.isNewMaterialLineAdded = true;
+
+            this.isSaveSuccessfull = true;
+
+            setTimeout(() => {
+              this.isSaveSuccessfull = false;
+              this.isSaveButtonClicked = false;
+
+              let actionType = 'Προσθήκη υλικού';
+              this.AddHistoryRecord(materialLine.MaterialName, materialLine.SerialNumber, actionType);
+
+              this.router.navigate([this.storageCategory + '/material-lines']);
+            }, 2000);
+
           }
         },
         err => {
@@ -535,12 +556,28 @@ export class MaterialDetailsComponent {
       //     console.log(error)
       //   });
 
-      this.dbFunctionService.geGetMaterialPhotoFromDb(this.materialPhoto)
+      this.dbFunctionService.getGetMaterialPhotoFromDb(this.materialPhoto)
         .then((url) => {
           this.preview = url.publicUrl + '.jpg';
         })
         .catch((error) => {
           console.log(error)
+        });
+
+    }
+  }
+
+  PostMaterialPhotoToStorage(materialImage: string) {
+    if (this.materialPhoto != null) {
+
+      this.dbFunctionService.postGetMaterialPhotoToDb(materialImage, this.selectedImageFile, this.preview)
+        .then((url) => {
+          console.log(url);
+          console.log('Uploaded image!');
+        })
+        .catch((error) => {
+          console.log(error)
+          console.log('Failed to upload image.');
         });
 
     }
@@ -615,10 +652,15 @@ export class MaterialDetailsComponent {
   }
 
   RemoveSpecialCharacters(str: string) {
-    return str.replaceAll('/','-').replaceAll('.','-').replaceAll(',','-').replaceAll('?','').replaceAll('(','')
-              .replaceAll(')','').replaceAll('*','').replaceAll('@','').replaceAll('#','').replaceAll('$','')
-              .replaceAll('%','').replaceAll('^','').replaceAll('&','').replaceAll('"','').replaceAll('[','')
-              .replaceAll(']','').replaceAll(':','').replaceAll(' ','');
+    if (str != null) {
+      return str.replaceAll('/', '-').replaceAll('.', '-').replaceAll(',', '-').replaceAll('?', '').replaceAll('(', '')
+        .replaceAll(')', '').replaceAll('*', '').replaceAll('@', '').replaceAll('#', '').replaceAll('$', '')
+        .replaceAll('%', '').replaceAll('^', '').replaceAll('&', '').replaceAll('"', '').replaceAll('[', '')
+        .replaceAll(']', '').replaceAll(':', '').replaceAll(';', '').replaceAll('!', '').replaceAll(' ', '');
+    } else {
+      return 'null';
+    }
+
   }
 
   DismillModal() {
