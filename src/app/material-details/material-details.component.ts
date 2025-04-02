@@ -669,10 +669,11 @@ export class MaterialDetailsComponent {
     historyLine.Responsible = this.loggedInUserName;
 
     this.dbFunctionService.postHistoryLinesToDb(historyLine)
-      .pipe(map((response: any) => {
+      // .pipe(map((response: any) => {
 
-      }))
-      .subscribe(
+      // }))
+      // .subscribe(
+      .then(
         (res: any) => {
           if ((res != null) || (res != undefined)) {
             console.log(res);

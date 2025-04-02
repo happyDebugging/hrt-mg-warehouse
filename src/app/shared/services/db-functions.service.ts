@@ -122,7 +122,7 @@ export class DbFunctionService {
         //const photoFile = event.target.files[0];
         console.log(selectedImageFile[0])
         const data = await this.supabase.storage.from('hrt-mg-warehouse-photo-storage')
-            .upload(materialImage+'.jpg', selectedImageFile[0], { cacheControl: '3600', upsert: false, contentType: 'image/jpeg' });
+            .upload(materialImage + '.jpg', selectedImageFile[0], { cacheControl: '3600', upsert: false, contentType: 'image/jpeg' });
         //.uploadToSignedUrl(materialImage+'.jpg', 'token-from-createSignedUploadUrl', selectedImageFile, {contentType: 'image/jpeg'})
 
         return data["data"];
@@ -133,10 +133,10 @@ export class DbFunctionService {
             headers: { "Access-Control-Allow-Origin": "*" },
             observe: 'response'
         }
-        console.log(materialImage+'.jpg')
+        console.log(materialImage + '.jpg')
         const data = await this.supabase.storage.from('hrt-mg-warehouse-photo-storage')
-            .remove([materialImage+'.jpg']);
-        
+            .remove([materialImage + '.jpg']);
+
         return data["data"];
     }
 
@@ -250,12 +250,22 @@ export class DbFunctionService {
         return data["data"];
     }
 
-    postHistoryLinesToDb(historyLine: HistoryLines) {
+    async postHistoryLinesToDb(historyLine: HistoryLines) {
         let options: any = {
             headers: { "Access-Control-Allow-Origin": "*" },
             observe: 'response'
         }
-        return this.http.post(environment.databaseURL + environment.historyLinesTable + '.json', historyLine, options);
+        //return this.http.post(environment.databaseURL + environment.historyLinesTable + '.json', historyLine, options);
+        const data = await this.supabase.from('history')
+            .insert({
+                Date: historyLine.Date,
+                ActionType: historyLine.ActionType,
+                MaterialName: historyLine.MaterialName,
+                SerialNumber: historyLine.SerialNumber,
+                Responsible: historyLine.Responsible
+            }).select();
+
+        return data;
     }
 
 }
