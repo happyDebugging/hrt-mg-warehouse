@@ -200,7 +200,7 @@ export class MaterialLinesComponent {
         .then(
         (res: any) => {
           if ((res != null) || (res != undefined)) {
-            //console.log(res)
+            console.log(res)
             //const responseData = new Array<MaterialLines>(res);
 
             for (const data of res) {

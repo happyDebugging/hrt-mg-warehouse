@@ -61,12 +61,38 @@ export class DbFunctionService {
         return data;
     }
 
-    updateMaterialLinesToDb(materialLine: MaterialLines) {
+    async updateMaterialLinesToDb(materialLine: MaterialLines) {
         let options: any = {
             headers: { "Access-Control-Allow-Origin": "*" },
             observe: 'response'
         }
-        return this.http.put(environment.databaseURL + environment.materialLinesTable + '/' + materialLine.Id + '.json', materialLine, options);
+        console.log(materialLine.Id)
+        //return this.http.put(environment.databaseURL + environment.materialLinesTable + '/' + materialLine.Id + '.json', materialLine, options);
+        const data = await this.supabase.from('materialLines').update({
+            MaterialName: materialLine.MaterialName,
+            SerialNumber: materialLine.SerialNumber,
+            Quantity: materialLine.Quantity,
+            AvailableMaterialQuantity: materialLine.AvailableMaterialQuantity,
+            StorageCategory: materialLine.StorageCategory,
+            StoringPlace: materialLine.StoringPlace,
+            StoredNearRepeater: materialLine.StoredNearRepeater,
+            BorrowedTo: materialLine.BorrowedTo,
+            BorrowedAt: materialLine.BorrowedAt,
+            BorrowedMaterialQuantity: materialLine.BorrowedMaterialQuantity,
+            ExpiryDate: materialLine.ExpiryDate,
+            IsMaterialDamaged: materialLine.IsMaterialDamaged,
+            DamagedMaterialQuantity: materialLine.DamagedMaterialQuantity,
+            IsMaterialDeleted: materialLine.IsMaterialDeleted,
+            DeletedMaterialQuantity: materialLine.DeletedMaterialQuantity,
+            IsMaterialConsumable: materialLine.IsMaterialConsumable,
+            CreatedAt: materialLine.CreatedAt,
+            CreatedBy: materialLine.CreatedBy,
+            LastUpdatedAt: materialLine.LastUpdatedAt,
+            LastUpdatedBy: materialLine.LastUpdatedBy,
+            Photo: materialLine.Photo
+        }).eq('Id', materialLine.Id);
+
+        return data;
     }
 
     deleteMaterialFromDb(materialLine: MaterialLines) {
@@ -96,9 +122,21 @@ export class DbFunctionService {
         //const photoFile = event.target.files[0];
         console.log(selectedImageFile[0])
         const data = await this.supabase.storage.from('hrt-mg-warehouse-photo-storage')
-            .upload(materialImage, selectedImageFile[0], { cacheControl: '3600', upsert: false, contentType: 'image/jpeg' });
+            .upload(materialImage+'.jpg', selectedImageFile[0], { cacheControl: '3600', upsert: false, contentType: 'image/jpeg' });
         //.uploadToSignedUrl(materialImage+'.jpg', 'token-from-createSignedUploadUrl', selectedImageFile, {contentType: 'image/jpeg'})
 
+        return data["data"];
+    }
+
+    async deleteMaterialPhotoFromDb(materialImage: string) {
+        let options: any = {
+            headers: { "Access-Control-Allow-Origin": "*" },
+            observe: 'response'
+        }
+        console.log(materialImage+'.jpg')
+        const data = await this.supabase.storage.from('hrt-mg-warehouse-photo-storage')
+            .remove([materialImage+'.jpg']);
+        
         return data["data"];
     }
 

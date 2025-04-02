@@ -329,41 +329,58 @@ export class MaterialDetailsComponent {
       updatedMaterialLine.Photo = this.storageCategory + '_' + btoa(updatedMaterialLine.MaterialName.substring(0, 10)).replaceAll('/', '-') + '_' + this.RemoveSpecialCharacters(this.materialserialNumber) + '_' + Date.now().toString();
       sessionStorage.setItem('materialPhotoToPreview', updatedMaterialLine.Photo);
 
-      const desertRef = ref(this.storage, this.previousMaterialPhoto);
-      // Delete previous uploaded image
-      deleteObject(desertRef).then(() => {
-        console.log('File deleted successfully')
-      }).catch((error) => {
-        console.log(error)
-      });
+      // const desertRef = ref(this.storage, this.previousMaterialPhoto);
+      // // Delete previous uploaded image
+      // deleteObject(desertRef).then(() => {
+      //   console.log('File deleted successfully')
+      // }).catch((error) => {
+      //   console.log(error)
+      // });
+      this.DeleteMaterialPhotoFromStorage(this.previousMaterialPhoto);
 
-      this.storageRef = ref(this.storage, updatedMaterialLine.Photo);
-      uploadString(this.storageRef, this.preview, 'data_url').then((snapshot) => {
-        console.log('Uploaded image!');
-      });
+      // this.storageRef = ref(this.storage, updatedMaterialLine.Photo);
+      // uploadString(this.storageRef, this.preview, 'data_url').then((snapshot) => {
+      //   console.log('Uploaded image!');
+      // });
+      this.PostMaterialPhotoToStorage(updatedMaterialLine.Photo);
+
     } else {
       updatedMaterialLine.Photo = this.previousMaterialPhoto;
     }
 
-    this.updateMaterialLines = this.dbFunctionService.updateMaterialLinesToDb(updatedMaterialLine)
-      .pipe(map((response: any) => {
+    //this.updateMaterialLines = 
+    this.dbFunctionService.updateMaterialLinesToDb(updatedMaterialLine)
+      // .pipe(map((response: any) => {
 
-        this.isSaveSuccessfull = true;
+      //   this.isSaveSuccessfull = true;
 
-        setTimeout(() => {
-          this.isSaveSuccessfull = false;
-          this.isSaveButtonClicked = false;
+      //   setTimeout(() => {
+      //     this.isSaveSuccessfull = false;
+      //     this.isSaveButtonClicked = false;
 
-          let actionType = 'Ενημέρωση υλικού';
-          this.AddHistoryRecord(updatedMaterialLine.MaterialName, updatedMaterialLine.SerialNumber, actionType);
+      //     let actionType = 'Ενημέρωση υλικού';
+      //     this.AddHistoryRecord(updatedMaterialLine.MaterialName, updatedMaterialLine.SerialNumber, actionType);
 
-        }, 2000);
+      //   }, 2000);
 
-      }))
-      .subscribe(
+      // }))
+      // .subscribe(
+      .then(
         (res: any) => {
           if ((res != null) || (res != undefined)) {
             console.log(res)
+
+            this.isSaveSuccessfull = true;
+
+            setTimeout(() => {
+              this.isSaveSuccessfull = false;
+              this.isSaveButtonClicked = false;
+
+              let actionType = 'Ενημέρωση υλικού';
+              this.AddHistoryRecord(updatedMaterialLine.MaterialName, updatedMaterialLine.SerialNumber, actionType);
+
+            }, 2000);
+
           }
         },
         err => {
@@ -578,6 +595,22 @@ export class MaterialDetailsComponent {
         .catch((error) => {
           console.log(error)
           console.log('Failed to upload image.');
+        });
+
+    }
+  }
+
+  DeleteMaterialPhotoFromStorage(materialImage: string) {
+    if (this.materialPhoto != null) {
+
+      this.dbFunctionService.deleteMaterialPhotoFromDb(this.previousMaterialPhoto)
+        .then((url) => {
+          console.log(url);
+          console.log('Deleted image!');
+        })
+        .catch((error) => {
+          console.log(error)
+          console.log('Failed to delete image.');
         });
 
     }
