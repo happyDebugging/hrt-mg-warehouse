@@ -97,7 +97,7 @@
                                             <p class="mb-1">
                                                 Λήξη/Επανέλεγχος:
                                                 <span
-                                                    [ngStyle]="{color: ((this.todaysDate>materialExpirationDate[i]) ? 'red' : 'black')}">
+                                                    [ngStyle]="{color: ((this.todaysDate>consumableMaterialExpirationDate[i]) ? 'red' : 'black')}">
                                                     {{ soonToExpireConsumableMaterial.ExpiryDate | date:"dd/MM/yyyy" }}
                                                 </span>
                                             </p>

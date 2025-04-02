@@ -140,7 +140,7 @@ export class HomeComponent implements OnInit {
                       this.soonToExpireConsumableMaterialLinesList.push(resObj);
                       this.consumableMaterialExpirationDate.push(new Date(resObj.ExpiryDate));
                       
-                      console.log(this.soonToExpireConsumableMaterialLinesList)
+                      //console.log(this.soonToExpireConsumableMaterialLinesList)
                     } else {
                       this.soonToExpireMaterialLinesList.push(resObj);
                       this.materialExpirationDate.push(new Date(resObj.ExpiryDate));
