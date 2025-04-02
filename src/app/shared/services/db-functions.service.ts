@@ -134,10 +134,10 @@ export class DbFunctionService {
             observe: 'response'
         }
         console.log(materialImage + '.jpg')
-        const data = await this.supabase.storage.from('hrt-mg-warehouse-photo-storage')
-            .remove([materialImage + '.jpg']);
+        const {error} = await this.supabase.storage.from('hrt-mg-warehouse-photo-storage')
+            .remove([materialImage+'.jpg']);
 
-        return data["data"];
+        return {error} ;
     }
 
     users = [
