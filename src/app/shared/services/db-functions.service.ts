@@ -95,12 +95,16 @@ export class DbFunctionService {
         return data;
     }
 
-    deleteMaterialFromDb(materialLine: MaterialLines) {
+    async deleteMaterialFromDb(materialLine: MaterialLines) {
         let options: any = {
             headers: { "Access-Control-Allow-Origin": "*" },
             observe: 'response'
         }
-        return this.http.delete(environment.databaseURL + environment.materialLinesTable + '/' + materialLine.Id + '.json');
+        //return this.http.delete(environment.databaseURL + environment.materialLinesTable + '/' + materialLine.Id + '.json');
+        const response = await this.supabase.from('materialLines')
+                        .delete().eq('Id', materialLine.Id);
+
+        return response;
     }
 
     async getGetMaterialPhotoFromDb(materialImage: string) {
@@ -134,10 +138,10 @@ export class DbFunctionService {
             observe: 'response'
         }
         console.log(materialImage + '.jpg')
-        const {error} = await this.supabase.storage.from('hrt-mg-warehouse-photo-storage')
-            .remove([materialImage+'.jpg']);
+        const { error } = await this.supabase.storage.from('hrt-mg-warehouse-photo-storage')
+            .remove([materialImage + '.jpg']);
 
-        return {error} ;
+        return { error };
     }
 
     users = [

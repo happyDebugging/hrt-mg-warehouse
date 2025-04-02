@@ -624,16 +624,18 @@ export class MaterialDetailsComponent {
     materialLine.Id = this.materialId;
     materialLine.Photo = this.materialPhoto;
 
-    // Delete image file
-    this.storageRef = ref(this.storage, materialLine.Photo);
-    deleteObject(this.storageRef).then(() => {
-      console.log('Image deleted!');
-    }).catch((error) => {
-      console.log(error);
-    });
+    // // Delete image file
+    // this.storageRef = ref(this.storage, materialLine.Photo);
+    // deleteObject(this.storageRef).then(() => {
+    //   console.log('Image deleted!');
+    // }).catch((error) => {
+    //   console.log(error);
+    // });
+    this.DeleteMaterialPhotoFromStorage(materialLine.Photo);
 
     this.dbFunctionService.deleteMaterialFromDb(materialLine)
-      .subscribe(
+      //.subscribe(
+      .then(
         (res: any) => {
           console.log(res);
           //if ((res != null) || (res != undefined)) {
