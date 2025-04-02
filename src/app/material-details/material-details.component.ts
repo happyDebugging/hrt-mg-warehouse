@@ -326,6 +326,7 @@ export class MaterialDetailsComponent {
     updatedMaterialLine.LastUpdatedBy = this.loggedInUserName; //this.LastUpdatedBy;
 
     if (this.hasPreviewPhotoChanged) {
+      console.log('(this.materialserialNumber)  '+this.materialserialNumber)
       updatedMaterialLine.Photo = this.storageCategory + '_' + btoa(updatedMaterialLine.MaterialName.substring(0, 10)).replaceAll('/', '-') + '_' + this.RemoveSpecialCharacters(this.materialserialNumber) + '_' + Date.now().toString();
       sessionStorage.setItem('materialPhotoToPreview', updatedMaterialLine.Photo);
 
@@ -686,7 +687,7 @@ export class MaterialDetailsComponent {
   }
 
   RemoveSpecialCharacters(str: string) {
-    if (str != null) {
+    if (str != null && str != '') {
       return str.replaceAll('/', '-').replaceAll('.', '-').replaceAll(',', '-').replaceAll('?', '').replaceAll('(', '')
         .replaceAll(')', '').replaceAll('*', '').replaceAll('@', '').replaceAll('#', '').replaceAll('$', '')
         .replaceAll('%', '').replaceAll('^', '').replaceAll('&', '').replaceAll('"', '').replaceAll('[', '')
