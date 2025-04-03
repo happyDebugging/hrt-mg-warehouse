@@ -70,46 +70,46 @@ export class AdminComponent {
 
   GetUsers() {
 
-    this.dbFunctionService.getUserDetailsFromDb()
-      .pipe(map((response: any) => {
-        let markerArray: Users[] = [];
+    // this.dbFunctionService.getUserDetailsFromDb()
+    //   .pipe(map((response: any) => {
+    //     let markerArray: Users[] = [];
 
-        for (const key in response) {
-          if (response.hasOwnProperty(key)) {
+    //     for (const key in response) {
+    //       if (response.hasOwnProperty(key)) {
 
-            markerArray.push({ ...response[key], Id: key })
+    //         markerArray.push({ ...response[key], Id: key })
 
-          }
-        }
+    //       }
+    //     }
 
-        return markerArray.reverse();
-      }))
-      .subscribe(
-        (res: any) => {
-          if ((res != null) || (res != undefined)) {
-            //console.log(res)
-            const responseData = new Array<Users>(...res);
+    //     return markerArray.reverse();
+    //   }))
+    //   .subscribe(
+    //     (res: any) => {
+    //       if ((res != null) || (res != undefined)) {
+    //         //console.log(res)
+    //         const responseData = new Array<Users>(...res);
 
-            for (const data of responseData) {
+    //         for (const data of responseData) {
 
-              const resObj = new Users();
+    //           const resObj = new Users();
 
-              resObj.Id = data.Id;
-              resObj.UserId = data.UserId;
-              resObj.FirstName = data.FirstName;
-              resObj.LastName = data.LastName;
-              resObj.Email = data.Email;
-              resObj.Permissions = data.Permissions;
+    //           resObj.Id = data.Id;
+    //           resObj.UserId = data.UserId;
+    //           resObj.FirstName = data.FirstName;
+    //           resObj.LastName = data.LastName;
+    //           resObj.Email = data.Email;
+    //           resObj.Permissions = data.Permissions;
 
-              if (resObj.FirstName != 'Σκίουρος') this.users.push(resObj);
-            }
+    //           if (resObj.FirstName != 'Σκίουρος') this.users.push(resObj);
+    //         }
 
-          }
-        },
-        err => {
-          console.log(err);
-        }
-      );
+    //       }
+    //     },
+    //     err => {
+    //       console.log(err);
+    //     }
+    //   );
   }
 
   CreateUser() {
