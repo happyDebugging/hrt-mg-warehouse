@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { AuthService } from './auth.service';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-auth',
@@ -43,7 +45,12 @@ export class AuthComponent implements OnInit {
   // Initialize Firebase Authentication and get a reference to the service
   auth = getAuth(this.firebaseApp);
 
-  constructor(private authService: AuthService) { }
+  // Initialize Supabase
+  private supabase: SupabaseClient
+  
+  constructor(private authService: AuthService) { 
+    this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
+  }
 
   ngOnInit() {
     this.hasForgottenPassword = false;
@@ -71,8 +78,10 @@ export class AuthComponent implements OnInit {
     this.hasForgottenPassword = false;
   }
 
-  ResetPassword() {
-    sendPasswordResetEmail(this.auth, this.userEmail)
+  async ResetPassword() {
+
+    await this.supabase.auth.resetPasswordForEmail(this.userEmail)
+    //sendPasswordResetEmail(this.auth, this.userEmail)
       .then(() => {
 
         this.emailSent = true;

@@ -5,6 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { getAuth, updatePassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { Users } from './shared/models/users.model';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { environment } from '../environments/environment';
 
 
 @Component({
@@ -56,8 +58,12 @@ export class AppComponent {
   firebaseApp = initializeApp(this.firebaseConfig);
   auth: any;
 
+  // Initialize Supabase
+  private supabase: SupabaseClient
 
-  constructor(private authService: AuthService, private dbFunctionService: DbFunctionService, private modalService: NgbModal) { }
+  constructor(private authService: AuthService, private dbFunctionService: DbFunctionService, private modalService: NgbModal) { 
+    this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
+  }
 
   ngOnInit() {
     // Initialize Firebase Authentication and get a reference to the service
@@ -129,11 +135,14 @@ export class AppComponent {
     this.modalService.open(this.updatePassword, { centered: true, size: 'sm', windowClass: 'zindex' });
   }
 
-  UpdateUserPassword() {
+  async UpdateUserPassword() {
 
     const user = this.auth.currentUser;
 
-    updatePassword(user, this.newUserPassword).then(() => {
+    await this.supabase.auth.updateUser({ password: this.newUserPassword })
+
+    //updatePassword(user, this.newUserPassword)
+    .then(() => {
       // Update successful.
       //this.modalService.dismissAll();
       this.isChangePasswordSuccessfull = true;
@@ -163,7 +172,7 @@ export class AppComponent {
 
     let updatedUserDetails = new Users;
 
-    updatedUserDetails.Id = '';
+    //updatedUserDetails.Id = '';
     updatedUserDetails.UserId = this.loggedInUserId;
     updatedUserDetails.FirstName = this.loggedInUser.FirstName;
     updatedUserDetails.LastName = this.loggedInUser.LastName;
@@ -172,7 +181,7 @@ export class AppComponent {
     updatedUserDetails.HasChangedPassword = true;
 
     this.dbFunctionService.updateUserDetailsToDb(updatedUserDetails)
-    .subscribe(
+    .then(
         (res: any) => {
           if ((res != null) || (res != undefined)) {
             console.log(res)

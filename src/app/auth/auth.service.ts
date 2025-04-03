@@ -54,7 +54,7 @@ export class AuthService {
   private supabase: SupabaseClient
   _session: AuthSession | null = null
 
-  constructor(private router: Router, private dbFunctionService: DbFunctionService) { 
+  constructor(private router: Router, private dbFunctionService: DbFunctionService) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey)
   }
 
@@ -67,7 +67,7 @@ export class AuthService {
 
       //Sign in with Supabase
       this.supabase.auth.signInWithPassword({ email: this.userEmail.trim(), password: this.userPassword.trim() })
-      .then((userCredential) => {
+        .then((userCredential) => {
           // Signed in 
           const user = userCredential.data.user;
 
@@ -96,7 +96,7 @@ export class AuthService {
           sessionStorage.setItem('sessionExpirationDate', Math.floor(expiresDate.getTime() / 1000).toString());
           console.log('sessionExpirationDate ', Math.floor(expiresDate.getTime() / 1000).toString())
 
-          this.GetLoggedInUserDetails();
+          this.GetLoggedInUserDetails(user?.email);
 
           //window.location.href = environment.appUrl + '/home';
 
@@ -191,54 +191,54 @@ export class AuthService {
   }
 
 
-  GetLoggedInUserDetails() {
+  GetLoggedInUserDetails(userEmail: string | undefined) {
 
-    this.dbFunctionService.getUserDetailsFromDb()
-      .pipe(map((response: any) => {
-        let markerArray: Users[] = [];
+    this.dbFunctionService.getUserDetailsFromDb(userEmail!)
+      // .pipe(map((response: any) => {
+      //   let markerArray: Users[] = [];
 
-        for (const key in response) {
-          if (response.hasOwnProperty(key)) {
+      //   for (const key in response) {
+      //     if (response.hasOwnProperty(key)) {
 
-            markerArray.push({ ...response[key], Id: key })
+      //       markerArray.push({ ...response[key], Id: key })
 
-          }
-        }
+      //     }
+      //   }
 
-        return markerArray.reverse();
-      }))
-      .subscribe(
+      //   return markerArray.reverse();
+      // }))
+      // .subscribe(
+      .then(
         (res: any) => {
           if ((res != null) || (res != undefined)) {
-            //console.log(res)
-            const responseData = new Array<Users>(...res);
+            console.log(res)
+            //const responseData = new Array<Users>(...res);
+            const responseData = res[0];
 
-            for (const data of responseData) {
+            //for (const data of res) {
 
-              const resObj = new Users();
+            const resObj = new Users();
 
-              resObj.Id = data.Id;
-              resObj.UserId = data.UserId;
-              resObj.FirstName = data.FirstName;
-              resObj.LastName = data.LastName;
-              resObj.Email = data.Email;
-              resObj.Permissions = data.Permissions;
+            resObj.Id = responseData.Id;
+            resObj.UserId = responseData.UserId;
+            resObj.FirstName = responseData.FirstName;
+            resObj.LastName = responseData.LastName;
+            resObj.Email = responseData.Email;
+            resObj.Permissions = responseData.Permissions;
 
-              if (this.loggedInUserId == resObj.UserId) {
-                this.loggedInUser = resObj;
-                console.log(this.loggedInUser.Id, ' ', this.loggedInUser.FirstName)
-                console.log('this.loggedInUser.Permissions2', ' ', this.loggedInUser.Permissions)
+            //if (this.loggedInUserId == resObj.UserId) {
+            this.loggedInUser = resObj;
+            console.log(this.loggedInUser.Id, ' ', this.loggedInUser.FirstName)
+            console.log('this.loggedInUser.Permissions2', ' ', this.loggedInUser.Permissions)
 
-                sessionStorage.setItem('loggedInUserName', this.loggedInUser.FirstName + ' ' + this.loggedInUser.LastName);
-                sessionStorage.setItem("loggedInUserEmail", this.loggedInUser.Email);
-                sessionStorage.setItem('loggedInUserFirstName', this.loggedInUser.FirstName);
-                sessionStorage.setItem('loggedInUserLastName', this.loggedInUser.LastName);
-                sessionStorage.setItem("loggedInUserPermissions", this.loggedInUser.Permissions);
-              }
-
-            }
+            sessionStorage.setItem('loggedInUserName', this.loggedInUser.FirstName + ' ' + this.loggedInUser.LastName);
+            sessionStorage.setItem("loggedInUserEmail", this.loggedInUser.Email);
+            sessionStorage.setItem('loggedInUserFirstName', this.loggedInUser.FirstName);
+            sessionStorage.setItem('loggedInUserLastName', this.loggedInUser.LastName);
+            sessionStorage.setItem("loggedInUserPermissions", this.loggedInUser.Permissions);
 
             window.location.href = environment.appUrl + '/home';
+            //}
 
           }
         },

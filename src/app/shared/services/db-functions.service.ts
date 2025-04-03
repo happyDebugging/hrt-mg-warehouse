@@ -225,21 +225,33 @@ export class DbFunctionService {
         return this.http.post(environment.databaseURL + environment.usersTable + '.json', this.users[7], options);
     }
 
-    getUserDetailsFromDb() {
+    async getUserDetailsFromDb(userEmail: string) {
         let options: any = {
             headers: { "Access-Control-Allow-Origin": "*" },
             observe: 'response'
         }
-        return this.http.get<Users>(environment.databaseURL + environment.usersTable + '.json');
-        //return this.http.get<Users>('https://hrt-mg-warehouse-default-rtdb.europe-west1.firebasedatabase.app/users' + '.json');
+        //return this.http.get<Users>(environment.databaseURL + environment.usersTable + '.json');
+        const data = await this.supabase.from('users').select('*').eq('Email', userEmail);
+
+        return data["data"];
     }
 
-    updateUserDetailsToDb(user: Users) {
+    async updateUserDetailsToDb(user: Users) {
         let options: any = {
             headers: { "Access-Control-Allow-Origin": "*" },
             observe: 'response'
         }
-        return this.http.put(environment.databaseURL + environment.usersTable + '/' + user.UserId + '.json', user, options);
+        //return this.http.put(environment.databaseURL + environment.usersTable + '/' + user.UserId + '.json', user, options);
+        const data = await this.supabase.from('users').update({
+            UserId: user.UserId,
+            FirstName: user.FirstName,
+            LastName: user.LastName,
+            Email: user.Email,
+            Permissions: user.Permissions,
+            HasChangedPassword: user.HasChangedPassword
+        }).eq('Email', user.Email);
+
+        return data;
     }
 
 
