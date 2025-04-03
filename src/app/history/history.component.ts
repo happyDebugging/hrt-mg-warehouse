@@ -19,6 +19,9 @@ export class HistoryComponent {
   midPageNum = 2;
   rightPageNum = 3;
 
+  pageNumber = 1;
+  itemsPerPage = 20;
+
   historyLinesList = [{
     Id: '',
     Date: '',
@@ -58,7 +61,7 @@ export class HistoryComponent {
     this.historyLinesList = [];
 
     //this.getHistoryLines = 
-    this.dbFunctionService.geHistoryLinesFromDb()
+    this.dbFunctionService.geHistoryLinesFromDb(this.pageNumber, this.itemsPerPage)
       // .pipe(map((response: any) => {
       //   let markerArray: HistoryLines[] = [];
 
@@ -95,7 +98,7 @@ export class HistoryComponent {
 
             }
 
-            this.historyLinesList.reverse();
+            //this.historyLinesList.reverse();
 
           }
         },
@@ -159,6 +162,9 @@ export class HistoryComponent {
 
   nextPage() {
     if (this.pageCount < this.historyLinesList.length - 1) {
+      this.pageNumber++;
+      this.GetHistoryLines();
+
       this.pageCount++;
       console.log(this.pageCount)
       console.log(this.historyLinesList[this.pageCount])
@@ -173,6 +179,9 @@ export class HistoryComponent {
   previousPage() {
 
     if (this.pageCount > 1) {
+      this.pageNumber--;
+      this.GetHistoryLines();
+
       this.pageCount--;
       console.log(this.pageCount)
       console.log(this.historyLinesList[this.pageCount])

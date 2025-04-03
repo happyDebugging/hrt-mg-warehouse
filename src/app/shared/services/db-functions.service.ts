@@ -243,13 +243,16 @@ export class DbFunctionService {
     }
 
 
-    async geHistoryLinesFromDb() {
+    async geHistoryLinesFromDb(pageNumber: number, itemsPerPage: number) {
         let options: any = {
             headers: { "Access-Control-Allow-Origin": "*" },
             observe: 'response'
         }
         //return this.http.get<HistoryLines>(environment.databaseURL + environment.historyLinesTable + '.json');
-        const data = await this.supabase.from('history').select('*'); //.eq('StorageCategory', 'Τμήμα Πρώτων Βοηθειών');
+        const data = await this.supabase.from('history').select('*', {count: 'exact'})
+                            .order('Id', {ascending: false})
+                            .range((pageNumber - 1) * itemsPerPage, 
+                                    pageNumber * itemsPerPage - 1); 
 
         return data["data"];
     }
