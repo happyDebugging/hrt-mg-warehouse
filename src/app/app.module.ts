@@ -18,6 +18,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { UnsavedChangesGuard } from './unsaved-changes/unsaved-changes.guard';
 import { UnsavedChangesComponent } from './unsaved-changes/unsaved-changes.component';
 import { LoggedInGuard } from './auth/logged-in.guard';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { LoggedInGuard } from './auth/logged-in.guard';
     MaterialLinesComponent,
     HomeComponent,
     AuthComponent,
-    UnsavedChangesComponent
+    UnsavedChangesComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

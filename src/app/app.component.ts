@@ -137,7 +137,7 @@ export class AppComponent {
 
   async UpdateUserPassword() {
 
-    const user = this.auth.currentUser;
+    //const user = this.auth.currentUser;
 
     await this.supabase.auth.updateUser({ password: this.newUserPassword })
 

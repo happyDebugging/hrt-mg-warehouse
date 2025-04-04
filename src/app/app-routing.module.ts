@@ -9,9 +9,11 @@ import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
 import { UnsavedChangesGuard } from './unsaved-changes/unsaved-changes.guard';
 import { LoggedInGuard } from './auth/logged-in.guard';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: 'auth', component: AuthComponent, pathMatch: 'full', canActivate: [LoggedInGuard]}, 
+  { path: 'token/:token/type=recovery/email/:mail', pathMatch: 'full', component: ResetPasswordComponent},
 
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
 
