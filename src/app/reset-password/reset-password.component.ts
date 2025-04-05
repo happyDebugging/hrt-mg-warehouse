@@ -21,6 +21,7 @@ export class ResetPasswordComponent {
   newUserPasswordConfirmation = '';
   isPassword6Characters = true;
   isChangePasswordSuccessfull = false;
+  isNewPasswordTheSame = false;
   errorMessageToShow = '';
 
   // Initialize Supabase
@@ -38,33 +39,46 @@ export class ResetPasswordComponent {
   }
 
   async UpdateUserPassword() {
-    //await this.supabase.auth.exchangeCodeForSession(this.sessionToken).then(async (res) => {
 
-      await this.supabase.auth.updateUser({ password: this.newUserPassword })
+    this.isNewPasswordTheSame = false;
+    await this.supabase.auth.updateUser({ password: this.newUserPassword })
       .then((res) => {
-        console.log(res)
-        // Update successful
-        this.isChangePasswordSuccessfull = true;
+        console.log(res.error?.code)
 
-        this.newUserPassword = '';
-        this.newUserPasswordConfirmation = '';
-        this.isPassword6Characters = true;
+        if (res.error?.code == 'same_password') {
+          this.errorMessageToShow = 'Ο νέος κωδικός πρόσβασης πρέπει να είναι διαφορετικός από τον προηγούμενο.';
+          this.isNewPasswordTheSame = true;
 
-        //this.UpdateUserPasswordInDb();
+          setTimeout(() => {
+            this.isNewPasswordTheSame = false;
+          }, 2500);
+        } else if (res.error?.code == 'weak_password') {
+          this.isPassword6Characters = false;
 
-        setTimeout(() => {
-          this.isChangePasswordSuccessfull = false;
-          //window.location.href = environment.appUrl + '/auth';
-        }, 2500);
+          setTimeout(() => {
+            this.isPassword6Characters = true;
+          }, 2500);
+        } else {
+          // Update successful
+          this.isChangePasswordSuccessfull = true;
+
+          this.newUserPassword = '';
+          this.newUserPasswordConfirmation = '';
+          this.isPassword6Characters = true;
+          this.isNewPasswordTheSame = false;
+
+          //this.UpdateUserPasswordInDb();
+
+          setTimeout(() => {
+            this.isChangePasswordSuccessfull = false;
+            window.location.href = environment.appUrl + '/auth';
+          }, 2500);
+        }
 
       }).catch((error) => {
         console.log(error)
-
-        this.isPassword6Characters = false;
       });
 
-    //});
-    
   }
 
   UpdateUserPasswordInDb() {

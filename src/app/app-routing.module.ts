@@ -13,7 +13,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 
 const routes: Routes = [
   { path: 'auth', component: AuthComponent, pathMatch: 'full', canActivate: [LoggedInGuard]}, 
-  { path: 'token/:token/type=recovery/email/:mail', pathMatch: 'full', component: ResetPasswordComponent},
+  { path: 'reset-password/session/:session-id', pathMatch: 'full', component: ResetPasswordComponent},
 
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
 

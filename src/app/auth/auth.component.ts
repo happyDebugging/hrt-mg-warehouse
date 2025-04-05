@@ -80,7 +80,9 @@ export class AuthComponent implements OnInit {
 
   async ResetPassword() {
 
-    await this.supabase.auth.resetPasswordForEmail(this.userEmail)
+    await this.supabase.auth.resetPasswordForEmail(this.userEmail, {
+      redirectTo: 'http://localhost:4200/reset-password/session/'+(Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000)
+    })
     //sendPasswordResetEmail(this.auth, this.userEmail)
       .then(() => {
 
