@@ -533,7 +533,7 @@ export class MaterialDetailsComponent {
     this.materialStoringPlace = JSON.parse(JSON.stringify(sessionStorage.getItem('materialStoringPlaceToPreview')));
     this.materialStoredNearRepeater = JSON.parse(JSON.stringify(sessionStorage.getItem('materialStoredNearRepeaterToPreview')));
     this.materialBorrowedTo = JSON.parse(JSON.stringify(sessionStorage.getItem('materialBorrowedToToPreview')));
-    if (this.materialBorrowedTo != '' && this.materialBorrowedTo != null && this.materialBorrowedTo != undefined && this.materialBorrowedTo != 'undefined') {
+    if (this.materialBorrowedTo != '' && this.materialBorrowedTo != null && this.materialBorrowedTo != 'null' && this.materialBorrowedTo != undefined && this.materialBorrowedTo != 'undefined') {
       this.isMaterialBorrowed = true;
     }
     this.materialBorrowedAt = JSON.parse(JSON.stringify(sessionStorage.getItem('materialBorrowedAtToPreview')));
