@@ -254,15 +254,6 @@ export class DbFunctionService {
         return data;
     }
 
-    // async updateUserPasswordToDb(userEmail: string, hasChangedPassword: boolean) {
-        
-    //     const data = await this.supabase.from('users').update({
-    //         HasChangedPassword: hasChangedPassword
-    //     }).eq('Email', userEmail);
-
-    //     return data;
-    // }
-
 
     async geHistoryLinesFromDb(pageNumber: number, itemsPerPage: number) {
         let options: any = {

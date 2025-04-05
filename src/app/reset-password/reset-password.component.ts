@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
 import { environment } from '../../environments/environment.development';
 import { AuthService } from '../auth/auth.service';
 import { DbFunctionService } from '../shared/services/db-functions.service';
 import { Router } from '@angular/router';
+import { Users } from '../shared/models/users.model';
 
 @Component({
   selector: 'app-reset-password',
@@ -67,7 +68,7 @@ export class ResetPasswordComponent {
           this.isPassword6Characters = true;
           this.isNewPasswordTheSame = false;
 
-          //this.UpdateUserPasswordInDb();
+          //this.UpdateUserDetails(res.data.user);
 
           setTimeout(() => {
             this.isChangePasswordSuccessfull = false;
@@ -81,21 +82,5 @@ export class ResetPasswordComponent {
 
   }
 
-  UpdateUserPasswordInDb() {
-
-    // const hasChangedPassword = true;
-
-    // this.dbFunctionService.updateUserPasswordToDb(this.userEmail, hasChangedPassword)
-    //   .then(
-    //     (res: any) => {
-    //       if ((res != null) || (res != undefined)) {
-    //         console.log(res)
-    //       }
-    //     },
-    //     err => {
-    //       console.log(err);
-    //     }
-    //   );
-  }
 
 }
