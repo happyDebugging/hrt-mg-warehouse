@@ -326,7 +326,7 @@ export class MaterialDetailsComponent {
     updatedMaterialLine.LastUpdatedBy = this.loggedInUserName; //this.LastUpdatedBy;
 
     if (this.hasPreviewPhotoChanged) {
-      console.log('(this.materialserialNumber)  '+this.materialserialNumber)
+      console.log('(this.materialserialNumber)  ' + this.materialserialNumber)
       updatedMaterialLine.Photo = this.storageCategory + '_' + btoa(updatedMaterialLine.MaterialName.substring(0, 10)).replaceAll('/', '-') + '_' + this.RemoveSpecialCharacters(this.materialserialNumber) + '_' + Date.now().toString();
       sessionStorage.setItem('materialPhotoToPreview', updatedMaterialLine.Photo);
 
@@ -668,7 +668,7 @@ export class MaterialDetailsComponent {
     historyLine.Date = Date.now().toString();
     historyLine.ActionType = actionType;
     historyLine.MaterialName = materialName;
-    historyLine.SerialNumber = serialNumber;
+    historyLine.SerialNumber = (serialNumber == '' ? 'Άνευ' : serialNumber);
     historyLine.Responsible = this.loggedInUserName;
 
     this.dbFunctionService.postHistoryLinesToDb(historyLine)
