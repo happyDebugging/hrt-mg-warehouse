@@ -19,6 +19,7 @@ import { UnsavedChangesGuard } from './unsaved-changes/unsaved-changes.guard';
 import { UnsavedChangesComponent } from './unsaved-changes/unsaved-changes.component';
 import { LoggedInGuard } from './auth/logged-in.guard';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ManageUsersService } from './shared/services/manage-users.service';
 
 @NgModule({
   declarations: [
@@ -42,9 +43,10 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
   ],
   providers: [
     DbFunctionService,
+    AuthService,
+    ManageUsersService,
     AuthGuard,
     LoggedInGuard,
-    AuthService,
     UnsavedChangesGuard
   ],
   bootstrap: [AppComponent]
