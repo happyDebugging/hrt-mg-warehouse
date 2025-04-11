@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { delay, map, of } from 'rxjs';
-import { DbFunctionService } from '../shared/services/db-functions.service';
 import { Users } from '../shared/models/users.model';
-import { initializeApp } from 'firebase/app';
-import { getDatabase } from 'firebase/database';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { ManageUsersService } from '../shared/services/manage-users.service';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-admin',
@@ -30,34 +28,28 @@ export class AdminComponent {
   userToManage = '';
   userManagementAction = '';
 
-  // Firebase web app configuration
-  firebaseConfig = {
-    apiKey: "AIzaSyAq82tP-XtNICS4oNiS2hKLN2tzElGQF0Q",
-    authDomain: "hrt-mg-warehouse.firebaseapp.com",
-    databaseURL: "https://hrt-mg-warehouse-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "hrt-mg-warehouse",
-    storageBucket: "hrt-mg-warehouse.appspot.com",
-    messagingSenderId: "814645994356",
-    appId: "1:814645994356:web:7efe4746dd371d51338221"
-  };
+  newUserName = '';
+  newUserEmail = '';
 
-  // Initialize Firebase
-  firebaseApp = initializeApp(this.firebaseConfig);
-
-  // Initialize Realtime Database and get a reference to the service
-  database = getDatabase(this.firebaseApp);
-
-  auth = getAuth(this.firebaseApp);
-
-  constructor(private router: Router, private dbFunctionService: DbFunctionService) { }
+  // Initialize Supabase
+  private supabase: SupabaseClient
+  
+  constructor(private router: Router, private manageUsersService: ManageUsersService) { 
+    //this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
+    this.supabase = createClient(environment.supabaseUrl, environment.supabaseServiceRoleKey
+      // , {  
+      // auth: {    
+      //   autoRefreshToken: false,    
+      //   persistSession: false  
+      // }}
+    );
+    
+  }
 
   ngOnInit() {
 
-    let tokenSubscription = of(null).pipe(delay(36000000)).subscribe(() => { //logout after 10 hours
-      console.log('EXPIRED!')
-      sessionStorage.setItem('isUserLoggedIn', 'false');
-      sessionStorage.setItem('sessionExpirationDate', '');
-    });
+    // Access auth admin api
+    const adminAuthClient = this.supabase.auth.admin
 
     this.isUserLoggedIn = JSON.parse(JSON.stringify(sessionStorage.getItem("isUserLoggedIn")));
     this.loggedInUserId = JSON.parse(JSON.stringify(sessionStorage.getItem("loggedInUserId")));
@@ -70,65 +62,58 @@ export class AdminComponent {
 
   GetUsers() {
 
-    // this.dbFunctionService.getUserDetailsFromDb()
-    //   .pipe(map((response: any) => {
-    //     let markerArray: Users[] = [];
+    this.manageUsersService.getUsers()
+      .then(
+        (res: any) => {
+          if ((res != null) || (res != undefined)) {
+            //console.log(res)
+            const responseData = new Array<Users>(...res);
 
-    //     for (const key in response) {
-    //       if (response.hasOwnProperty(key)) {
+            for (const data of responseData) {
 
-    //         markerArray.push({ ...response[key], Id: key })
+              const resObj = new Users();
 
-    //       }
-    //     }
+              resObj.Id = data.Id;
+              resObj.UserId = data.UserId;
+              resObj.FirstName = data.FirstName;
+              resObj.LastName = data.LastName;
+              resObj.Email = data.Email;
+              resObj.Permissions = data.Permissions;
 
-    //     return markerArray.reverse();
-    //   }))
-    //   .subscribe(
-    //     (res: any) => {
-    //       if ((res != null) || (res != undefined)) {
-    //         //console.log(res)
-    //         const responseData = new Array<Users>(...res);
+              if (resObj.FirstName != 'Σκίουρος') this.users.push(resObj);
+            }
 
-    //         for (const data of responseData) {
-
-    //           const resObj = new Users();
-
-    //           resObj.Id = data.Id;
-    //           resObj.UserId = data.UserId;
-    //           resObj.FirstName = data.FirstName;
-    //           resObj.LastName = data.LastName;
-    //           resObj.Email = data.Email;
-    //           resObj.Permissions = data.Permissions;
-
-    //           if (resObj.FirstName != 'Σκίουρος') this.users.push(resObj);
-    //         }
-
-    //       }
-    //     },
-    //     err => {
-    //       console.log(err);
-    //     }
-    //   );
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
-  CreateUser() {
+  async CreateUser() {
     
-    // const  email='eeeez@gmail.com';
-    // const password='123456';
+    this.manageUsersService.createUser(this.newUserEmail)
+      .then((userCredential) => {
+        // Signed up 
+        const user = userCredential.data.user;
+        console.log(user)
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
 
-    // createUserWithEmailAndPassword(this.auth, email, password)
-    //   .then((userCredential) => {
-    //     // Signed up 
-    //     const user = userCredential.user;
-    //     console.log(user)
-    //     // ...
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     // ..
-    //   });
+  }
+
+  UpdateUser() {
+
+  }
+
+  DeleteUser() {
+
   }
 
 
