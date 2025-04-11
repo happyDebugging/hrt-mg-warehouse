@@ -225,6 +225,21 @@ export class DbFunctionService {
         return this.http.post(environment.databaseURL + environment.usersTable + '.json', this.users[7], options);
     }
 
+    async addNewUserToDb(userΙd: string, newUserFirstName: string, newUserLastName: string, newUserEmail: string, newUserPermissions: string) {
+        
+        const data = await this.supabase.from('users')
+            .insert({
+                UserId: userΙd,
+                FirstName: newUserFirstName,
+                LastName: newUserLastName,
+                Email: newUserEmail,
+                Permissions: newUserPermissions,
+                HasChangedPassword: false
+            }).select();
+
+        return data;
+    }
+
     async getUserDetailsFromDb(userEmail: string) {
         let options: any = {
             headers: { "Access-Control-Allow-Origin": "*" },

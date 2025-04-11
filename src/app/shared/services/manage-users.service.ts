@@ -12,22 +12,30 @@ export class ManageUsersService {
     private supabase: SupabaseClient
 
     constructor(private http: HttpClient) {
-        this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
+
+        this.supabase = createClient(environment.supabaseUrl, environment.supabaseServiceRoleKey
+            , {
+                auth: {
+                    autoRefreshToken: false,
+                    persistSession: false
+                }
+            }
+        );
     }
 
-    
+
     async createUser(newUserEmail: string) {
         const { data, error } = await this.supabase.auth.admin.createUser({
             email: newUserEmail,
             password: (Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000).toString(),
             //user_metadata: { name: 'Yoda' }
-          });
+        });
 
-          return { data, error };
+        return { data, error };
     }
 
     async getUsers() {
-        
+
         const data = await this.supabase.from('users').select('*');
 
         return data["data"];

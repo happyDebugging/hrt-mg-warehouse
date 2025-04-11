@@ -36,14 +36,34 @@
                     </select>
 
                     <div *ngIf="userManagementAction == 'create_user'" class="mb-3">
-                        <label for="newUserName" class="form-label">Όνομα νέου χρήστη</label>
-                        <input type="text" class="form-control" id="newUserName" [(ngModel)]="newUserName">
+                        <label for="newUserFirstName" class="form-label">Όνομα νέου χρήστη</label>
+                        <input type="text" class="form-control" id="newUserFirstName" [(ngModel)]="newUserFirstName">
+                    </div>
+
+                    <div *ngIf="userManagementAction == 'create_user'" class="mb-3">
+                        <label for="newUserLastName" class="form-label">Επίθετο νέου χρήστη</label>
+                        <input type="text" class="form-control" id="newUserLastName" [(ngModel)]="newUserLastName">
                     </div>
 
                     <div *ngIf="userManagementAction == 'create_user'" class="mb-3">
                         <label for="newUserEmail" class="form-label">Email</label>
                         <input type="email" class="form-control" id="newUserEmail" [(ngModel)]="newUserEmail">
                     </div>
+
+                    <div *ngIf="userManagementAction == 'create_user'" class="mb-3">
+                        <label for="newUserPermissions">Δικαιώματα</label>
+                        <select class="form-select mb-3" name="newUserPermissions" [(ngModel)]="newUserPermissions"
+                            required>
+                            <option value="Τμήμα Ορεινής Διάσωσης">Τμήμα Ορεινής Διάσωσης</option>
+                            <option value="Τμήμα Πρώτων Βοηθειών">Τμήμα Πρώτων Βοηθειών</option>
+                            <option value="Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας">Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας</option>
+                            <option value="Τμήμα Αντιμετώπισης Καταστροφών">Τμήμα Αντιμετώπισης Καταστροφών</option>
+                            <option value="Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών">Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών</option>
+                            <option value="Τμήμα Υγρού Στοιχείου">Τμήμα Υγρού Στοιχείου</option>
+                            <option value="All">Πλήρη δικαιώματα</option>
+                        </select>
+                    </div>
+                    
 
                     <div *ngIf="userManagementAction == 'update_user' || userManagementAction == 'delete_user'" class="mb-3">
                         <label for="user">Λογαριασμός χρήστη</label>
