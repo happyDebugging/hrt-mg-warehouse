@@ -60,7 +60,7 @@
                     <div *ngIf="userManagementAction == 'create_user' || userManagementAction == 'update_user'"
                         class="mb-3">
                         <label for="newUserPermissions">Δικαιώματα</label>
-                        <select class="form-select mb-3" name="newUserPermissions" [(ngModel)]="newUserPermissions"
+                        <select class="form-select" name="newUserPermissions" [(ngModel)]="newUserPermissions"
                             required>
                             <option value="Τμήμα Ορεινής Διάσωσης">Τμήμα Ορεινής Διάσωσης</option>
                             <option value="Τμήμα Πρώτων Βοηθειών">Τμήμα Πρώτων Βοηθειών</option>
@@ -72,10 +72,13 @@
                             <option value="Τμήμα Υγρού Στοιχείου">Τμήμα Υγρού Στοιχείου</option>
                             <option value="All">Πλήρη δικαιώματα</option>
                         </select>
+                        <div *ngIf="userManagementAction == 'update_user'" class="text-wrap fw-light text-primary mb-3" style="font-size: small;">
+                            <small>Η ενημέρωση των δικαιωμάτων πραγματοποιείται στην επόμενη σύνδεση του χρήστη στην εφαρμογή.</small>
+                        </div>
                     </div>
 
 
-                    <div *ngIf="userManagementAction == 'create_user'" class="d-grid mb-3">
+                    <div *ngIf="userManagementAction == 'create_user'" class="d-grid">
                         <hr>
                         <div *ngIf="!isUserCreationSuccessfull" class="d-grid">
                             <button type="submit" class="btn btn-primary" (click)="CreateUser()">
@@ -86,7 +89,7 @@
                         </div>
                     </div>
 
-                    <div *ngIf="userManagementAction == 'update_user'" class="d-grid mb-3">
+                    <div *ngIf="userManagementAction == 'update_user'" class="d-grid">
                         <hr>
                         <div *ngIf="!isUserUpdateSuccessfull" class="d-grid">
                             <button type="submit" class="btn btn-primary" (click)="UpdateUser()">
@@ -97,7 +100,7 @@
                         </div>
                     </div>
 
-                    <div *ngIf="userManagementAction == 'delete_user'" class="d-grid mb-3">
+                    <div *ngIf="userManagementAction == 'delete_user'" class="d-grid">
                         <hr>
                         <div *ngIf="!isUserDeletionSuccessfull" class="d-grid">
                             <button type="submit" class="btn btn-danger" (click)="DeleteUser()">
