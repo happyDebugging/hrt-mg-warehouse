@@ -102,7 +102,7 @@ export class DbFunctionService {
         }
         //return this.http.delete(environment.databaseURL + environment.materialLinesTable + '/' + materialLine.Id + '.json');
         const response = await this.supabase.from('materialLines')
-                        .delete().eq('Id', materialLine.Id);
+            .delete().eq('Id', materialLine.Id);
 
         return response;
     }
@@ -226,7 +226,7 @@ export class DbFunctionService {
     }
 
     async addNewUserToDb(userΙd: string, newUserFirstName: string, newUserLastName: string, newUserEmail: string, newUserPermissions: string) {
-        
+
         const data = await this.supabase.from('users')
             .insert({
                 UserId: userΙd,
@@ -238,6 +238,29 @@ export class DbFunctionService {
             }).select();
 
         return data;
+    }
+
+    async updateUserToDb(userΙd: string, userFirstName: string, userLastName: string, userEmail: string, userPermissions: string) {
+
+        const data = await this.supabase.from('users')
+            .update({
+                UserId: userΙd,
+                FirstName: userFirstName,
+                LastName: userLastName,
+                Email: userEmail,
+                Permissions: userPermissions,
+                HasChangedPassword: false
+            }).eq('UserId', userΙd);
+
+        return data;
+    }
+
+    async deleteUserFromDb(userΙd: string) {
+
+        const { data, error } = await this.supabase.from('users')
+            .delete().eq('UserId', userΙd);
+
+        return { data, error };
     }
 
     async getUserDetailsFromDb(userEmail: string) {
@@ -276,10 +299,10 @@ export class DbFunctionService {
             observe: 'response'
         }
         //return this.http.get<HistoryLines>(environment.databaseURL + environment.historyLinesTable + '.json');
-        const data = await this.supabase.from('history').select('*', {count: 'exact'})
-                            .order('Id', {ascending: false})
-                            .range((pageNumber - 1) * itemsPerPage, 
-                                    pageNumber * itemsPerPage - 1); 
+        const data = await this.supabase.from('history').select('*', { count: 'exact' })
+            .order('Id', { ascending: false })
+            .range((pageNumber - 1) * itemsPerPage,
+                pageNumber * itemsPerPage - 1);
 
         return data["data"];
     }

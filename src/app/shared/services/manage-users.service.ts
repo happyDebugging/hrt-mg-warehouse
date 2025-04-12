@@ -34,31 +34,31 @@ export class ManageUsersService {
         return { data, error };
     }
 
+    async updateUser(userΙd: string, userEmail: string) {
+
+        const { data: user, error } = await this.supabase.auth.admin.updateUserById(
+            userΙd,
+            { email: userEmail }
+        )
+
+        return { data: user, error };
+    }
+
+    async deleteUser(userΙd: string) {
+
+        const { data, error } = await this.supabase.auth.admin.deleteUser(
+            userΙd
+        );
+
+        return { data, error };
+    }
+
     async getUsers() {
 
         const data = await this.supabase.from('users').select('*');
 
         return data["data"];
     }
-
-    // async updateUserDetailsToDb(user: Users) {
-    //     let options: any = {
-    //         headers: { "Access-Control-Allow-Origin": "*" },
-    //         observe: 'response'
-    //     }
-    //     //return this.http.put(environment.databaseURL + environment.usersTable + '/' + user.UserId + '.json', user, options);
-    //     const data = await this.supabase.from('users').update({
-    //         UserId: user.UserId,
-    //         FirstName: user.FirstName,
-    //         LastName: user.LastName,
-    //         Email: user.Email,
-    //         Permissions: user.Permissions,
-    //         HasChangedPassword: user.HasChangedPassword
-    //     }).eq('Email', user.Email);
-
-    //     return data;
-    // }
-
 
 }
 

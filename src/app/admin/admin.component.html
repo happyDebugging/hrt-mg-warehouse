@@ -35,22 +35,31 @@
                         <option value="delete_user">Διαγραφή</option>
                     </select>
 
-                    <div *ngIf="userManagementAction == 'create_user'" class="mb-3">
+                    <div *ngIf="userManagementAction == 'update_user' || userManagementAction == 'delete_user'" class="mb-3">
+                        <label for="user">Λογαριασμός χρήστη</label>
+                        <select class="form-select mb-3" name="user" [(ngModel)]="userToManage" required>
+                            <option value="none" [disabled]></option>
+                            <option *ngFor="let user of users; index as i;" [value]="user.UserId">{{ user.FirstName }} {{
+                                user.LastName }}</option>
+                        </select>
+                    </div>
+
+                    <div *ngIf="userManagementAction == 'create_user' || userManagementAction == 'update_user'" class="mb-3">
                         <label for="newUserFirstName" class="form-label">Όνομα νέου χρήστη</label>
                         <input type="text" class="form-control" id="newUserFirstName" [(ngModel)]="newUserFirstName">
                     </div>
 
-                    <div *ngIf="userManagementAction == 'create_user'" class="mb-3">
+                    <div *ngIf="userManagementAction == 'create_user' || userManagementAction == 'update_user'" class="mb-3">
                         <label for="newUserLastName" class="form-label">Επίθετο νέου χρήστη</label>
                         <input type="text" class="form-control" id="newUserLastName" [(ngModel)]="newUserLastName">
                     </div>
 
-                    <div *ngIf="userManagementAction == 'create_user'" class="mb-3">
+                    <div *ngIf="userManagementAction == 'create_user' || userManagementAction == 'update_user'" class="mb-3">
                         <label for="newUserEmail" class="form-label">Email</label>
                         <input type="email" class="form-control" id="newUserEmail" [(ngModel)]="newUserEmail">
                     </div>
 
-                    <div *ngIf="userManagementAction == 'create_user'" class="mb-3">
+                    <div *ngIf="userManagementAction == 'create_user' || userManagementAction == 'update_user'" class="mb-3">
                         <label for="newUserPermissions">Δικαιώματα</label>
                         <select class="form-select mb-3" name="newUserPermissions" [(ngModel)]="newUserPermissions"
                             required>
@@ -61,17 +70,6 @@
                             <option value="Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών">Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών</option>
                             <option value="Τμήμα Υγρού Στοιχείου">Τμήμα Υγρού Στοιχείου</option>
                             <option value="All">Πλήρη δικαιώματα</option>
-                        </select>
-                    </div>
-                    
-
-                    <div *ngIf="userManagementAction == 'update_user' || userManagementAction == 'delete_user'" class="mb-3">
-                        <label for="user">Λογαριασμός χρήστη</label>
-                        <!-- (change)="SetMaterialAsBorrowed(materialStoringPlace)" -->
-                        <select class="form-select mb-3" name="user" [(ngModel)]="userToManage" required>
-                            <option value="none" [disabled]></option>
-                            <option *ngFor="let user of users; index as i;" value="user">{{ user.FirstName }} {{
-                                user.LastName }}</option>
                         </select>
                     </div>
                     

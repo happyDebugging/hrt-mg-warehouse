@@ -128,10 +128,65 @@ export class AdminComponent {
 
   UpdateUser() {
 
+    this.manageUsersService.updateUser(this.userToManage, this.newUserEmail)
+    .then((userCredential) => {
+      // Signed up 
+      const user = userCredential.data.user;
+      console.log(user)
+
+      this.UpdateUserToDb(user);
+      
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+  }
+
+  UpdateUserToDb(user: User | null) {
+    this.dbFunctionService.updateUserToDb(user!.id, this.newUserFirstName, this.newUserLastName, this.newUserEmail, this.newUserPermissions)
+      .then(
+        (res: any) => {
+          if ((res != null) || (res != undefined)) {
+            console.log(res);
+
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
   DeleteUser() {
+    this.manageUsersService.deleteUser(this.userToManage)
+    .then((userCredential) => {
+      // Signed up 
+      const user = userCredential.data.user;
+      console.log(user)
 
+      this.DeleteUserFromDb(user);
+      
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+  }
+
+  DeleteUserFromDb(user: User | null) {
+    this.dbFunctionService.deleteUserFromDb(user!.id)
+      .then(
+        (res: any) => {
+          if ((res != null) || (res != undefined)) {
+            console.log(res);
+
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
 
