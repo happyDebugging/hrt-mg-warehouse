@@ -63,7 +63,7 @@ export class AdminComponent {
   }
 
   GetUsers() {
-
+    
     this.manageUsersService.getUsers()
       .then(
         (res: any) => {
@@ -71,6 +71,8 @@ export class AdminComponent {
             //console.log(res)
             const responseData = new Array<Users>(...res);
 
+            this.users = [];
+            
             for (const data of responseData) {
 
               const resObj = new Users();
@@ -159,6 +161,7 @@ export class AdminComponent {
           if ((res != null) || (res != undefined)) {
             console.log(res);
 
+            this.GetUsers();
           }
         },
         err => {
@@ -191,6 +194,7 @@ export class AdminComponent {
           if ((res != null) || (res != undefined)) {
             console.log(res);
 
+            this.GetUsers();
           }
         },
         err => {
