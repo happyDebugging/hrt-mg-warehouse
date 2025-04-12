@@ -20,7 +20,7 @@ export class HistoryComponent {
   rightPageNum = 3;
 
   pageNumber = 1;
-  itemsPerPage = 20;
+  itemsPerPage = 50;
 
   historyLinesList = [{
     Id: '',
