@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { MaterialLines } from '../shared/models/material-lines.model';
 import { map, Subscription } from 'rxjs';
 import { DbFunctionService } from '../shared/services/db-functions.service';
+import pdfMake from 'pdfmake/build/pdfmake';  
+import pdfFonts from 'pdfmake/build/vfs_fonts';  
+import { formatDate } from '@angular/common';
+pdfMake.vfs = pdfFonts.vfs;   
 
 @Component({
   selector: 'app-material-lines',
@@ -120,7 +124,7 @@ export class MaterialLinesComponent {
     else if (this.storageCategory == 'firstAid') this.storageCategoryDescription = 'Τμήμα Πρώτων Βοηθειών';
     else if (this.storageCategory == 'communications') this.storageCategoryDescription = 'Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας';
     else if (this.storageCategory == 'socialCare') this.storageCategoryDescription = 'Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών';
-  
+
     this.RemoveMaterialDetailsFromsessionStorage();
 
     this.GetMaterialLines();
@@ -164,7 +168,7 @@ export class MaterialLinesComponent {
   //               //console.log(this.loggedInUser.Id, ' ',this.loggedInUser.FirstName)
   //               sessionStorage.setItem('loggedInUserName', this.loggedInUser.FirstName + ' ' + this.loggedInUser.LastName);
   //             }
-              
+
   //           }
   //         }
   //       },
@@ -197,14 +201,14 @@ export class MaterialLinesComponent {
 
       // }))
       //.subscribe(
-        .then(
+      .then(
         (res: any) => {
           if ((res != null) || (res != undefined)) {
             console.log(res)
             //const responseData = new Array<MaterialLines>(res);
 
             for (const data of res) {
-              
+
               if (data.StorageCategory == this.storageCategoryDescription) {
 
                 const resObj = new MaterialLines();
@@ -236,20 +240,20 @@ export class MaterialLinesComponent {
                   //resObj.Quantity = data.DamagedMaterialQuantity;
                   this.damagedMaterialsList.push(resObj);
                   //console.log(this.damagedMaterialsList)
-                } 
+                }
                 if (data.IsMaterialDeleted) {
                   //resObj.Quantity = data.DeletedMaterialQuantity;
                   this.deletedMaterialsList.push(resObj);
                   //console.log(this.deletedMaterialsList)
-                } 
+                }
                 if (!data.IsMaterialDamaged && !data.IsMaterialDeleted) {
                   //resObj.Quantity = data.AvailableMaterialQuantity;
                   this.availableMaterialsList.push(resObj);
                   //console.log(this.availableMaterialsList)
-                } else if (data.AvailableMaterialQuantity>0 && data.DamagedMaterialQuantity>0) {
+                } else if (data.AvailableMaterialQuantity > 0 && data.DamagedMaterialQuantity > 0) {
                   //resObj.Quantity = data.AvailableMaterialQuantity;
                   this.availableMaterialsList.push(resObj);
-                } else if (data.AvailableMaterialQuantity>0 && data.DeletedMaterialQuantity>0) {
+                } else if (data.AvailableMaterialQuantity > 0 && data.DeletedMaterialQuantity > 0) {
                   //resObj.Quantity = data.AvailableMaterialQuantity;
                   this.availableMaterialsList.push(resObj);
                 }
@@ -269,6 +273,67 @@ export class MaterialLinesComponent {
         }
       );
   }
+
+
+  ExportMaterialDetailsToPDF() {
+
+    let docDefinition = {  
+      content: [
+        {text: this.storageCategoryDescription, style: 'header', fontSize: 15, color: '#063970'},
+        {text: ' ', style: 'header'},
+        {text: ' ', style: 'header'} 
+      ]
+    }; 
+
+    docDefinition.content.push(
+      {text: 'Διαθέσιμα Υλικά', style: 'header', fontSize: 13, color: '#154c79'},
+      {text: ' ', style: 'header'}           
+    );
+    for (const availableMaterial of this.availableMaterialsList) {
+      docDefinition.content.push(
+        {text: '• '+availableMaterial.MaterialName, style: 'header'},
+        {text: ' S.R: '+availableMaterial.SerialNumber+' | Τεμ.: '+availableMaterial.AvailableMaterialQuantity, style: 'header'}           
+      );
+    }
+    docDefinition.content.push(
+      {text: ' ', style: 'header'},
+      {text: ' ', style: 'header'}           
+    );
+
+    docDefinition.content.push(
+      {text: 'Υλικά σε Βλάβη', style: 'header', fontSize: 13, color: '#154c79'},
+      {text: ' ', style: 'header'}           
+    );
+    for (const damagedMaterial of this.damagedMaterialsList) {
+      docDefinition.content.push(
+        {text: '• '+damagedMaterial.MaterialName, style: 'header'},
+        {text: ' S.R: '+damagedMaterial.SerialNumber+' | Τεμ.: '+damagedMaterial.DamagedMaterialQuantity, style: 'header'}           
+      );
+    }
+    docDefinition.content.push(
+      {text: ' ', style: 'header'},
+      {text: ' ', style: 'header'}           
+    );
+
+    docDefinition.content.push(
+      {text: 'Διαγραμμένα Υλικά', style: 'header', fontSize: 13, color: '#154c79'},
+      {text: ' ', style: 'header'}           
+    );
+    for (const deletedMaterial of this.deletedMaterialsList) {
+      docDefinition.content.push(
+        {text: '• '+deletedMaterial.MaterialName, style: 'header'},
+        {text: ' S.R: '+deletedMaterial.SerialNumber+' | Τεμ.: '+deletedMaterial.DeletedMaterialQuantity, style: 'header'}            
+      );
+    }
+    docDefinition.content.push(
+      {text: ' ', style: 'header'},
+      {text: ' ', style: 'header'}           
+    );
+    
+    pdfMake.createPdf(docDefinition).download(this.storageCategory+'_'+formatDate(Date.now(),'ddMMyy_hhmmss','en_US')+'.pdf');  
+
+  }
+
 
   SetAvailableMaterialDetailsTosessionStorage(material: MaterialLines) {
     sessionStorage.setItem('materialState', 'available');
