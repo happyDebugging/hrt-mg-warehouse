@@ -7,12 +7,6 @@
 
 <div class="container-fluid">
 
-
-    <div class="alert alert-warning text-center text-wrap" role="alert">
-        -- ΥΠΟ ΚΑΤΑΣΚΕΥΗ --
-    </div>
-
-
     <div class="accordion" id="toDoList">
         <div class="accordion-item">
             <h2 class="accordion-header" id="panel1StayOpen-headingOne">
@@ -28,7 +22,7 @@
 
                     <label for="userManagementAction">Ενέργεια</label>
                     <!-- (change)="SetMaterialAsBorrowed(materialStoringPlace)" -->
-                    <select class="form-select mb-3" name="userManagementAction" [(ngModel)]="userManagementAction"
+                    <select class="form-select mb-3" name="userManagementAction" [(ngModel)]="userManagementAction" (change)="ClearFieldValues()"
                         required>
                         <option value="create_user">Δημιουργία</option>
                         <option value="update_user">Επεξεργασία</option>
@@ -38,8 +32,7 @@
                     <div *ngIf="userManagementAction == 'update_user' || userManagementAction == 'delete_user'" class="mb-3">
                         <label for="user">Λογαριασμός χρήστη</label>
                         <select class="form-select mb-3" name="user" [(ngModel)]="userToManage" required>
-                            <option value="none" [disabled]></option>
-                            <option *ngFor="let user of users; index as i;" [value]="user.UserId">{{ user.FirstName }} {{
+                            <option *ngFor="let user of users; index as i;" [value]="user.UserId" (click)="ManageSelectedUserDetails(user)">{{ user.FirstName }} {{
                                 user.LastName }}</option>
                         </select>
                     </div>

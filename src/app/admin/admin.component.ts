@@ -30,8 +30,8 @@ export class AdminComponent {
   userManagementAction = '';
 
   newUserFirstName = '';
-  newUserEmail = '';
   newUserLastName = '';
+  newUserEmail = '';
   newUserPermissions = '';
 
   // Initialize Supabase
@@ -93,6 +93,13 @@ export class AdminComponent {
       );
   }
 
+  ManageSelectedUserDetails(user: Users) {
+    this.newUserFirstName = user.FirstName;
+    this.newUserLastName = user.LastName;
+    this.newUserEmail = user.Email;
+    this.newUserPermissions = user.Permissions;
+  }
+
   async CreateUser() {
     
     this.manageUsersService.createUser(this.newUserEmail)
@@ -117,6 +124,8 @@ export class AdminComponent {
         (res: any) => {
           if ((res != null) || (res != undefined)) {
             console.log(res);
+
+            this.GetUsers();
 
           }
         },
@@ -175,7 +184,8 @@ export class AdminComponent {
   }
 
   DeleteUserFromDb(user: User | null) {
-    this.dbFunctionService.deleteUserFromDb(user!.id)
+    //console.log(this.userToManage)
+    this.dbFunctionService.deleteUserFromDb(this.userToManage)
       .then(
         (res: any) => {
           if ((res != null) || (res != undefined)) {
@@ -187,6 +197,14 @@ export class AdminComponent {
           console.log(err);
         }
       );
+  }
+
+  ClearFieldValues() {
+    this.userToManage = '';
+    this.newUserFirstName = '';
+    this.newUserLastName = '';
+    this.newUserEmail = '';
+    this.newUserPermissions = '';
   }
 
 
