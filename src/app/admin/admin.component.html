@@ -35,8 +35,7 @@
                         <select class="form-select mb-3" name="user" [(ngModel)]="userToManage" required>
                             <option *ngFor="let user of users; index as i;" [value]="user.UserId"
                                 (click)="ManageSelectedUserDetails(user)" 
-                                (pan)="ManageSelectedUserDetails(user)"
-                                (touchstart)="ManageSelectedUserDetails(user)">{{ user.FirstName }} {{
+                                (mousedown)="ManageSelectedUserDetails(user)">{{ user.FirstName }} {{
                                 user.LastName }}</option>
                         </select>
                     </div>
