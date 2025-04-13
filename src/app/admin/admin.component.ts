@@ -99,7 +99,7 @@ export class AdminComponent {
       );
   }
 
-  ManageSelectedUserDetails(user: Users) {
+  ManageSelectedUserDetails() {
     let selectedUser = this.users.find((user: Users) => user.UserId === this.userToManage)
 
     this.newUserFirstName = selectedUser!.FirstName; //user.FirstName;
