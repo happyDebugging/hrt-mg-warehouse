@@ -100,10 +100,12 @@ export class AdminComponent {
   }
 
   ManageSelectedUserDetails(user: Users) {
-    this.newUserFirstName = user.FirstName;
-    this.newUserLastName = user.LastName;
-    this.newUserEmail = user.Email;
-    this.newUserPermissions = user.Permissions;
+    let selectedUser = this.users.find((user: Users) => user.UserId === this.userToManage)
+
+    this.newUserFirstName = selectedUser!.FirstName; //user.FirstName;
+    this.newUserLastName = selectedUser!.LastName; //user.LastName;
+    this.newUserEmail = selectedUser!.Email; //user.Email;
+    this.newUserPermissions = selectedUser!.Permissions; //user.Permissions;
   }
 
   async CreateUser() {
