@@ -277,59 +277,102 @@ export class MaterialLinesComponent {
 
   ExportMaterialDetailsToPDF() {
 
-    let docDefinition = {  
-      content: [
-        {text: this.storageCategoryDescription, style: 'header', fontSize: 15, color: '#063970'},
-        {text: ' ', style: 'header'},
-        {text: ' ', style: 'header'} 
-      ]
-    }; 
+    // let docDefinition = {  
+    //   content: [
+    //     {text: this.storageCategoryDescription, style: 'header', fontSize: 15, color: '#063970'},
+    //     {text: ' ', style: 'header'},
+    //     {text: ' ', style: 'header'} 
+    //   ]
+    // }; 
 
-    docDefinition.content.push(
-      {text: 'Διαθέσιμα Υλικά', style: 'header', fontSize: 13, color: '#154c79'},
-      {text: ' ', style: 'header'}           
-    );
-    for (const availableMaterial of this.availableMaterialsList) {
-      docDefinition.content.push(
-        {text: '• '+availableMaterial.MaterialName, style: 'header'},
-        {text: ' S.R: '+availableMaterial.SerialNumber+' | Τεμ.: '+availableMaterial.AvailableMaterialQuantity, style: 'header'}           
-      );
-    }
-    docDefinition.content.push(
-      {text: ' ', style: 'header'},
-      {text: ' ', style: 'header'}           
-    );
+    // docDefinition.content.push(
+    //   {text: 'Διαθέσιμα Υλικά', style: 'header', fontSize: 13, color: '#154c79'},
+    //   {text: ' ', style: 'header'}           
+    // );
+    // for (const availableMaterial of this.availableMaterialsList) {
+    //   docDefinition.content.push(
+    //     {text: '• '+availableMaterial.MaterialName, style: 'header'},
+    //     {text: ' S.R: '+availableMaterial.SerialNumber+' | Τεμ.: '+availableMaterial.AvailableMaterialQuantity, style: 'header'}           
+    //   );
+    // }
+    // docDefinition.content.push(
+    //   {text: ' ', style: 'header'},
+    //   {text: ' ', style: 'header'}           
+    // );
 
-    docDefinition.content.push(
-      {text: 'Υλικά σε Βλάβη', style: 'header', fontSize: 13, color: '#154c79'},
-      {text: ' ', style: 'header'}           
-    );
-    for (const damagedMaterial of this.damagedMaterialsList) {
-      docDefinition.content.push(
-        {text: '• '+damagedMaterial.MaterialName, style: 'header'},
-        {text: ' S.R: '+damagedMaterial.SerialNumber+' | Τεμ.: '+damagedMaterial.DamagedMaterialQuantity, style: 'header'}           
-      );
-    }
-    docDefinition.content.push(
-      {text: ' ', style: 'header'},
-      {text: ' ', style: 'header'}           
-    );
+    // docDefinition.content.push(
+    //   {text: 'Υλικά σε Βλάβη', style: 'header', fontSize: 13, color: '#154c79'},
+    //   {text: ' ', style: 'header'}           
+    // );
+    // for (const damagedMaterial of this.damagedMaterialsList) {
+    //   docDefinition.content.push(
+    //     {text: '• '+damagedMaterial.MaterialName, style: 'header'},
+    //     {text: ' S.R: '+damagedMaterial.SerialNumber+' | Τεμ.: '+damagedMaterial.DamagedMaterialQuantity, style: 'header'}           
+    //   );
+    // }
+    // docDefinition.content.push(
+    //   {text: ' ', style: 'header'},
+    //   {text: ' ', style: 'header'}           
+    // );
 
-    docDefinition.content.push(
-      {text: 'Διαγραμμένα Υλικά', style: 'header', fontSize: 13, color: '#154c79'},
-      {text: ' ', style: 'header'}           
-    );
-    for (const deletedMaterial of this.deletedMaterialsList) {
-      docDefinition.content.push(
-        {text: '• '+deletedMaterial.MaterialName, style: 'header'},
-        {text: ' S.R: '+deletedMaterial.SerialNumber+' | Τεμ.: '+deletedMaterial.DeletedMaterialQuantity, style: 'header'}            
-      );
-    }
-    docDefinition.content.push(
-      {text: ' ', style: 'header'},
-      {text: ' ', style: 'header'}           
-    );
+    // docDefinition.content.push(
+    //   {text: 'Διαγραμμένα Υλικά', style: 'header', fontSize: 13, color: '#154c79'},
+    //   {text: ' ', style: 'header'}           
+    // );
+    // for (const deletedMaterial of this.deletedMaterialsList) {
+    //   docDefinition.content.push(
+    //     {text: '• '+deletedMaterial.MaterialName, style: 'header'},
+    //     {text: ' S.R: '+deletedMaterial.SerialNumber+' | Τεμ.: '+deletedMaterial.DeletedMaterialQuantity, style: 'header'}            
+    //   );
+    // }
+    // docDefinition.content.push(
+    //   {text: ' ', style: 'header'},
+    //   {text: ' ', style: 'header'}           
+    // );
     
+
+    var docDefinition = {
+      content: [
+        {
+          layout: 'lightHorizontalLines', // optional
+          table: {
+            headerRows: 1,
+            widths: [ 'auto', '*', '*'],
+            body: [
+              ['Όνομα', 'Σειριακός Αριθμός', 'Τεμάχια'],
+              ...this.availableMaterialsList.map(item => [item.MaterialName, item.SerialNumber, item.AvailableMaterialQuantity])
+            ]
+          }
+        },
+        {text: ' ', style: 'header'},
+        {text: ' ', style: 'header'},
+        {
+          layout: 'lightHorizontalLines', // optional
+          table: {
+            headerRows: 1,
+            widths: [ 'auto', '*', '*'],
+            body: [
+              ['Όνομα', 'Σειριακός Αριθμός', 'Τεμάχια'],
+              ...this.damagedMaterialsList.map(item => [item.MaterialName, item.SerialNumber, item.AvailableMaterialQuantity])
+            ]
+          }
+        },
+        {text: ' ', style: 'header'},
+        {text: ' ', style: 'header'},
+        {
+          layout: 'lightHorizontalLines', // optional
+          table: {
+            headerRows: 1,
+            widths: [ 'auto', '*', '*'],
+            body: [
+              ['Όνομα', 'Σειριακός Αριθμός', 'Τεμάχια'],
+              ...this.deletedMaterialsList.map(item => [item.MaterialName, item.SerialNumber, item.AvailableMaterialQuantity])
+            ]
+          }
+        }
+      ]
+    };
+
     pdfMake.createPdf(docDefinition).download(this.storageCategory+'_'+formatDate(Date.now(),'ddMMyy_hhmmss','en_US')+'.pdf');  
 
   }
