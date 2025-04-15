@@ -329,8 +329,8 @@ export class MaterialLinesComponent {
       ]
     };
 
-    pdfMake.createPdf(docDefinition).open();
-    //.download(this.storageCategory + '_' + formatDate(Date.now(), 'ddMMyy_hhmmss', 'en_US') + '.pdf');
+    pdfMake.createPdf(docDefinition).download(this.storageCategory + '_' +  + '.pdf');
+    //formatDate(Date.now(), 'ddMMyy_hhmmss', 'en_US')
 
   }
 
