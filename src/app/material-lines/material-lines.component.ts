@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { MaterialLines } from '../shared/models/material-lines.model';
 import { map, Subscription } from 'rxjs';
 import { DbFunctionService } from '../shared/services/db-functions.service';
-import pdfMake from 'pdfmake/build/pdfmake';  
-import pdfFonts from 'pdfmake/build/vfs_fonts';  
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { formatDate } from '@angular/common';
-pdfMake.vfs = pdfFonts.vfs;   
+pdfMake.vfs = pdfFonts.vfs;
 
 @Component({
   selector: 'app-material-lines',
@@ -277,103 +277,59 @@ export class MaterialLinesComponent {
 
   ExportMaterialDetailsToPDF() {
 
-    // let docDefinition = {  
-    //   content: [
-    //     {text: this.storageCategoryDescription, style: 'header', fontSize: 15, color: '#063970'},
-    //     {text: ' ', style: 'header'},
-    //     {text: ' ', style: 'header'} 
-    //   ]
-    // }; 
-
-    // docDefinition.content.push(
-    //   {text: 'Διαθέσιμα Υλικά', style: 'header', fontSize: 13, color: '#154c79'},
-    //   {text: ' ', style: 'header'}           
-    // );
-    // for (const availableMaterial of this.availableMaterialsList) {
-    //   docDefinition.content.push(
-    //     {text: '• '+availableMaterial.MaterialName, style: 'header'},
-    //     {text: ' S.R: '+availableMaterial.SerialNumber+' | Τεμ.: '+availableMaterial.AvailableMaterialQuantity, style: 'header'}           
-    //   );
-    // }
-    // docDefinition.content.push(
-    //   {text: ' ', style: 'header'},
-    //   {text: ' ', style: 'header'}           
-    // );
-
-    // docDefinition.content.push(
-    //   {text: 'Υλικά σε Βλάβη', style: 'header', fontSize: 13, color: '#154c79'},
-    //   {text: ' ', style: 'header'}           
-    // );
-    // for (const damagedMaterial of this.damagedMaterialsList) {
-    //   docDefinition.content.push(
-    //     {text: '• '+damagedMaterial.MaterialName, style: 'header'},
-    //     {text: ' S.R: '+damagedMaterial.SerialNumber+' | Τεμ.: '+damagedMaterial.DamagedMaterialQuantity, style: 'header'}           
-    //   );
-    // }
-    // docDefinition.content.push(
-    //   {text: ' ', style: 'header'},
-    //   {text: ' ', style: 'header'}           
-    // );
-
-    // docDefinition.content.push(
-    //   {text: 'Διαγραμμένα Υλικά', style: 'header', fontSize: 13, color: '#154c79'},
-    //   {text: ' ', style: 'header'}           
-    // );
-    // for (const deletedMaterial of this.deletedMaterialsList) {
-    //   docDefinition.content.push(
-    //     {text: '• '+deletedMaterial.MaterialName, style: 'header'},
-    //     {text: ' S.R: '+deletedMaterial.SerialNumber+' | Τεμ.: '+deletedMaterial.DeletedMaterialQuantity, style: 'header'}            
-    //   );
-    // }
-    // docDefinition.content.push(
-    //   {text: ' ', style: 'header'},
-    //   {text: ' ', style: 'header'}           
-    // );
-    
-
     var docDefinition = {
       content: [
+        { text: this.storageCategoryDescription, style: 'header', fontSize: 15, color: '#154c79', bold: true },
+        { text: ' ', style: 'header' },
+        { text: ' ', style: 'header' },
+        { text: ' ', style: 'header' },
+        { text: 'Διαθέσιμα Υλικά', style: 'header', fontSize: 13, color: '#063970' },
+        { text: ' ', style: 'header' },
         {
           layout: 'lightHorizontalLines', // optional
           table: {
             headerRows: 1,
-            widths: [ 'auto', '*', '*'],
+            widths: [350, 100, 50],
             body: [
-              ['Όνομα', 'Σειριακός Αριθμός', 'Τεμάχια'],
+              ['Όνομα', 'Σειριακός', 'Τεμάχια'],
               ...this.availableMaterialsList.map(item => [item.MaterialName, item.SerialNumber, item.AvailableMaterialQuantity])
             ]
           }
         },
-        {text: ' ', style: 'header'},
-        {text: ' ', style: 'header'},
+        { text: ' ', style: 'header' },
+        { text: ' ', style: 'header' },
+        { text: 'Υλικά σε Βλάβη', style: 'header', fontSize: 13, color: '#063970' },
+        { text: ' ', style: 'header' },
         {
           layout: 'lightHorizontalLines', // optional
           table: {
             headerRows: 1,
-            widths: [ 'auto', '*', '*'],
+            widths: [350, 100, 50],
             body: [
-              ['Όνομα', 'Σειριακός Αριθμός', 'Τεμάχια'],
-              ...this.damagedMaterialsList.map(item => [item.MaterialName, item.SerialNumber, item.AvailableMaterialQuantity])
+              ['Όνομα', 'Σειριακός', 'Τεμάχια'],
+              ...this.damagedMaterialsList.map(item => [item.MaterialName, item.SerialNumber, item.DamagedMaterialQuantity])
             ]
           }
         },
-        {text: ' ', style: 'header'},
-        {text: ' ', style: 'header'},
+        { text: ' ', style: 'header' },
+        { text: ' ', style: 'header' },
+        { text: 'Διαγραμμένα Υλικά', style: 'header', fontSize: 13, color: '#063970' },
+        { text: ' ', style: 'header' },
         {
           layout: 'lightHorizontalLines', // optional
           table: {
             headerRows: 1,
-            widths: [ 'auto', '*', '*'],
+            widths: [350, 100, 50],
             body: [
-              ['Όνομα', 'Σειριακός Αριθμός', 'Τεμάχια'],
-              ...this.deletedMaterialsList.map(item => [item.MaterialName, item.SerialNumber, item.AvailableMaterialQuantity])
+              ['Όνομα', 'Σειριακός', 'Τεμάχια'],
+              ...this.deletedMaterialsList.map(item => [item.MaterialName, item.SerialNumber, item.DeletedMaterialQuantity])
             ]
           }
         }
       ]
     };
 
-    pdfMake.createPdf(docDefinition).download(this.storageCategory+'_'+formatDate(Date.now(),'ddMMyy_hhmmss','en_US')+'.pdf');  
+    pdfMake.createPdf(docDefinition).download(this.storageCategory + '_' + formatDate(Date.now(), 'ddMMyy_hhmmss', 'en_US') + '.pdf');
 
   }
 
