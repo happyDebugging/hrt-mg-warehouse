@@ -277,7 +277,7 @@ export class MaterialLinesComponent {
 
   ExportMaterialDetailsToPDF() {
 
-    const docDefinition = {
+    let docDefinition = {
       content: [
         { text: this.storageCategoryDescription, style: 'header', fontSize: 15, color: '#154c79', bold: true },
         { text: ' ', style: 'header' },
