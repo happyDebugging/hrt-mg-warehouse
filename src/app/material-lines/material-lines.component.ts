@@ -277,7 +277,7 @@ export class MaterialLinesComponent {
 
   ExportMaterialDetailsToPDF() {
 
-    let docDefinition = {
+    const docDefinition = {
       content: [
         { text: this.storageCategoryDescription, style: 'header', fontSize: 15, color: '#154c79', bold: true },
         { text: ' ', style: 'header' },
@@ -329,8 +329,10 @@ export class MaterialLinesComponent {
       ]
     };
 
-    pdfMake.createPdf(docDefinition).download(this.storageCategory + '_' +  + '.pdf');
-    //formatDate(Date.now(), 'ddMMyy_hhmmss', 'en_US')
+    //pdfMake.createPdf(docDefinition).download(this.storageCategory + '_' + formatDate(Date.now(), 'ddMMyy_hhmmss', 'en_US') + '.pdf');
+
+    const pdfDoc = pdfMake.createPdf(docDefinition);
+    pdfDoc.download(this.storageCategory + '_' + formatDate(Date.now(), 'ddMMyy_hhmmss', 'en_US') + '.pdf');
 
   }
 
