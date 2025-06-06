@@ -60,6 +60,13 @@ export class ManageUsersService {
         return data["data"];
     }
 
+    async inviteUser(userEmail: string) {
+
+        const data = await this.supabase.auth.admin.inviteUserByEmail(userEmail);
+
+        return data["data"];
+    }
+
 }
 
 

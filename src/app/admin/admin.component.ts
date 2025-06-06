@@ -117,7 +117,24 @@ export class AdminComponent {
         console.log(user)
 
         this.AddNewUserToDb(user);
+
+        this.InviteUser();
         
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+
+  }
+
+  async InviteUser() {
+    
+    this.manageUsersService.inviteUser(this.newUserEmail)
+      .then((userCredential) => {
+        // Signed up 
+        const userEmail = userCredential.user?.email;
+        console.log(userEmail)
       })
       .catch((error) => {
         const errorCode = error.code;
