@@ -345,8 +345,7 @@ export class MaterialLinesComponent {
       ]
     };
 
-    const pdfDoc = pdfMake.createPdf(docDefinition);
-    pdfDoc.download(this.storageCategory + '_' + formatDate(Date.now(), 'ddMMyy_hhmmss', 'en_US') + '.pdf');
+    pdfMake.createPdf(docDefinition).download(this.storageCategory + '_' + formatDate(Date.now(), 'ddMMyy_hhmmss', 'en_US') + '.pdf');
   }
 
   ConvertStoringPlaceValueToDescription(storingPlace: string) {
