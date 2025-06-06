@@ -5,6 +5,7 @@ import { DbFunctionService } from '../shared/services/db-functions.service';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { formatDate } from '@angular/common';
+import { TDocumentDefinitions } from 'pdfmake/interfaces';
 pdfMake.vfs = pdfFonts.vfs;
 
 @Component({
@@ -277,10 +278,25 @@ export class MaterialLinesComponent {
 
   ExportMaterialDetailsToPDF() {
 
-    const docDefinition = {
+    const docDefinition: TDocumentDefinitions = {
+      pageSize: 'A4',
+      pageOrientation: 'landscape', 
+      header: function(currentPage, pageCount) {
+        return [
+          { text: 'Αποθήκη ΕΟΔ Μαγνησίας', alignment: 'right', fontSize: 12, color: 'grey', margin: [480, 10, 40, 0] } // Right side text
+        ];
+      },
+      footer: function(currentPage, pageCount) {
+        return {
+          text: `Σελίδα ${currentPage}/${pageCount}`,
+          alignment: 'center',
+          fontSize: 10,
+          color: 'grey',
+          margin: [0, 10, 0, 0]
+        };
+      },
       content: [
         { text: this.storageCategoryDescription, style: 'header', fontSize: 15, color: '#154c79', bold: true },
-        { text: ' ', style: 'header' },
         { text: ' ', style: 'header' },
         { text: ' ', style: 'header' },
         { text: 'Διαθέσιμα Υλικά', style: 'header', fontSize: 13, color: '#063970' },
@@ -289,10 +305,10 @@ export class MaterialLinesComponent {
           layout: 'lightHorizontalLines', // optional
           table: {
             headerRows: 1,
-            widths: [350, 100, 50],
+            widths: [350, 110, 50, 120, 70],
             body: [
-              ['Όνομα', 'Σειριακός', 'Τεμάχια'],
-              ...this.availableMaterialsList.map(item => [item.MaterialName, item.SerialNumber, item.AvailableMaterialQuantity])
+              ['Όνομα', 'Σειριακός', 'Τεμάχια', 'Θέση', 'Λήξη'],
+              ...this.availableMaterialsList.map(item => [item.MaterialName, item.SerialNumber, item.AvailableMaterialQuantity, (item.StoringPlace!='borrowed') ? this.ConvertStoringPlaceValueToDescription(item.StoringPlace) : (this.ConvertStoringPlaceValueToDescription(item.StoringPlace)+': '+((item.StoringPlace=='borrowed') ? item.BorrowedTo : '')), (item.ExpiryDate!=null && item.ExpiryDate!='undefined' && item.ExpiryDate!='null') ? item.ExpiryDate.toString() : ''])
             ]
           }
         },
@@ -304,10 +320,10 @@ export class MaterialLinesComponent {
           layout: 'lightHorizontalLines', // optional
           table: {
             headerRows: 1,
-            widths: [350, 100, 50],
+            widths: [350, 110, 50, 120, 70],
             body: [
-              ['Όνομα', 'Σειριακός', 'Τεμάχια'],
-              ...this.damagedMaterialsList.map(item => [item.MaterialName, item.SerialNumber, item.DamagedMaterialQuantity])
+              ['Όνομα', 'Σειριακός', 'Τεμάχια', 'Θέση', 'Λήξη'],
+              ...this.damagedMaterialsList.map(item => [item.MaterialName, item.SerialNumber, item.DamagedMaterialQuantity, (item.StoringPlace!='borrowed') ? this.ConvertStoringPlaceValueToDescription(item.StoringPlace) : this.ConvertStoringPlaceValueToDescription(item.StoringPlace)+': '+((item.StoringPlace=='borrowed') ? item.BorrowedTo : ''), (item.ExpiryDate!=null && item.ExpiryDate!='undefined' && item.ExpiryDate!='null') ? item.ExpiryDate.toString() : ''])
             ]
           }
         },
@@ -319,21 +335,36 @@ export class MaterialLinesComponent {
           layout: 'lightHorizontalLines', // optional
           table: {
             headerRows: 1,
-            widths: [350, 100, 50],
+            widths: [350, 110, 50, 120, 70],
             body: [
-              ['Όνομα', 'Σειριακός', 'Τεμάχια'],
-              ...this.deletedMaterialsList.map(item => [item.MaterialName, item.SerialNumber, item.DeletedMaterialQuantity])
+              ['Όνομα', 'Σειριακός', 'Τεμάχια', 'Θέση', 'Λήξη'],
+              ...this.deletedMaterialsList.map(item => [item.MaterialName, item.SerialNumber, item.DeletedMaterialQuantity, (item.StoringPlace!='borrowed') ? this.ConvertStoringPlaceValueToDescription(item.StoringPlace) : this.ConvertStoringPlaceValueToDescription(item.StoringPlace)+': '+((item.StoringPlace=='borrowed') ? item.BorrowedTo : ''), (item.ExpiryDate!=null && item.ExpiryDate!='undefined' && item.ExpiryDate!='null') ? item.ExpiryDate.toString() : ''])
             ]
           }
         }
       ]
     };
 
-    //pdfMake.createPdf(docDefinition).download(this.storageCategory + '_' + formatDate(Date.now(), 'ddMMyy_hhmmss', 'en_US') + '.pdf');
-
     const pdfDoc = pdfMake.createPdf(docDefinition);
     pdfDoc.download(this.storageCategory + '_' + formatDate(Date.now(), 'ddMMyy_hhmmss', 'en_US') + '.pdf');
+  }
 
+  ConvertStoringPlaceValueToDescription(storingPlace: string) {
+
+    let storingPlaceDescription = '';
+
+    if (storingPlace == 'warehouse') storingPlaceDescription = 'Αποθήκη';
+    else if (storingPlace == 'kepix') storingPlaceDescription = 'Κ.ΕΠΙΧ.';
+    else if (storingPlace == 'mountain_training_center') storingPlaceDescription = 'Εκπαιδευτικό Κέντρο Ορεινής';
+    else if (storingPlace == 'boat') storingPlaceDescription = 'Σκάφος';
+    else if (storingPlace == 'tys') storingPlaceDescription = 'Κτίρια Τ.Υ.Σ.';
+    else if (storingPlace == 'repeater_Pelion') storingPlaceDescription = 'Αναμεταδότης Πηλίου';
+    else if (storingPlace == 'repeater_Dimini') storingPlaceDescription = 'Αναμεταδότης Διμηνίου';
+    else if (storingPlace == 'repeater_Argalasti') storingPlaceDescription = 'Αναμεταδότης Αργαλαστής';
+    else if (storingPlace == 'repeater_portable') storingPlaceDescription = 'Αναμεταδότης Φορητός';
+    else if (storingPlace == 'borrowed') storingPlaceDescription = 'Σε δανεισμό';
+
+    return storingPlaceDescription;
   }
 
 
