@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Make dummy commit
         run: |
-          git config --global user.email "you@example.com"
+          git config --global user.email "squirrelinthewoods@protonmail.com"
           git config --global user.name "Keepalive Bot"
           git commit --allow-empty -m "chore: keepalive"
           git push
